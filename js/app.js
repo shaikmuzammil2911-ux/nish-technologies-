@@ -32,6 +32,7 @@ class NTIApp {
     this.setupGattuAIChat();
     this.setupExamEngine();
     this.setupStudentPortal();
+    this.setupNumberCounters();
   }
 
   // =========================================================================
@@ -129,11 +130,11 @@ class NTIApp {
     });
 
     document.getElementById('btn-view-all-categories')?.addEventListener('click', () => {
-      this.openModal('modal-all-positions');
+      window.location.href = 'domains.html';
     });
 
     document.getElementById('btn-view-all-positions')?.addEventListener('click', () => {
-      this.openModal('modal-all-positions');
+      window.location.href = 'domains.html';
     });
 
     document.getElementById('btn-qualifier-apply-now')?.addEventListener('click', () => {
@@ -152,7 +153,7 @@ class NTIApp {
 
     document.getElementById('btn-explore-programs-action')?.addEventListener('click', () => {
       this.closeModal('modal-join-programs');
-      this.openModal('modal-all-positions');
+      window.location.href = 'domains.html';
     });
   }
 
@@ -170,6 +171,10 @@ class NTIApp {
 
     registerBtn?.addEventListener('click', () => {
       this.openApplyFormForDomain(this.selectedDomain);
+      setTimeout(() => {
+        document.getElementById('form-fullName')?.focus();
+      }, 150);
+      this.showToast('Fill in your details to register for the qualifier test.', 'info');
     });
 
     mobileToggle?.addEventListener('click', () => {
@@ -797,6 +802,43 @@ class NTIApp {
     }
     return `🤖 <strong>Gattu Master Advice:</strong><br>
       The <strong>Nish Technologies Qualifier Test</strong> is designed for college students, freshers, and graduates across 25+ domains. You can apply by clicking <em>'Explore Internship Opportunities'</em> or selecting any domain card!`;
+  }
+
+  setupNumberCounters() {
+    const counterElements = document.querySelectorAll('.counter-number');
+    if (!counterElements.length) return;
+
+    let animated = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          counterElements.forEach(el => {
+            const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+            const duration = 1600;
+            const startTime = performance.now();
+
+            const updateCount = (currentTime) => {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              const easeProgress = 1 - Math.pow(1 - progress, 3);
+              const currentVal = Math.floor(easeProgress * target);
+              el.textContent = currentVal;
+
+              if (progress < 1) {
+                requestAnimationFrame(updateCount);
+              } else {
+                el.textContent = target;
+              }
+            };
+            requestAnimationFrame(updateCount);
+          });
+        }
+      });
+    }, { threshold: 0.25 });
+
+    const statsSection = document.getElementById('why-nti');
+    if (statsSection) observer.observe(statsSection);
   }
 
   // =========================================================================

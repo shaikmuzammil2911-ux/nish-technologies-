@@ -25,14 +25,14 @@
   <header class="site-navbar" id="site-navbar">
     <div class="container navbar-inner">
       <a href="#hero" class="brand-logo-wrap" id="nav-brand-logo">
-        <img src="assets/nti-logo.png" alt="Nish Technologies Inc Logo" class="brand-logo-img">
+        <img src="assets/nti-logo-clean.png" alt="Nish Technologies Inc Logo" class="brand-logo-img" style="height: 46px; width: auto; object-fit: contain;">
       </a>
 
       <nav>
         <ul class="nav-links" id="desktop-nav-links">
           <li><a href="#hero" class="nav-link active" id="nav-link-home">Home</a></li>
           <li><a href="#internships" class="nav-link" id="nav-link-internships">Internship Opportunities</a></li>
-          <li><a href="#positions" class="nav-link" id="nav-link-domains">Domains</a></li>
+          <li><a href="domains.html" class="nav-link" id="nav-link-domains">Domains</a></li>
           <li><a href="#why-nti" class="nav-link" id="nav-link-about">About Us</a></li>
         </ul>
       </nav>
@@ -104,7 +104,11 @@
 
       <div class="hero-visual-col">
         <div class="hero-img-frame">
-          <img src="assets/hero-student.png" alt="NTI Student with Laptop - Learn Build Grow" class="hero-student-img" id="hero-main-img">
+          <img src="assets/hero-desktop-bg.png" alt="NTI Student with Laptop - Learn Build Grow" class="hero-student-img" id="hero-main-img">
+          <div class="floating-tech-badge badge-code"><span>&lt;/&gt;</span><span>Code</span></div>
+          <div class="floating-tech-badge badge-python"><span>🐍</span><span>Python</span></div>
+          <div class="floating-tech-badge badge-java"><span>☕</span><span>Java</span></div>
+          <div class="floating-tech-badge badge-grad"><span>🎓</span><span>Graduate</span></div>
         </div>
       </div>
     </div>
@@ -264,40 +268,57 @@
   </section>
 
   <!-- ======================================================================
-       TRUSTED BY LEADING ORGANIZATIONS
+       TRUSTED BY LEADING ORGANIZATIONS (INFINITE SIDE SCROLLING MARQUEE)
        ====================================================================== -->
   <section class="partners-section" id="partners">
     <div class="container">
       <h3 class="partners-heading">Trusted By <span>Leading Organizations</span></h3>
       <p class="partners-sub">Our certifications and partnerships build your credibility.</p>
+    </div>
 
-      <div class="partners-row">
-        <div class="partner-logo-item">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.67-.82 1.13-1.96.99-3.1-.98.04-2.17.65-2.87 1.47-.62.72-1.16 1.88-1.01 2.99 1.1.08 2.22-.54 2.89-1.36z"/></svg>
-          <span>Apple Ecosystem</span>
-        </div>
-        <div class="partner-logo-item">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="#EA4335"><path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.761H12.545z"/></svg>
-          <span>Google</span>
-        </div>
-        <div class="partner-logo-item">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="#00A4EF"><path d="M2 3h9v9H2V3zm11 0h9v9h-9V3zM2 13h9v9H2v-9zm11 0h9v9h-9v-9z"/></svg>
-          <span>Microsoft</span>
-        </div>
-        <div class="partner-logo-item">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="#FF9900"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          <span>AWS Partner</span>
-        </div>
-        <div class="partner-logo-item">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="#0056D2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-          <span>Coursera Global</span>
-        </div>
+    <div class="marquee-container">
+      <div class="marquee-track">
+        <!-- Set 1 -->
+        <div class="partner-logo-item"><span>🍎</span><span>Apple Ecosystem</span></div>
+        <div class="partner-logo-item"><span>🌐</span><span>Google</span></div>
+        <div class="partner-logo-item"><span>💻</span><span>Microsoft</span></div>
+        <div class="partner-logo-item"><span>☁️</span><span>AWS Partner</span></div>
+        <div class="partner-logo-item"><span>🎓</span><span>Coursera Global</span></div>
+        <div class="partner-logo-item"><span>♾️</span><span>Meta</span></div>
+        <div class="partner-logo-item"><span>🎬</span><span>Netflix</span></div>
+        <div class="partner-logo-item"><span>⚡</span><span>Intel</span></div>
+        <div class="partner-logo-item"><span>🖥️</span><span>IBM</span></div>
+        <div class="partner-logo-item"><span>🎨</span><span>Adobe</span></div>
+        <div class="partner-logo-item"><span>📡</span><span>Cisco</span></div>
+        <div class="partner-logo-item"><span>🗄️</span><span>Oracle</span></div>
+        <div class="partner-logo-item"><span>📱</span><span>Samsung</span></div>
+        <div class="partner-logo-item"><span>☁️</span><span>Salesforce</span></div>
+        <div class="partner-logo-item"><span>🏢</span><span>TCS</span></div>
+        <div class="partner-logo-item"><span>🚀</span><span>Infosys</span></div>
+
+        <!-- Set 2 (for continuous seamless loop) -->
+        <div class="partner-logo-item"><span>🍎</span><span>Apple Ecosystem</span></div>
+        <div class="partner-logo-item"><span>🌐</span><span>Google</span></div>
+        <div class="partner-logo-item"><span>💻</span><span>Microsoft</span></div>
+        <div class="partner-logo-item"><span>☁️</span><span>AWS Partner</span></div>
+        <div class="partner-logo-item"><span>🎓</span><span>Coursera Global</span></div>
+        <div class="partner-logo-item"><span>♾️</span><span>Meta</span></div>
+        <div class="partner-logo-item"><span>🎬</span><span>Netflix</span></div>
+        <div class="partner-logo-item"><span>⚡</span><span>Intel</span></div>
+        <div class="partner-logo-item"><span>🖥️</span><span>IBM</span></div>
+        <div class="partner-logo-item"><span>🎨</span><span>Adobe</span></div>
+        <div class="partner-logo-item"><span>📡</span><span>Cisco</span></div>
+        <div class="partner-logo-item"><span>🗄️</span><span>Oracle</span></div>
+        <div class="partner-logo-item"><span>📱</span><span>Samsung</span></div>
+        <div class="partner-logo-item"><span>☁️</span><span>Salesforce</span></div>
+        <div class="partner-logo-item"><span>🏢</span><span>TCS</span></div>
+        <div class="partner-logo-item"><span>🚀</span><span>Infosys</span></div>
       </div>
     </div>
   </section>
 
   <!-- ======================================================================
-       WHY CHOOSE NTI? (STATS SECTION)
+       WHY CHOOSE NTI? (STATS SECTION WITH COUNTING NUMBERS)
        ====================================================================== -->
   <section class="stats-section" id="why-nti">
     <div class="container">
@@ -308,7 +329,7 @@
         <div class="stat-card">
           <div class="stat-icon-wrap">🌐</div>
           <div>
-            <div class="stat-value">25+</div>
+            <div class="stat-value"><span class="counter-number" data-target="25">0</span>+</div>
             <div class="stat-label">Domains</div>
             <div class="stat-desc">Wide range of career paths</div>
           </div>
@@ -317,7 +338,7 @@
         <div class="stat-card">
           <div class="stat-icon-wrap">👥</div>
           <div>
-            <div class="stat-value">10K+</div>
+            <div class="stat-value"><span class="counter-number" data-target="10" data-suffix="K+">0</span>K+</div>
             <div class="stat-label">Students</div>
             <div class="stat-desc">Have built their careers</div>
           </div>
@@ -326,7 +347,7 @@
         <div class="stat-card">
           <div class="stat-icon-wrap">💼</div>
           <div>
-            <div class="stat-value">100%</div>
+            <div class="stat-value"><span class="counter-number" data-target="100">0</span>%</div>
             <div class="stat-label">Placement Support</div>
             <div class="stat-desc">Guidance for your future</div>
           </div>
@@ -337,7 +358,7 @@
           <div>
             <div class="stat-value">Trusted</div>
             <div class="stat-label">Platform</div>
-            <div class="stat-desc">Safe & Secure learning</div>
+            <div class="stat-desc">Safe &amp; Secure learning</div>
           </div>
         </div>
       </div>
@@ -351,7 +372,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand-col">
-          <img src="assets/nti-logo.png" alt="Nish Technologies Inc" class="footer-logo-img">
+          <img src="assets/nti-logo-white.png" alt="Nish Technologies Inc" class="footer-logo-img" style="height: 46px; width: auto; object-fit: contain;">
           <p class="footer-desc">
             Empowering students and aspiring professionals through verified, stipend-based internships, industrial mentorship, and real-world technology projects.
           </p>
@@ -361,7 +382,7 @@
           </div>
           <div class="footer-contact-item">
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <span>8-7/72, Plot No 51, Opp. Naveena School, Hastinapuram Central, Hyderabad, 500 079, Telangana</span>
+            <span>Kukatpally, Hyderabad - 500072, Telangana</span>
           </div>
         </div>
 
@@ -370,7 +391,7 @@
           <ul class="footer-links-list">
             <li><a href="#hero" class="footer-link">Home</a></li>
             <li><a href="#internships" class="footer-link">Internship Opportunities</a></li>
-            <li><a href="#positions" class="footer-link">Domains</a></li>
+            <li><a href="domains.html" class="footer-link">Domains</a></li>
             <li><a href="#why-nti" class="footer-link">About Us</a></li>
           </ul>
         </div>

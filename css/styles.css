@@ -231,13 +231,15 @@ img {
 }
 
 /* ==========================================================================
-   HERO SECTION
+   HERO SECTION (DESKTOP & MOBILE BACKGROUNDS)
    ========================================================================== */
 .hero-section {
   position: relative;
   padding: 56px 0 64px;
-  background: linear-gradient(180deg, #F9FBFE 0%, #FFFFFF 100%);
+  background: #F9FBFE;
   overflow: hidden;
+  background-image: radial-gradient(#E2EEF8 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
 }
 
 .hero-grid {
@@ -245,8 +247,6 @@ img {
   grid-template-columns: 1.15fr 1fr;
   align-items: center;
   gap: 40px;
-}
-
 .hero-badge-pill {
   display: inline-flex;
   align-items: center;
@@ -376,24 +376,70 @@ img {
 .hero-img-frame {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: 0 20px 45px rgba(0, 102, 255, 0.08);
-  background: #EBF5FF;
-  border: 4px solid #FFFFFF;
+  overflow: visible;
 }
 
 .hero-student-img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  border-radius: var(--radius-xl);
+  filter: drop-shadow(0 20px 35px rgba(0, 102, 255, 0.12));
   transition: transform 0.4s ease;
 }
 
 .hero-img-frame:hover .hero-student-img {
   transform: scale(1.02);
+}
+
+/* Floating Badges with Animation */
+.floating-tech-badge {
+  position: absolute;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px rgba(0, 102, 255, 0.15);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--navy-header);
+  z-index: 5;
+  animation: floatBadge 4s ease-in-out infinite;
+}
+
+.floating-tech-badge.badge-code {
+  top: 15%;
+  left: -8%;
+  animation-delay: 0s;
+}
+
+.floating-tech-badge.badge-python {
+  top: 45%;
+  left: -12%;
+  animation-delay: 1s;
+}
+
+.floating-tech-badge.badge-java {
+  top: 30%;
+  right: -8%;
+  animation-delay: 2s;
+}
+
+.floating-tech-badge.badge-grad {
+  bottom: 20%;
+  right: -5%;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 /* ==========================================================================
@@ -792,7 +838,7 @@ img {
 }
 
 /* ==========================================================================
-   TRUSTED ORGANIZATIONS / PARTNERS
+   TRUSTED ORGANIZATIONS / PARTNERS (AUTOMATIC SIDE SCROLLING MARQUEE)
    ========================================================================== */
 .partners-section {
   padding: 44px 0 54px;
@@ -800,6 +846,7 @@ img {
   border-top: 1px solid var(--border-card);
   border-bottom: 1px solid var(--border-card);
   text-align: center;
+  overflow: hidden;
 }
 
 .partners-heading {
@@ -816,37 +863,59 @@ img {
 .partners-sub {
   font-size: 0.9rem;
   color: var(--text-muted);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.partners-row {
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 12px 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 48px;
-  flex-wrap: wrap;
+  gap: 44px;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .partner-logo-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 700;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  filter: grayscale(80%);
-  opacity: 0.75;
+  color: var(--navy-text);
+  font-size: 1.05rem;
+  padding: 8px 16px;
+  background: #F8FAFD;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
   transition: all var(--transition-fast);
 }
 
 .partner-logo-item:hover {
-  filter: grayscale(0%);
-  opacity: 1;
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateY(-2px);
 }
 
 .partner-logo-item svg {
-  height: 28px;
-  width: auto;
+  height: 24px;
+  width: 24px;
 }
 
 /* ==========================================================================
@@ -1914,6 +1983,14 @@ img {
   .hero-subtitle { margin: 0 auto 28px; }
   .hero-cta-group { justify-content: center; }
   .hero-highlights-row { justify-content: center; }
+
+  .hero-student-img {
+    content: url('../assets/hero-mobile-bg.png');
+    max-width: 360px;
+    margin: 0 auto;
+    filter: brightness(1.05) contrast(1.02);
+  }
+  .floating-tech-badge { display: none; }
   
   .categories-grid { grid-template-columns: repeat(2, 1fr); }
   .why-left-banner { flex-direction: column; text-align: center; }

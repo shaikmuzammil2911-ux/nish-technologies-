@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All 25+ Internship Domains | Nish Technologies Inc (NTI)</title>
+  <meta name="description" content="Explore 25+ cutting-edge technology and engineering domains for the NTI Stipend-Based Internship Program. Choose your domain and take the qualifier exam.">
+  <meta name="theme-color" content="#0066FF">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NTI Internship Domains - Nish Technologies Inc">
+  <meta property="og:description" content="Explore 25+ stipend-based internship domains in VLSI, AI/ML, Full Stack, Cloud, Embedded Systems & more.">
+  <meta property="og:image" content="assets/hero-desktop-bg.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .domains-page-header {
+      background: linear-gradient(180deg, #F0F7FF 0%, #FFFFFF 100%);
+      padding: 56px 0 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .domains-search-bar {
+      max-width: 600px;
+      margin: 28px auto 20px;
+      display: flex;
+      gap: 12px;
+      background: #FFFFFF;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border-card);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-sm);
+    }
+    .domains-search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 8px 16px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .domain-filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .filter-tab-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.88rem;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-card);
+      color: var(--navy-header);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .filter-tab-btn.active, .filter-tab-btn:hover {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+    }
+    .domains-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      padding: 48px 0 80px;
+    }
+    .catalog-domain-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all var(--transition-normal);
+      box-shadow: var(--shadow-card);
+    }
+    .catalog-domain-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-cat-badge {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .card-img-thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 8px 0;
+      background: #0B192C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-img-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="site-navbar" id="site-navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo-wrap" id="nav-brand-logo">
+        <img src="assets/nti-logo-clean.png" alt="Nish Technologies Inc" class="brand-logo-img" style="height: 44px;">
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html#hero" class="nav-link">Home</a></li>
+          <li><a href="index.html#internships" class="nav-link">Internship Opportunities</a></li>
+          <li><a href="domains.html" class="nav-link active">Domains</a></li>
+          <li><a href="index.html#why-nti" class="nav-link">About Us</a></li>
+        </ul>
+      </nav>
+
+      <div class="navbar-actions">
+        <button type="button" class="btn-login" id="btn-navbar-login">Login</button>
+        <button type="button" class="btn-register" id="btn-navbar-register">Register</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DOMAINS HERO -->
+  <section class="domains-page-header">
+    <div class="container">
+      <div class="hero-badge-pill">
+        ✨ 25+ INDUSTRY DOMAINS
+      </div>
+      <h1 class="hero-title" style="font-size: 2.8rem; margin-bottom: 12px;">
+        Explore All Internship Domains
+      </h1>
+      <p class="hero-subtitle" style="margin: 0 auto; max-width: 650px;">
+        Choose your desired specialization, explore what you will learn on live projects, and register for the Nish Technologies Qualifier Test.
+      </p>
+
+      <div class="domains-search-bar">
+        <input type="text" id="domains-search-input" class="domains-search-input" placeholder="Search by domain name, skill (e.g. VLSI, Python, AI, React)...">
+      </div>
+
+      <div class="domain-filter-tabs">
+        <button type="button" class="filter-tab-btn active" data-filter="all">All Domains (25+)</button>
+        <button type="button" class="filter-tab-btn" data-filter="it-software">IT &amp; Software</button>
+        <button type="button" class="filter-tab-btn" data-filter="ai-ml">AI &amp; Data Science</button>
+        <button type="button" class="filter-tab-btn" data-filter="web-development">Web &amp; UI/UX</button>
+        <button type="button" class="filter-tab-btn" data-filter="mechanical">Core Engineering</button>
+        <button type="button" class="filter-tab-btn" data-filter="mba">Business &amp; Management</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOG GRID -->
+  <section class="container">
+    <div class="domains-catalog-grid" id="domains-catalog-container">
+      <!-- Populated dynamically via JS -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <img src="assets/nti-logo-white.png" alt="Nish Technologies Inc" class="footer-logo-img" style="height: 44px; width: auto; object-fit: contain;">
+          <p class="footer-desc">
+            Empowering students and aspiring professionals through verified, stipend-based internships, industrial mentorship, and real-world technology projects.
+          </p>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hr@nishtechnologies.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span>Kukatpally, Hyderabad - 500072, Telangana</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html#hero" class="footer-link">Home</a></li>
+            <li><a href="index.html#internships" class="footer-link">Internship Opportunities</a></li>
+            <li><a href="domains.html" class="footer-link">Domains</a></li>
+            <li><a href="index.html#why-nti" class="footer-link">About Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Support</h4>
+          <ul class="footer-links-list">
+            <li><a href="#" class="footer-link">FAQs</a></li>
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">Terms &amp; Conditions</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Follow Us</h4>
+          <div class="footer-social-row">
+            <a href="#" class="social-icon-btn" aria-label="LinkedIn">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <span>&copy; 2025 Nish Technologies Inc. All rights reserved.</span>
+        <span>Learn | Build | Grow</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SHARED MODALS (Domain Detail, Apply Form, Payment, Success, Dashboard) -->
+  <div class="modal-overlay" id="modal-domain-detail" role="dialog" aria-modal="true">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-header-icon" id="domain-modal-icon">⚙️</div>
+          <div>
+            <h3 class="modal-title" id="modal-domain-title">Domain Detail</h3>
+            <p class="modal-subtitle" id="modal-domain-subtitle">Specialization Overview</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="modal-domain-detail">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="domain-detail-grid">
+          <div>
+            <p class="domain-detail-desc" id="domain-modal-desc"></p>
+            <h4 style="margin-top: 18px; font-weight: 800; font-size: 1.05rem;">What You'll Learn</h4>
+            <div class="domain-learn-list" id="domain-modal-skills"></div>
+          </div>
+          <div class="domain-chip-preview-box">
+            <img src="assets/vlsi-chip.png" alt="Domain Preview" class="domain-chip-img" id="domain-modal-img">
+          </div>
+        </div>
+        <div class="domain-specs-row">
+          <div class="spec-badge-box">
+            <span>⏱️</span>
+            <div><strong>Duration</strong><span id="domain-modal-duration">3 – 6 Months</span></div>
+          </div>
+          <div class="spec-badge-box">
+            <span>🌐</span>
+            <div><strong>Mode</strong><span id="domain-modal-mode">Online / Hybrid</span></div>
+          </div>
+          <div class="spec-badge-box">
+            <span>🎓</span>
+            <div><strong>Eligibility</strong><span id="domain-modal-eligibility">B.Tech / B.Sc</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-cta" id="btn-domain-apply-now" style="width: 100%; justify-content: center;">
+          Apply for Exam <span>&rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANDIDATE APPLY MODAL -->
+  <div class="modal-overlay" id="modal-apply-form" role="dialog" aria-modal="true">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-header-icon">🎓</div>
+          <div>
+            <h3 class="modal-title" id="apply-form-title">Candidate Registration</h3>
+            <p class="modal-subtitle">Register for Nish Technologies Qualifier Test</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="modal-apply-form">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="candidate-apply-form" novalidate>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="form-fullName">Full Name *</label>
+              <input type="text" id="form-fullName" class="form-input" placeholder="Enter your full name" required>
+              <span class="form-error-msg" id="err-fullName"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="form-email">Email Address *</label>
+              <input type="email" id="form-email" class="form-input" placeholder="Enter your email" required>
+              <span class="form-error-msg" id="err-email"></span>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="form-mobile">Mobile Number *</label>
+              <input type="tel" id="form-mobile" class="form-input" placeholder="+91 98765 43210" required>
+              <span class="form-error-msg" id="err-mobile"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="form-qualification">Qualification *</label>
+              <select id="form-qualification" class="form-select" required>
+                <option value="">Select qualification</option>
+                <option value="B.Tech / B.E.">B.Tech / B.E.</option>
+                <option value="BCA">BCA</option>
+                <option value="B.Sc.">B.Sc.</option>
+                <option value="MCA / M.Tech">MCA / M.Tech</option>
+                <option value="MBA / BBA">MBA / BBA</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Other Graduate">Other Graduate</option>
+              </select>
+              <span class="form-error-msg" id="err-qualification"></span>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="form-domain">Select Domain *</label>
+              <select id="form-domain" class="form-select" required></select>
+              <span class="form-error-msg" id="err-domain"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="form-program">Select Program *</label>
+              <select id="form-program" class="form-select" required>
+                <option value="Internship Program">Internship Program</option>
+                <option value="Certification Programs">Certification Programs</option>
+                <option value="Job Program">Job Program</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="terms-checkbox-wrap">
+            <input type="checkbox" id="form-terms" required>
+            <label for="form-terms">I agree to the Terms &amp; Conditions and assessment guidelines.</label>
+          </div>
+          <span class="form-error-msg" id="err-terms" style="display: block; margin-top: -12px; margin-bottom: 12px;"></span>
+
+          <button type="submit" class="btn-primary-cta" id="btn-submit-apply-form" style="width: 100%; justify-content: center;">
+            Proceed to Payment <span>&rarr;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-overlay" id="modal-payment" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-header-icon">🔒</div>
+          <div>
+            <h3 class="modal-title">Payment Details</h3>
+            <p class="modal-subtitle">Complete your payment to continue.</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="modal-payment">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="order-summary-box">
+          <div class="summary-heading">Order Summary</div>
+          <div class="summary-line"><span id="payment-summary-exam-name">Exam Fee</span><span>₹150</span></div>
+          <div class="summary-line"><span>Platform Fee</span><span>₹3</span></div>
+          <div class="summary-line total-line"><span>Total</span><span id="payment-summary-total">₹153</span></div>
+        </div>
+        <div class="payment-method-selector">
+          <label class="payment-option-card selected">
+            <div class="payment-option-left"><input type="radio" name="payMethod" value="UPI" checked><span>UPI (Google Pay, PhonePe, Paytm)</span></div>
+          </label>
+          <label class="payment-option-card">
+            <div class="payment-option-left"><input type="radio" name="payMethod" value="Card"><span>Debit / Credit Card</span></div>
+          </label>
+        </div>
+        <button type="button" class="btn-primary-cta" id="btn-pay-now" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 16px;">
+          Pay ₹153
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT SUCCESS MODAL -->
+  <div class="modal-overlay" id="modal-payment-success" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-header-icon" style="background: #D1FAE5; color: #059669;">✔️</div>
+          <div><h3 class="modal-title">Payment Successful!</h3><p class="modal-subtitle">Application confirmed.</p></div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="modal-payment-success">&times;</button>
+      </div>
+      <div class="modal-body success-content-wrap">
+        <div class="success-check-circle">✓</div>
+        <h3 class="success-title">Payment Confirmed!</h3>
+        <div class="candidate-summary-ticket">
+          <div class="ticket-item"><strong>Application ID</strong><span id="ticket-app-id">NTI-2026-904812</span></div>
+          <div class="ticket-item"><strong>Domain</strong><span id="ticket-domain">VLSI</span></div>
+        </div>
+        <div class="whatsapp-redirect-box">
+          <a href="#" target="_blank" class="btn-whatsapp-join" id="btn-join-whatsapp-group">Join WhatsApp Group &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module">
+    import { DOMAINS, APP_CONFIG } from './js/data.js';
+    import { paymentService } from './js/paymentService.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const catalog = document.getElementById('domains-catalog-container');
+      const searchInput = document.getElementById('domains-search-input');
+      const filterTabs = document.querySelectorAll('.filter-tab-btn');
+
+      function render(items) {
+        catalog.innerHTML = items.map(d => `
+          <div class="catalog-domain-card" data-domain-id="${d.id}">
+            <div>
+              <div class="card-top-row">
+                <span class="card-cat-badge">${d.category}</span>
+                <span style="font-size: 1.4rem;">${d.iconColor ? '⚡' : '💻'}</span>
+              </div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-header); margin-top: 10px;">${d.shortTitle}</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">${d.tagline}</p>
+              
+              <div class="card-img-thumb">
+                <img src="${d.image}" alt="${d.name}">
+              </div>
+
+              <div style="font-size: 0.82rem; color: var(--navy-text); margin: 12px 0;">
+                <strong>Key Skills:</strong> ${d.skills.slice(0, 2).join(', ')}
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 12px;">
+              <button type="button" class="btn-secondary-cta btn-view-details" data-id="${d.id}" style="flex: 1; padding: 10px 14px; font-size: 0.86rem; justify-content: center;">
+                Details
+              </button>
+              <button type="button" class="btn-primary-cta btn-apply-exam" data-id="${d.id}" style="flex: 1.2; padding: 10px 14px; font-size: 0.86rem; justify-content: center;">
+                Apply &rarr;
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        // Wire click handlers
+        catalog.querySelectorAll('.btn-view-details').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const dom = DOMAINS.find(d => d.id === btn.getAttribute('data-id'));
+            if (dom) openDomain(dom);
+          });
+        });
+
+        catalog.querySelectorAll('.btn-apply-exam').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const dom = DOMAINS.find(d => d.id === btn.getAttribute('data-id'));
+            if (dom) applyDomain(dom);
+          });
+        });
+      }
+
+      function filterDomains() {
+        const query = searchInput.value.toLowerCase().trim();
+        const activeTab = document.querySelector('.filter-tab-btn.active')?.getAttribute('data-filter') || 'all';
+
+        let filtered = DOMAINS;
+        if (activeTab !== 'all') {
+          filtered = filtered.filter(d => d.categorySlug === activeTab || d.category.toLowerCase().includes(activeTab));
+        }
+
+        if (query) {
+          filtered = filtered.filter(d => 
+            d.name.toLowerCase().includes(query) ||
+            d.shortTitle.toLowerCase().includes(query) ||
+            d.skills.some(s => s.toLowerCase().includes(query)) ||
+            d.category.toLowerCase().includes(query)
+          );
+        }
+
+        render(filtered);
+      }
+
+      searchInput.addEventListener('input', filterDomains);
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          filterDomains();
+        });
+      });
+
+      // Populate domain dropdown in apply modal
+      const select = document.getElementById('form-domain');
+      if (select) {
+        select.innerHTML = DOMAINS.map(d => `<option value="${d.shortTitle}">${d.name}</option>`).join('');
+      }
+
+      function openDomain(dom) {
+        document.getElementById('modal-domain-title').textContent = dom.name;
+        document.getElementById('modal-domain-subtitle').textContent = dom.tagline;
+        document.getElementById('domain-modal-desc').textContent = dom.fullDescription;
+        document.getElementById('domain-modal-img').src = dom.image;
+        document.getElementById('domain-modal-skills').innerHTML = dom.skills.map(s => `<div class="learn-item"><div class="learn-check-icon">✓</div><span>${s}</span></div>`).join('');
+        document.getElementById('modal-domain-detail').classList.add('active');
+      }
+
+      function applyDomain(dom) {
+        document.getElementById('form-domain').value = dom.shortTitle;
+        document.getElementById('apply-form-title').textContent = `Apply for ${dom.shortTitle} Exam`;
+        document.getElementById('modal-apply-form').classList.add('active');
+      }
+
+      document.getElementById('btn-domain-apply-now')?.addEventListener('click', () => {
+        document.getElementById('modal-domain-detail').classList.remove('active');
+        const title = document.getElementById('modal-domain-title').textContent;
+        const dom = DOMAINS.find(d => d.name === title) || DOMAINS[0];
+        applyDomain(dom);
+      });
+
+      // Register button in navbar opens candidate registration modal
+      document.getElementById('btn-navbar-register')?.addEventListener('click', () => {
+        applyDomain(DOMAINS[0]);
+      });
+
+      // Modal close handlers
+      document.querySelectorAll('[data-close-modal]').forEach(b => {
+        b.addEventListener('click', () => {
+          const m = document.getElementById(b.getAttribute('data-close-modal'));
+          if (m) m.classList.remove('active');
+        });
+      });
+
+      // Apply form submit
+      const form = document.getElementById('candidate-apply-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('form-fullName').value.trim();
+        const email = document.getElementById('form-email').value.trim();
+        const mobile = document.getElementById('form-mobile').value.trim();
+        const qualification = document.getElementById('form-qualification').value;
+        const domain = document.getElementById('form-domain').value;
+
+        if (!fullName || !email || !mobile || !qualification) {
+          alert('Please fill all required fields.');
+          return;
+        }
+
+        const order = await paymentService.createOrder({ fullName, email, mobile, qualification, domain });
+        document.getElementById('modal-apply-form').classList.remove('active');
+        document.getElementById('payment-summary-exam-name').textContent = `${domain} Exam Fee`;
+        document.getElementById('modal-payment').classList.add('active');
+      });
+
+      // Pay button
+      document.getElementById('btn-pay-now')?.addEventListener('click', async () => {
+        const order = JSON.parse(sessionStorage.getItem('nti_current_order') || '{}');
+        const verified = await paymentService.processPayment(order);
+        document.getElementById('modal-payment').classList.remove('active');
+        document.getElementById('ticket-app-id').textContent = verified.applicationId;
+        document.getElementById('ticket-domain').textContent = verified.candidate.domain;
+        document.getElementById('btn-join-whatsapp-group').href = verified.whatsappGroupUrl;
+        document.getElementById('modal-payment-success').classList.add('active');
+      });
+
+      // Initial render
+      render(DOMAINS);
+    });
+  </script>
+</body>
+</html>
