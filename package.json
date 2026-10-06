@@ -1,0 +1,19 @@
+{
+  "name": "nti-internship-platform",
+  "version": "1.0.0",
+  "description": "Nish Technologies Inc (NTI) Stipend-Based Internship & Qualifier Platform",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve . -l 3000",
+    "dev": "npx -y serve . -l 3000"
+  },
+  "keywords": [
+    "internship",
+    "nti",
+    "nish-technologies",
+    "qualifier-test",
+    "stipend"
+  ],
+  "author": "Nish Technologies Inc",
+  "license": "ISC"
+}
