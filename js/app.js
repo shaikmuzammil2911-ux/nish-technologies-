@@ -817,6 +817,7 @@ class NTIApp {
             const target = parseInt(el.getAttribute('data-target'), 10) || 0;
             const duration = 1600;
             const startTime = performance.now();
+            el.textContent = 0;
 
             const updateCount = (currentTime) => {
               const elapsed = currentTime - startTime;
