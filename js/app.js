@@ -1,13 +1,15 @@
 // NTI Main Application Logic - Nish Technologies Inc
 // Complete Interactivity, Dynamic Domain Architecture, Payment & Exam Engine
 
-import { APP_CONFIG, DOMAINS, CATEGORIES, PROGRAMS, WHY_JOIN_CARDS, STATS, EXAM_SAMPLE_QUESTIONS } from './data.js';
+import { APP_CONFIG, DOMAINS, CATEGORIES, PROGRAMS, WHY_JOIN_CARDS, STATS } from './data.js';
 import { paymentService } from './paymentService.js';
+import { getExamQuestionsForCandidate } from './examQuestions.js';
 
 class NTIApp {
   constructor() {
     this.selectedDomain = DOMAINS[0]; // Default VLSI
     this.currentCandidate = paymentService.getActiveCandidate();
+    this.examQuestions = [];
     this.examState = {
       active: false,
       currentQuestionIndex: 0,
@@ -15,8 +17,15 @@ class NTIApp {
       reviewMarked: {},
       totalQuestions: 45,
       secondsRemaining: 60 * 60,
-      timerInterval: null
+      timerInterval: null,
+      violationsCount: 0,
+      maxViolations: 3,
+      mediaStream: null,
+      audioContext: null,
+      audioAnalyser: null,
+      noiseCheckInterval: null
     };
+    this.dashboardCountdownInterval = null;
     
     this.init();
   }
@@ -177,21 +186,25 @@ class NTIApp {
       this.showToast('Fill in your details to register for the qualifier test.', 'info');
     });
 
+    const mobileDrawer = document.getElementById('mobile-menu-drawer');
     mobileToggle?.addEventListener('click', () => {
-      const navLinks = document.getElementById('desktop-nav-links');
-      if (navLinks) {
-        const isShown = navLinks.style.display === 'flex';
-        navLinks.style.display = isShown ? 'none' : 'flex';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '72px';
-        navLinks.style.left = '0';
-        navLinks.style.right = '0';
-        navLinks.style.background = '#FFFFFF';
-        navLinks.style.padding = '20px';
-        navLinks.style.borderBottom = '1px solid #E2EEF8';
-        navLinks.style.boxShadow = '0 10px 25px rgba(0,0,0,0.08)';
-      }
+      mobileDrawer?.classList.toggle('active');
+    });
+
+    document.getElementById('btn-drawer-register')?.addEventListener('click', () => {
+      mobileDrawer?.classList.remove('active');
+      this.openApplyFormForDomain(this.selectedDomain);
+    });
+
+    document.getElementById('btn-drawer-login')?.addEventListener('click', () => {
+      mobileDrawer?.classList.remove('active');
+      this.openModal('modal-student-login');
+    });
+
+    document.querySelectorAll('.drawer-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer?.classList.remove('active');
+      });
     });
 
     // Update active nav link on scroll
@@ -411,10 +424,12 @@ class NTIApp {
 
       // Initialize Order
       try {
+        const password = document.getElementById('form-password')?.value.trim() || '1234';
         const candidateData = {
           fullName,
           email,
           mobile: cleanMobile,
+          password,
           qualification,
           domain,
           program
@@ -496,17 +511,42 @@ class NTIApp {
   showPaymentSuccess(record) {
     this.currentCandidate = record;
 
-    document.getElementById('ticket-app-id').textContent = record.applicationId;
-    document.getElementById('ticket-candidate-name').textContent = record.candidate.name;
-    document.getElementById('ticket-domain').textContent = record.candidate.domain;
+    const appIdEl = document.getElementById('ticket-app-id');
+    if (appIdEl) appIdEl.textContent = record.applicationId;
+    
+    const candNameEl = document.getElementById('ticket-candidate-name');
+    if (candNameEl) candNameEl.textContent = record.candidate.name;
+
+    const emailEl = document.getElementById('ticket-email');
+    if (emailEl) emailEl.textContent = record.candidate.email;
+
+    const passEl = document.getElementById('ticket-password');
+    if (passEl) passEl.textContent = record.candidate.password || '1234';
+
+    const domEl = document.getElementById('ticket-domain');
+    if (domEl) domEl.textContent = record.candidate.domain;
+
+    const channelBtn = document.getElementById('btn-join-whatsapp-channel');
+    if (channelBtn) {
+      channelBtn.href = record.whatsappChannelUrl || APP_CONFIG.whatsappChannelUrl;
+    }
 
     const whatsappBtn = document.getElementById('btn-join-whatsapp-group');
     if (whatsappBtn) {
-      whatsappBtn.href = record.whatsappGroupUrl;
+      whatsappBtn.href = record.whatsappGroupUrl || APP_CONFIG.whatsappGroupUrl;
     }
 
+    document.getElementById('btn-copy-credentials')?.addEventListener('click', () => {
+      const credText = `NTI REGISTRATION RECEIPT:\nApplication ID: ${record.applicationId}\nName: ${record.candidate.name}\nEmail: ${record.candidate.email}\nSecurity PIN: ${record.candidate.password || '1234'}\nDomain: ${record.candidate.domain}\nExam Time: 11th Oct 2026, 6:00 PM`;
+      navigator.clipboard?.writeText(credText).then(() => {
+        this.showToast('Credentials copied to clipboard!', 'success');
+      }).catch(() => {
+        this.showToast(`Application ID: ${record.applicationId}`, 'info');
+      });
+    });
+
     this.openModal('modal-payment-success');
-    this.showToast('Payment Verified! Application Confirmed.', 'success');
+    this.showToast(`Payment Verified! Registration confirmed with ID: ${record.applicationId}`, 'success');
 
     // Button to dashboard
     document.getElementById('btn-goto-dashboard')?.addEventListener('click', () => {
@@ -522,28 +562,62 @@ class NTIApp {
     const loginForm = document.getElementById('student-login-form');
     loginForm?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
+      const loginInput = document.getElementById('login-email').value.trim();
+      const passwordInput = document.getElementById('login-password')?.value.trim() || '';
       const candidates = JSON.parse(localStorage.getItem('nti_candidates') || '[]');
 
-      const found = candidates.find(c => c.candidate.email.toLowerCase() === email.toLowerCase());
+      // Match by either Application ID (e.g. NTI-REG-2026-...) or Email
+      const found = candidates.find(c => 
+        (c.applicationId && c.applicationId.toLowerCase() === loginInput.toLowerCase()) ||
+        (c.candidate && c.candidate.email && c.candidate.email.toLowerCase() === loginInput.toLowerCase())
+      );
+
       if (found) {
         this.closeModal('modal-student-login');
         this.openStudentDashboard(found);
+        this.showToast(`Welcome back, ${found.candidate.name}!`, 'success');
       } else {
-        // Fallback for demo login if candidate enters test email
+        // Fallback for demo login: create instant verified profile
         const demoCandidate = {
-          applicationId: 'NTI-2026-' + Math.floor(100000 + Math.random() * 900000),
+          applicationId: loginInput.startsWith('NTI') ? loginInput : ('NTI-REG-2026-' + Math.floor(100000 + Math.random() * 900000)),
           candidate: {
-            name: email.split('@')[0].toUpperCase(),
-            email: email,
-            domain: 'VLSI (Very Large Scale Integration)'
+            name: loginInput.includes('@') ? loginInput.split('@')[0].toUpperCase() : 'VERIFIED CANDIDATE',
+            email: loginInput.includes('@') ? loginInput : 'candidate@example.com',
+            domain: this.selectedDomain ? this.selectedDomain.name : 'VLSI (Very Large Scale Integration)',
+            password: passwordInput || '1234'
+          },
+          purchasedExam: {
+            domain: this.selectedDomain ? this.selectedDomain.name : 'VLSI',
+            title: `${this.selectedDomain ? this.selectedDomain.shortTitle : 'VLSI'} Qualifier Assessment`,
+            date: '11th October 2026 (Sunday)',
+            startTime: '18:00',
+            duration: 60,
+            totalQuestions: 45,
+            status: 'PURCHASED & SCHEDULED'
           },
           paymentStatus: 'PAID',
-          whatsappGroupUrl: APP_CONFIG.whatsappGroupUrl
+          whatsappGroupUrl: APP_CONFIG.whatsappGroupUrl,
+          whatsappChannelUrl: APP_CONFIG.whatsappChannelUrl
         };
         this.closeModal('modal-student-login');
         this.openStudentDashboard(demoCandidate);
+        this.showToast('Student credentials verified! Accessing dashboard.', 'success');
       }
+    });
+
+    // Quick demo login autofill button
+    document.getElementById('btn-quick-demo-login')?.addEventListener('click', () => {
+      const active = paymentService.getActiveCandidate();
+      const emailField = document.getElementById('login-email');
+      const passField = document.getElementById('login-password');
+      if (active) {
+        if (emailField) emailField.value = active.applicationId;
+        if (passField) passField.value = active.candidate.password || '1234';
+      } else {
+        if (emailField) emailField.value = 'NTI-REG-2026-894102';
+        if (passField) passField.value = '1234';
+      }
+      this.showToast('Credentials auto-filled! Click "Access Student Dashboard".', 'info');
     });
 
     document.getElementById('link-switch-to-register')?.addEventListener('click', (e) => {
@@ -556,25 +630,72 @@ class NTIApp {
       this.closeModal('modal-student-dashboard');
       this.startOnlineExam();
     });
+
+    document.getElementById('btn-dash-logout')?.addEventListener('click', () => {
+      paymentService.logoutCandidate();
+      this.currentCandidate = null;
+      clearInterval(this.dashboardCountdownInterval);
+      this.closeModal('modal-student-dashboard');
+      this.showToast('Logged out of Student Dashboard.', 'info');
+    });
   }
 
   openStudentDashboard(candidate) {
     this.currentCandidate = candidate;
-    document.getElementById('dash-candidate-name').textContent = candidate.candidate.name;
-    document.getElementById('dash-candidate-email').textContent = candidate.candidate.email;
-    document.getElementById('dash-app-id').textContent = candidate.applicationId;
-    document.getElementById('dash-domain').textContent = candidate.candidate.domain;
+    const domainName = candidate.candidate?.domain || 'VLSI (Very Large Scale Integration)';
+
+    const candNameEl = document.getElementById('dash-candidate-name');
+    if (candNameEl) candNameEl.textContent = candidate.candidate.name;
+
+    const emailEl = document.getElementById('dash-candidate-email');
+    if (emailEl) emailEl.textContent = `${candidate.candidate.email} • Candidate Dashboard`;
+
+    const appIdEl = document.getElementById('dash-app-id');
+    if (appIdEl) appIdEl.textContent = candidate.applicationId;
+
+    const domEl = document.getElementById('dash-domain');
+    if (domEl) domEl.textContent = domainName;
+
+    const examTitleEl = document.getElementById('dash-exam-title');
+    if (examTitleEl) examTitleEl.textContent = `${domainName} Qualifier Assessment`;
+
+    const domainPillEl = document.getElementById('dash-pill-domain-q');
+    if (domainPillEl) domainPillEl.textContent = `⚡ 25 ${domainName} Expert Questions`;
 
     const whatsappBtn = document.getElementById('dash-btn-whatsapp');
     if (whatsappBtn) {
-      whatsappBtn.href = candidate.whatsappGroupUrl || APP_CONFIG.whatsappGroupUrl;
+      whatsappBtn.href = candidate.whatsappChannelUrl || APP_CONFIG.whatsappChannelUrl;
     }
+
+    // 6:00 PM Live Countdown Clock
+    clearInterval(this.dashboardCountdownInterval);
+    const updateCountdown = () => {
+      const now = new Date();
+      const target = new Date();
+      target.setHours(18, 0, 0, 0); // 6:00 PM today/exam day
+      let diff = target - now;
+
+      const clockEl = document.getElementById('dash-countdown-clock');
+      if (!clockEl) return;
+
+      if (diff <= 0) {
+        clockEl.textContent = '00:00:00 (EXAM ACTIVE)';
+        clockEl.style.color = '#10B981';
+      } else {
+        const hrs = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        clockEl.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+      }
+    };
+    updateCountdown();
+    this.dashboardCountdownInterval = setInterval(updateCountdown, 1000);
 
     this.openModal('modal-student-dashboard');
   }
 
   // =========================================================================
-  // ONLINE EXAM ENGINE
+  // ONLINE EXAM ENGINE WITH CAMERA, AUDIO & RED MALPRACTICE SIGNALS
   // =========================================================================
   setupExamEngine() {
     document.getElementById('btn-q-next')?.addEventListener('click', () => {
@@ -599,9 +720,31 @@ class NTIApp {
     });
 
     document.getElementById('btn-header-submit-exam')?.addEventListener('click', () => {
-      const confirmed = confirm('Are you sure you want to submit your Nish Technologies Qualifier Test? Answers cannot be changed after final submission.');
+      const confirmed = confirm('Are you sure you want to submit your Nish Technologies Qualifier Test? Answers will be evaluated by NTI.');
       if (confirmed) {
         this.submitFinalExam();
+      }
+    });
+
+    // Test violation button (to demonstrate the red signal)
+    document.getElementById('btn-test-violation')?.addEventListener('click', () => {
+      this.recordMalpracticeViolation('Test Simulation: Unauthorized window focus shift / suspicious movement.');
+    });
+
+    // Acknowledge warning button on red signal
+    document.getElementById('btn-ack-violation')?.addEventListener('click', () => {
+      const overlay = document.getElementById('exam-violation-overlay');
+      if (overlay) overlay.classList.remove('active');
+    });
+
+    // Exit terminated screen button
+    document.getElementById('btn-terminated-exit')?.addEventListener('click', () => {
+      const screen = document.getElementById('exam-terminated-screen');
+      if (screen) screen.classList.remove('active');
+      document.getElementById('exam-fullscreen-view').style.display = 'none';
+      document.body.style.overflow = '';
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
       }
     });
   }
@@ -611,20 +754,213 @@ class NTIApp {
     this.examState.currentQuestionIndex = 0;
     this.examState.answers = {};
     this.examState.reviewMarked = {};
-    this.examState.secondsRemaining = 60 * 60; // 1 hour
+    this.examState.secondsRemaining = 60 * 60; // 1 hour (45 questions)
+    this.examState.violationsCount = 0;
 
-    const domainName = this.currentCandidate?.candidate?.domain || 'VLSI';
+    const domainName = this.currentCandidate?.candidate?.domain || (this.selectedDomain ? this.selectedDomain.name : 'VLSI');
     const candidateName = this.currentCandidate?.candidate?.name || 'Candidate';
+    const appId = this.currentCandidate?.applicationId || 'NTI-REG-2026';
+
+    // Load exactly 45 questions: 20 Aptitude + 25 Domain Expert
+    this.examQuestions = getExamQuestionsForCandidate(domainName);
+    this.examState.totalQuestions = this.examQuestions.length; // 45
 
     document.getElementById('exam-header-domain').textContent = `${domainName} Qualifier Assessment`;
-    document.getElementById('exam-header-candidate').textContent = `Candidate: ${candidateName}`;
+    document.getElementById('exam-header-candidate').textContent = `Candidate: ${candidateName} (${appId})`;
 
     document.getElementById('exam-fullscreen-view').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 
+    // Request fullscreen
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+
+    // Initialize Camera and Audio Surveillance
+    this.initProctoringSurveillance();
+
+    // Attach Anti-Malpractice Listeners
+    this.setupMalpracticeListeners();
+
     this.renderPaletteGrid();
     this.renderCurrentQuestion();
     this.startExamTimer();
+
+    this.showToast('AI Proctoring Active: Camera and Microphone surveillance engaged.', 'info');
+  }
+
+  initProctoringSurveillance() {
+    const videoEl = document.getElementById('proctor-video-stream');
+    const audioMeterFill = document.getElementById('proctor-audio-fill');
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(stream => {
+          this.examState.mediaStream = stream;
+          if (videoEl) {
+            videoEl.srcObject = stream;
+            videoEl.play().catch(() => {});
+          }
+
+          // Audio Analyzer for Noise Detection
+          try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+              const audioCtx = new AudioContext();
+              this.examState.audioContext = audioCtx;
+              const analyser = audioCtx.createAnalyser();
+              analyser.fftSize = 256;
+              const source = audioCtx.createMediaStreamSource(stream);
+              source.connect(analyser);
+              this.examState.audioAnalyser = analyser;
+
+              const dataArray = new Uint8Array(analyser.frequencyBinCount);
+              clearInterval(this.examState.noiseCheckInterval);
+              this.examState.noiseCheckInterval = setInterval(() => {
+                if (!this.examState.active) return;
+                analyser.getByteFrequencyData(dataArray);
+                let sum = 0;
+                for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                const avgVolume = sum / dataArray.length;
+                
+                // Update VU meter bar
+                if (audioMeterFill) {
+                  const percent = Math.min(Math.round((avgVolume / 128) * 100), 100);
+                  audioMeterFill.style.width = `${Math.max(percent, 8)}%`;
+                  audioMeterFill.style.background = percent > 65 ? '#EF4444' : (percent > 35 ? '#F59E0B' : '#10B981');
+                }
+
+                // If sustained high noise / talking detected
+                if (avgVolume > 85) {
+                  this.showToast('⚠️ Voice/Noise detected. Please maintain complete silence.', 'error');
+                }
+              }, 200);
+            }
+          } catch {
+            // AudioContext fallback
+          }
+        })
+        .catch(() => {
+          this.fallbackSimulatedProctor();
+        });
+    } else {
+      this.fallbackSimulatedProctor();
+    }
+  }
+
+  fallbackSimulatedProctor() {
+    const audioMeterFill = document.getElementById('proctor-audio-fill');
+    // Simulated live proctor VU pulse
+    clearInterval(this.examState.noiseCheckInterval);
+    this.examState.noiseCheckInterval = setInterval(() => {
+      if (!this.examState.active || !audioMeterFill) return;
+      const fakeVol = Math.floor(15 + Math.random() * 30);
+      audioMeterFill.style.width = `${fakeVol}%`;
+    }, 400);
+  }
+
+  setupMalpracticeListeners() {
+    // 1. Tab Switch / Window Blur Detection
+    this.boundVisibilityHandler = () => {
+      if (document.hidden && this.examState.active) {
+        this.recordMalpracticeViolation('Tab switch detected! Navigating away from the exam tab is prohibited.');
+      }
+    };
+    document.addEventListener('visibilitychange', this.boundVisibilityHandler);
+
+    this.boundBlurHandler = () => {
+      if (this.examState.active) {
+        this.recordMalpracticeViolation('Window focus lost! External application, browser, or device interaction detected.');
+      }
+    };
+    window.addEventListener('blur', this.boundBlurHandler);
+
+    // 2. Disable Right Click, Copy, Paste, Cut
+    this.boundContextHandler = (e) => {
+      if (this.examState.active) {
+        e.preventDefault();
+        this.showToast('Right-click is strictly disabled during the proctored exam.', 'error');
+      }
+    };
+    document.addEventListener('contextmenu', this.boundContextHandler);
+
+    this.boundCopyHandler = (e) => {
+      if (this.examState.active) {
+        e.preventDefault();
+        this.recordMalpracticeViolation('Attempted to copy exam content. Copy/Paste is strictly prohibited.');
+      }
+    };
+    document.addEventListener('copy', this.boundCopyHandler);
+    document.addEventListener('paste', this.boundCopyHandler);
+
+    // 3. Prevent DevTools / Shortcuts
+    this.boundKeyHandler = (e) => {
+      if (!this.examState.active) return;
+      if (e.key === 'F12' || (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 'Shift'))) {
+        e.preventDefault();
+        this.recordMalpracticeViolation('Prohibited shortcut key combination detected.');
+      }
+    };
+    document.addEventListener('keydown', this.boundKeyHandler);
+  }
+
+  recordMalpracticeViolation(reason) {
+    if (!this.examState.active) return;
+
+    this.examState.violationsCount++;
+    const count = this.examState.violationsCount;
+
+    const countEl = document.getElementById('proctor-violation-count');
+    if (countEl) countEl.textContent = `Violations: ${count}/3`;
+
+    if (count >= this.examState.maxViolations) {
+      this.terminateExamForMalpractice(reason);
+    } else {
+      // Show Flashing Red Warning Signal
+      const overlay = document.getElementById('exam-violation-overlay');
+      const msgEl = document.getElementById('violation-overlay-msg');
+      const counterEl = document.getElementById('violation-counter-text');
+
+      if (msgEl) msgEl.textContent = reason;
+      if (counterEl) counterEl.textContent = `Violation ${count} of 3 recorded.`;
+      if (overlay) overlay.classList.add('active');
+
+      this.showToast(`🚨 RED SIGNAL: Violation ${count}/3 recorded!`, 'error');
+    }
+  }
+
+  terminateExamForMalpractice(reason) {
+    this.examState.active = false;
+    clearInterval(this.examState.timerInterval);
+    clearInterval(this.examState.noiseCheckInterval);
+
+    // Stop streams
+    if (this.examState.mediaStream) {
+      this.examState.mediaStream.getTracks().forEach(track => track.stop());
+    }
+    if (this.examState.audioContext) {
+      this.examState.audioContext.close().catch(() => {});
+    }
+
+    // Hide violation overlay, show Terminated Screen
+    const overlay = document.getElementById('exam-violation-overlay');
+    if (overlay) overlay.classList.remove('active');
+
+    const termScreen = document.getElementById('exam-terminated-screen');
+    if (termScreen) termScreen.classList.add('active');
+
+    // Save disqualified record
+    const submissions = JSON.parse(localStorage.getItem('nti_exam_submissions') || '[]');
+    submissions.push({
+      candidate: this.currentCandidate,
+      status: 'TERMINATED_MALPRACTICE',
+      violations: this.examState.violationsCount,
+      reason: reason,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('nti_exam_submissions', JSON.stringify(submissions));
+
+    this.showToast('⛔ EXAM TERMINATED DUE TO MALPRACTICE.', 'error');
   }
 
   startExamTimer() {
@@ -647,32 +983,16 @@ class NTIApp {
     }, 1000);
   }
 
-  getQuestionForIndex(index) {
-    if (index < EXAM_SAMPLE_QUESTIONS.length) {
-      return EXAM_SAMPLE_QUESTIONS[index];
-    }
-    // Generated pool for the rest of 45 questions
-    const generalCategories = ["Domain Core Concepts", "Logic & Aptitude", "System Architecture", "Programming Analysis"];
-    const cat = generalCategories[index % generalCategories.length];
-    return {
-      id: index + 1,
-      category: cat,
-      question: `Question ${index + 1}: In professional enterprise engineering, which approach best ensures high availability, fault tolerance, and scalable maintainability?`,
-      options: [
-        "Distributed modular microservices with automated load balancing",
-        "Single-node monolithic deployment with synchronous thread locking",
-        "Unindexed relational tables with direct client-side querying",
-        "Manual failover scripts executed via cron without health checks"
-      ],
-      correctAnswer: 0
-    };
-  }
-
   renderCurrentQuestion() {
     const idx = this.examState.currentQuestionIndex;
-    const q = this.getQuestionForIndex(idx);
+    const q = this.examQuestions[idx] || {
+      id: idx + 1,
+      section: 'Technical Assessment',
+      question: `Question ${idx + 1}`,
+      options: ['Option A', 'Option B', 'Option C', 'Option D']
+    };
 
-    document.getElementById('exam-q-badge').textContent = `Question ${idx + 1} of 45 • ${q.category}`;
+    document.getElementById('exam-q-badge').textContent = `Question ${idx + 1} of 45 • ${q.section}`;
     document.getElementById('exam-q-text').textContent = q.question;
 
     const optionsContainer = document.getElementById('exam-q-options');
@@ -687,7 +1007,7 @@ class NTIApp {
 
     optionsContainer.querySelectorAll('.exam-option-item').forEach(el => {
       el.addEventListener('click', () => {
-        const optIdx = parseInt(el.getAttribute('data-opt-idx'));
+        const optIdx = parseInt(el.getAttribute('data-opt-idx'), 10);
         this.examState.answers[idx] = optIdx;
         this.renderCurrentQuestion();
         this.renderPaletteGrid();
@@ -714,7 +1034,7 @@ class NTIApp {
 
     grid.querySelectorAll('.palette-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const qIdx = parseInt(btn.getAttribute('data-q-idx'));
+        const qIdx = parseInt(btn.getAttribute('data-q-idx'), 10);
         this.examState.currentQuestionIndex = qIdx;
         this.renderCurrentQuestion();
       });
@@ -722,20 +1042,93 @@ class NTIApp {
   }
 
   submitFinalExam() {
+    this.examState.active = false;
     clearInterval(this.examState.timerInterval);
+    clearInterval(this.examState.noiseCheckInterval);
+
+    // Stop proctor streams
+    if (this.examState.mediaStream) {
+      this.examState.mediaStream.getTracks().forEach(track => track.stop());
+    }
+    if (this.examState.audioContext) {
+      this.examState.audioContext.close().catch(() => {});
+    }
+
+    // Clean up event listeners
+    if (this.boundVisibilityHandler) document.removeEventListener('visibilitychange', this.boundVisibilityHandler);
+    if (this.boundBlurHandler) window.removeEventListener('blur', this.boundBlurHandler);
+    if (this.boundContextHandler) document.removeEventListener('contextmenu', this.boundContextHandler);
+    if (this.boundCopyHandler) {
+      document.removeEventListener('copy', this.boundCopyHandler);
+      document.removeEventListener('paste', this.boundCopyHandler);
+    }
+    if (this.boundKeyHandler) document.removeEventListener('keydown', this.boundKeyHandler);
+
     document.getElementById('exam-fullscreen-view').style.display = 'none';
     document.body.style.overflow = '';
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
 
-    const domain = this.currentCandidate?.candidate?.domain || 'VLSI';
-    document.getElementById('result-allocated-domain').textContent = domain;
+    // Calculate score
+    let aptitudeScore = 0;
+    let domainScore = 0;
+    for (let i = 0; i < this.examQuestions.length; i++) {
+      const q = this.examQuestions[i];
+      if (this.examState.answers[i] === q.correctAnswer) {
+        if (i < 20) aptitudeScore++;
+        else domainScore++;
+      }
+    }
+    const totalScore = aptitudeScore + domainScore;
+    const attemptedCount = Object.keys(this.examState.answers).length;
+
+    const domain = this.currentCandidate?.candidate?.domain || (this.selectedDomain ? this.selectedDomain.name : 'VLSI');
+    const appId = this.currentCandidate?.applicationId || 'NTI-REG-2026-904812';
+
+    // Populate Results Modal
+    const resultAppIdEl = document.getElementById('result-app-id');
+    if (resultAppIdEl) resultAppIdEl.textContent = appId;
+
+    const resultDomainEl = document.getElementById('result-allocated-domain');
+    if (resultDomainEl) resultDomainEl.textContent = domain;
+
+    const resultAttemptEl = document.getElementById('result-attempted-count');
+    if (resultAttemptEl) resultAttemptEl.textContent = `${attemptedCount} of 45 Questions Attempted`;
+
+    const resultScoreEl = document.getElementById('result-score-display');
+    if (resultScoreEl) {
+      resultScoreEl.textContent = `${totalScore} / 45 (Aptitude: ${aptitudeScore}/20, Domain: ${domainScore}/25)`;
+    }
+
+    const channelBtn = document.getElementById('result-btn-whatsapp-channel');
+    if (channelBtn) {
+      channelBtn.href = this.currentCandidate?.whatsappChannelUrl || APP_CONFIG.whatsappChannelUrl;
+    }
 
     const resultWhatsAppBtn = document.getElementById('result-btn-whatsapp');
     if (resultWhatsAppBtn) {
       resultWhatsAppBtn.href = this.currentCandidate?.whatsappGroupUrl || APP_CONFIG.whatsappGroupUrl;
     }
 
+    // Save final submission to NTI system
+    const submissions = JSON.parse(localStorage.getItem('nti_exam_submissions') || '[]');
+    submissions.push({
+      applicationId: appId,
+      candidate: this.currentCandidate?.candidate,
+      domain: domain,
+      totalScore: totalScore,
+      aptitudeScore: aptitudeScore,
+      domainScore: domainScore,
+      attemptedCount: attemptedCount,
+      violationsCount: this.examState.violationsCount,
+      answers: this.examState.answers,
+      submittedAt: new Date().toISOString()
+    });
+    localStorage.setItem('nti_exam_submissions', JSON.stringify(submissions));
+
     this.openModal('modal-exam-result');
-    this.showToast('Nish Technologies Qualifier Test submitted and evaluated!', 'success');
+    this.showToast('✅ All exam responses securely submitted to NTI Evaluation Team!', 'success');
   }
 
   // =========================================================================

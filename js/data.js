@@ -8,9 +8,14 @@ export const APP_CONFIG = {
   examName: "Nish Technologies Qualifier Test",
   shortExamName: "NTI Qualifier Test",
   examDate: "11th October 2026 (Sunday) | 6 PM - 7 PM",
+  examDateShort: "11th October 2026",
+  examStartTime: "18:00", // 6:00 PM
   examDurationMinutes: 60,
   totalExamQuestions: 45,
+  aptitudeQuestionsCount: 20,
+  domainQuestionsCount: 25,
   stipendAmount: "₹30,000/month",
+  topPerformersStipend: "Top 10 Performers receive ₹30,000/month Stipend-Based Internship",
   pricing: {
     examFee: 150,
     platformFee: 3,
@@ -18,6 +23,7 @@ export const APP_CONFIG = {
     currencySymbol: "₹"
   },
   whatsappGroupUrl: "https://chat.whatsapp.com/invite/NTI-Qualifier-Official-Batch-2026",
+  whatsappChannelUrl: "https://whatsapp.com/channel/0029Va9NTIOfficialChannel",
   supportEmail: "hr@nishtechnologies.com",
   supportPhone: "+91 98765 43210",
   headquarters: "Kukatpally, Hyderabad - 500072, Telangana",

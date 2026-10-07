@@ -28,7 +28,7 @@ export class PaymentService {
     }
 
     const orderId = "ORD_NTI_" + Date.now().toString(36).toUpperCase() + "_" + Math.floor(1000 + Math.random() * 9000);
-    const applicationId = "NTI-2026-" + Math.floor(100000 + Math.random() * 900000);
+    const applicationId = "NTI-REG-2026-" + Math.floor(100000 + Math.random() * 900000);
 
     const order = {
       orderId,
@@ -37,9 +37,22 @@ export class PaymentService {
         name: candidateData.fullName,
         email: candidateData.email,
         mobile: candidateData.mobile,
+        password: candidateData.password || "1234",
         qualification: candidateData.qualification,
         domain: candidateData.domain,
         program: candidateData.program || "Internship Program"
+      },
+      purchasedExam: {
+        domain: candidateData.domain,
+        title: `${candidateData.domain} Qualifier Assessment`,
+        date: "11th October 2026 (Sunday)",
+        startTime: "18:00",
+        duration: 60,
+        totalQuestions: 45,
+        aptitudeQuestions: 20,
+        domainQuestions: 25,
+        status: "PURCHASED & SCHEDULED",
+        stipend: "₹30,000/month for Top 10 Performers"
       },
       items: [
         { name: `${candidateData.domain} Exam Fee`, amount: this.examFee },
@@ -140,15 +153,25 @@ export class PaymentService {
     const verifiedRecord = {
       success: true,
       transactionId: paymentDetails.paymentId,
-      applicationId: orderData.applicationId || "NTI-2026-" + Math.floor(100000 + Math.random() * 900000),
+      applicationId: orderData.applicationId || ("NTI-REG-2026-" + Math.floor(100000 + Math.random() * 900000)),
       orderId: paymentDetails.orderId,
       candidate: orderData.candidate,
+      purchasedExam: orderData.purchasedExam || {
+        domain: orderData.candidate?.domain || "VLSI",
+        title: `${orderData.candidate?.domain || "VLSI"} Qualifier Assessment`,
+        date: "11th October 2026 (Sunday)",
+        startTime: "18:00",
+        duration: 60,
+        totalQuestions: 45,
+        status: "PURCHASED & SCHEDULED"
+      },
       amountPaid: this.totalAmount, // 153
       currency: "INR",
       paymentStatus: "PAID",
       examStatus: "ELIGIBLE_FOR_EXAM",
       whatsappUnlocked: true,
       whatsappGroupUrl: APP_CONFIG.whatsappGroupUrl,
+      whatsappChannelUrl: APP_CONFIG.whatsappChannelUrl,
       verifiedAt: new Date().toISOString()
     };
 

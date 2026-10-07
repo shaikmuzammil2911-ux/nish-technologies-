@@ -50,6 +50,24 @@
   </header>
 
   <!-- ======================================================================
+       MOBILE NAVIGATION DRAWER
+       ====================================================================== -->
+  <div class="mobile-menu-drawer" id="mobile-menu-drawer">
+    <a href="#hero" class="drawer-nav-link" id="drawer-link-home">🏠 Home</a>
+    <a href="#internships" class="drawer-nav-link" id="drawer-link-internships">💼 Internship Opportunities</a>
+    <a href="domains.html" class="drawer-nav-link" id="drawer-link-domains">🌐 All 25+ Domains</a>
+    <a href="#why-nti" class="drawer-nav-link" id="drawer-link-about">ℹ️ About Us</a>
+    <div class="drawer-cta-group">
+      <button type="button" class="btn-register" id="btn-drawer-register" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;">
+        Register for Qualifier Test &rarr;
+      </button>
+      <button type="button" class="btn-login" id="btn-drawer-login" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;">
+        Student Portal Login
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================================
        HERO SECTION
        ====================================================================== -->
   <section class="hero-section" id="hero">
@@ -612,6 +630,13 @@
             </div>
           </div>
 
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" for="form-password">Create Security PIN / Password *</label>
+            <input type="text" id="form-password" class="form-input" placeholder="e.g. 1234 or Pass@123 (Used for Dashboard Login)" required value="1234">
+            <span style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-top: 4px;">Save this to login to your Student Portal &amp; Exam Hall.</span>
+            <span class="form-error-msg" id="err-password"></span>
+          </div>
+
           <div class="terms-checkbox-wrap">
             <input type="checkbox" id="form-terms" required>
             <label for="form-terms">I agree to the <a href="#" id="link-inline-terms" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Terms &amp; Conditions</a> and examination guidelines.</label>
@@ -718,37 +743,54 @@
         <h3 class="success-title">Application Confirmed!</h3>
         <p class="success-subtitle">Your payment has been verified by the NTI system.</p>
 
-        <div class="candidate-summary-ticket" id="success-candidate-ticket">
+        <div class="candidate-summary-ticket" id="success-candidate-ticket" style="margin-bottom: 16px;">
           <div class="ticket-item">
-            <strong>Application ID</strong>
-            <span id="ticket-app-id">NTI-2026-904812</span>
+            <strong>Registration / Application ID</strong>
+            <span id="ticket-app-id" style="font-family: monospace; font-size: 1.05rem; color: var(--primary); font-weight: 800;">NTI-REG-2026-904812</span>
           </div>
           <div class="ticket-item">
             <strong>Candidate Name</strong>
             <span id="ticket-candidate-name">Student</span>
           </div>
           <div class="ticket-item">
+            <strong>Registered Email</strong>
+            <span id="ticket-email">student@example.com</span>
+          </div>
+          <div class="ticket-item">
+            <strong>Security PIN / Password</strong>
+            <span id="ticket-password" style="font-family: monospace; font-weight: 800; color: #059669;">1234</span>
+          </div>
+          <div class="ticket-item">
             <strong>Selected Domain</strong>
             <span id="ticket-domain">VLSI</span>
           </div>
           <div class="ticket-item">
-            <strong>Payment Status</strong>
-            <span style="color: #059669;">PAID (₹153)</span>
+            <strong>Official Exam Time</strong>
+            <span style="color: #D97706; font-weight: 800;">Starts at 6:00 PM (11th Oct 2026)</span>
           </div>
         </div>
 
-        <div class="whatsapp-redirect-box">
-          <p style="font-size: 0.88rem; color: #065F46; font-weight: 600; margin-bottom: 12px;">
-            💬 Important: Join the official candidate batch group for syllabus, exam links &amp; coordinator updates.
+        <button type="button" class="btn-secondary-cta" id="btn-copy-credentials" style="width: 100%; justify-content: center; margin-bottom: 16px;">
+          📋 Copy Registration Credentials
+        </button>
+
+        <div class="whatsapp-redirect-box" style="margin-bottom: 16px;">
+          <p style="font-size: 0.88rem; color: #065F46; font-weight: 700; margin-bottom: 10px;">
+            📢 Important: Stay tuned to the official NTI WhatsApp Channel! Top 10 performers will be awarded the ₹30,000/month stipend-based internship. Results will be released here.
           </p>
-          <a href="#" target="_blank" class="btn-whatsapp-join" id="btn-join-whatsapp-group">
-            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.13-.17.25-.64.8-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.17.16 1.61.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.31z"/></svg>
-            Join WhatsApp Group
-          </a>
+          <div style="display: flex; gap: 10px; flex-direction: column;">
+            <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-whatsapp-join" id="btn-join-whatsapp-channel" style="background: #059669;">
+              <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.13-.17.25-.64.8-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.17.16 1.61.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.31z"/></svg>
+              👉 Join &amp; Stay Tuned to Official WhatsApp Channel
+            </a>
+            <a href="#" target="_blank" class="btn-secondary-cta" id="btn-join-whatsapp-group" style="justify-content: center; font-size: 0.88rem;">
+              Join WhatsApp Batch Group (Candidate Discussion)
+            </a>
+          </div>
         </div>
 
-        <button type="button" class="btn-secondary-cta" id="btn-goto-dashboard" style="width: 100%; justify-content: center;">
-          Go to Student Dashboard &amp; Exam &rarr;
+        <button type="button" class="btn-primary-cta" id="btn-goto-dashboard" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem;">
+          🔑 Login to Student Dashboard Now &rarr;
         </button>
       </div>
     </div>
@@ -934,17 +976,21 @@
       <div class="modal-body">
         <form id="student-login-form">
           <div class="form-group">
-            <label class="form-label" for="login-email">Registered Email Address</label>
-            <input type="email" id="login-email" class="form-input" placeholder="e.g. yourname@gmail.com" required>
+            <label class="form-label" for="login-email">Application ID or Registered Email *</label>
+            <input type="text" id="login-email" class="form-input" placeholder="e.g. NTI-REG-2026-XXXXXX or student@gmail.com" required>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="login-appId">Application ID / Mobile Number</label>
-            <input type="text" id="login-appId" class="form-input" placeholder="e.g. NTI-2026-XXXX or +91 9876543210" required>
+            <label class="form-label" for="login-password">Security PIN / Password *</label>
+            <input type="password" id="login-password" class="form-input" placeholder="Enter your 4-digit PIN or password" required value="1234">
           </div>
 
-          <button type="submit" class="btn-primary-cta" style="width: 100%; justify-content: center; margin-top: 10px;">
+          <button type="submit" class="btn-primary-cta" style="width: 100%; justify-content: center; margin-top: 10px; padding: 14px;">
             Access Student Dashboard &rarr;
+          </button>
+
+          <button type="button" class="btn-secondary-cta" id="btn-quick-demo-login" style="width: 100%; justify-content: center; margin-top: 10px; font-size: 0.86rem;">
+            ⚡ Quick Demo Student Login (Pre-fill Credentials)
           </button>
         </form>
 
@@ -974,38 +1020,88 @@
       <div class="modal-body">
         <div class="candidate-summary-ticket" style="margin-bottom: 20px;">
           <div class="ticket-item">
-            <strong>Application ID</strong>
-            <span id="dash-app-id">NTI-2026-904812</span>
+            <strong>Registration / Application ID</strong>
+            <span id="dash-app-id" style="font-family: monospace; font-weight: 800; color: var(--primary);">NTI-REG-2026-904812</span>
           </div>
           <div class="ticket-item">
-            <strong>Domain</strong>
-            <span id="dash-domain">VLSI</span>
+            <strong>Selected Domain</strong>
+            <span id="dash-domain" style="font-weight: 700;">VLSI (Very Large Scale Integration)</span>
           </div>
           <div class="ticket-item">
             <strong>Payment Status</strong>
-            <span id="dash-payment-status" style="color: #059669; font-weight: 800;">PAID (Verified)</span>
+            <span id="dash-payment-status" style="color: #059669; font-weight: 800;">PAID &amp; VERIFIED (₹153)</span>
           </div>
           <div class="ticket-item">
-            <strong>Exam Status</strong>
-            <span id="dash-exam-status" style="color: var(--primary); font-weight: 800;">Test Available</span>
+            <strong>Internship Opportunity</strong>
+            <span style="color: #D97706; font-weight: 800;">₹30,000/mo (Top 10 Performers)</span>
           </div>
         </div>
 
-        <div style="background: #EBF5FF; border: 1.5px solid #BAE6FD; border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 20px;">
-          <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--navy-header); margin-bottom: 6px;">
-            📝 Nish Technologies Qualifier Test
-          </h4>
-          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
-            Your online assessment link is active. 45 Multiple Choice Questions across aptitude &amp; domain technical skills. Ensure a stable internet connection.
-          </p>
+        <!-- Purchased Exam Banner -->
+        <div class="purchased-exam-banner">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <span style="background: rgba(255,255,255,0.2); font-size: 0.76rem; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; letter-spacing: 0.05em;">Purchased &amp; Confirmed</span>
+              <h3 style="font-size: 1.35rem; font-weight: 800; margin: 8px 0 4px; color: #FFFFFF;" id="dash-exam-title">
+                VLSI Qualifier Assessment
+              </h3>
+              <p style="font-size: 0.88rem; opacity: 0.9; margin-bottom: 0;">
+                Official Stipend-Based Internship Selection Examination
+              </p>
+            </div>
+            <div style="text-align: right;">
+              <span style="background: #10B981; color: #FFFFFF; font-weight: 800; font-size: 0.82rem; padding: 5px 12px; border-radius: 99px;">Camera &amp; Audio Monitored</span>
+            </div>
+          </div>
 
+          <!-- Exam Structure Pills -->
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;">
+            <span style="background: rgba(255,255,255,0.18); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 700;">
+              📊 45 Questions Total
+            </span>
+            <span style="background: rgba(255,255,255,0.18); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 700;">
+              🧠 20 Aptitude &amp; Logic Questions
+            </span>
+            <span style="background: rgba(255,255,255,0.18); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 700;" id="dash-pill-domain-q">
+              ⚡ 25 Domain-Specific Expert Questions
+            </span>
+            <span style="background: rgba(255,255,255,0.18); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 700;">
+              ⏱️ 60 Minutes (1 Hour)
+            </span>
+          </div>
+
+          <!-- 6:00 PM Countdown -->
+          <div class="exam-countdown-box">
+            <div>
+              <div style="font-size: 0.82rem; opacity: 0.85; text-transform: uppercase; font-weight: 700;">Official Exam Window</div>
+              <strong style="font-size: 1rem; color: #FFFFFF;">11th October 2026 &bull; Starts at 6:00 PM (18:00 hrs)</strong>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.78rem; opacity: 0.85; text-transform: uppercase;">Countdown to 6:00 PM:</div>
+              <div class="countdown-digits" id="dash-countdown-clock">00:00:00</div>
+            </div>
+          </div>
+
+          <!-- Proctoring Rules Notice -->
+          <div style="background: rgba(0,0,0,0.25); border-left: 4px solid #EF4444; border-radius: 4px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.84rem; line-height: 1.5;">
+            <strong>⚠️ Strict Proctoring &amp; Malpractice Rules:</strong><br>
+            &bull; Web camera and microphone will automatically activate upon exam start.<br>
+            &bull; Switching browser tabs, minimizing the window, or navigating away triggers the <strong>RED SIGNAL</strong> alert.<br>
+            &bull; Excessive noise, talking, or attempting to copy via mobile phone will terminate your test session immediately.<br>
+            &bull; All submissions are evaluated by NTI. Results will be published on our WhatsApp Channel. Top 10 performers win the ₹30,000/month stipend internship!
+          </div>
+
+          <!-- CTAs -->
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <button type="button" class="btn-primary-cta" id="btn-start-exam-now">
-              Start Online Exam Now <span>&rarr;</span>
+            <button type="button" class="btn-primary-cta" id="btn-start-exam-now" style="background: #10B981; border-color: #10B981; font-size: 1rem; padding: 14px 24px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
+              🚀 Enter Exam Hall &bull; Start Exam Now &rarr;
             </button>
-            <a href="#" target="_blank" class="btn-secondary-cta" id="dash-btn-whatsapp">
-              Join WhatsApp Batch Group
+            <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-secondary-cta" id="dash-btn-whatsapp" style="background: #FFFFFF; color: #059669; border-color: #059669; font-weight: 700;">
+              👉 Stay Tuned to WhatsApp Channel for Results
             </a>
+            <button type="button" class="btn-secondary-cta" id="btn-dash-logout" style="background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,0.4);">
+              🚪 Logout
+            </button>
           </div>
         </div>
       </div>
@@ -1018,16 +1114,16 @@
   <div class="exam-view-fullscreen" id="exam-fullscreen-view" style="display: none;">
     <header class="exam-nav-header">
       <div style="display: flex; align-items: center; gap: 16px;">
-        <img src="assets/nti-logo.png" alt="NTI Logo" style="height: 32px;">
+        <img src="assets/nti-logo-clean.png" alt="NTI Logo" style="height: 34px;">
         <div>
           <strong id="exam-header-domain" style="font-size: 1.05rem; color: var(--navy-header);">VLSI Assessment</strong>
-          <div style="font-size: 0.78rem; color: var(--text-muted);" id="exam-header-candidate">Candidate: Shaik</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);" id="exam-header-candidate">Candidate: Student (NTI-REG-2026)</div>
         </div>
       </div>
 
       <div class="exam-timer-pill">
         <span>⏱️</span>
-        <span id="exam-timer-clock">59:45</span>
+        <span id="exam-timer-clock">60:00</span>
       </div>
 
       <button type="button" class="btn-primary-cta" id="btn-header-submit-exam" style="padding: 10px 20px; font-size: 0.92rem; background: #DC2626;">
@@ -1037,8 +1133,8 @@
 
     <main class="exam-main-container">
       <div class="exam-question-card">
-        <div class="question-num-badge" id="exam-q-badge">Question 1 of 45 &bull; Aptitude &amp; Fundamentals</div>
-        <h3 class="question-text" id="exam-q-text">If a train travels 360 km in 4 hours, and then increases its speed by 25% for the next 3 hours, what is the total distance covered?</h3>
+        <div class="question-num-badge" id="exam-q-badge">Question 1 of 45 &bull; Aptitude &amp; Analytical Reasoning</div>
+        <h3 class="question-text" id="exam-q-text">Loading assessment question...</h3>
 
         <div class="exam-options-list" id="exam-q-options">
           <!-- Populated dynamically -->
@@ -1056,7 +1152,8 @@
       </div>
 
       <aside class="palette-sidebar-card">
-        <h4 class="palette-heading">Question Palette</h4>
+        <h4 class="palette-heading">Question Palette (45 Total)</h4>
+        <div style="font-size: 0.76rem; font-weight: 700; color: var(--primary); margin-bottom: 6px;">Q1-20: Aptitude | Q21-45: Domain Expert</div>
         <div class="palette-grid" id="exam-palette-grid">
           <!-- 1 to 45 grid -->
         </div>
@@ -1076,11 +1173,72 @@
           </div>
         </div>
       </aside>
+
+      <!-- Floating AI Proctoring Widget -->
+      <div class="proctor-video-widget" id="proctor-video-widget">
+        <div class="proctor-header-bar">
+          <div class="proctor-live-indicator">
+            <span class="proctor-live-dot"></span>
+            <span>AI LIVE PROCTOR</span>
+          </div>
+          <span id="proctor-violation-count" style="color: #F87171;">Violations: 0/3</span>
+        </div>
+        <video id="proctor-video-stream" class="proctor-video-feed" autoplay muted playsinline></video>
+        <div class="proctor-audio-meter-wrap">
+          <span style="font-size: 0.72rem; color: #94A3B8;">🎙️ Mic:</span>
+          <div class="audio-meter-bar">
+            <div class="audio-meter-fill" id="proctor-audio-fill"></div>
+          </div>
+        </div>
+        <div style="padding: 4px 8px 6px; background: #0B192C; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.68rem; color: #38BDF8;">Camera + Mic ON</span>
+          <button type="button" id="btn-test-violation" style="font-size: 0.65rem; background: #DC2626; color: #FFF; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer;">
+            Test Red Alert 🚨
+          </button>
+        </div>
+      </div>
     </main>
+
+    <!-- Flashing Red Malpractice Warning Signal -->
+    <div class="exam-violation-overlay" id="exam-violation-overlay">
+      <div class="violation-card">
+        <div class="violation-siren-icon">🚨</div>
+        <h2 style="color: #DC2626; font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">
+          MALPRACTICE VIOLATION DETECTED!
+        </h2>
+        <p id="violation-overlay-msg" style="color: #1F2937; font-size: 0.95rem; line-height: 1.5; margin-bottom: 12px; font-weight: 600;">
+          You navigated away from the exam screen or switched browser tabs!
+        </p>
+        <div style="background: #FEE2E2; border: 1.5px solid #FCA5A5; border-radius: var(--radius-sm); padding: 10px; margin-bottom: 16px; font-size: 0.88rem; color: #991B1B;">
+          <strong id="violation-counter-text">Violation 1 of 3 recorded.</strong><br>
+          Any further attempt to copy, switch tabs, or make excessive noise will result in immediate disqualification and exam termination.
+        </div>
+        <button type="button" class="btn-primary-cta" id="btn-ack-violation" style="background: #DC2626; border-color: #DC2626; width: 100%; justify-content: center;">
+          I Understand &bull; Return to Exam Immediately &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Exam Terminated Screen -->
+    <div class="exam-terminated-screen" id="exam-terminated-screen">
+      <div style="font-size: 4rem; margin-bottom: 16px;">⛔</div>
+      <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; color: #FFFFFF;">
+        EXAM TERMINATED DUE TO MALPRACTICE
+      </h1>
+      <p style="font-size: 1.1rem; max-width: 600px; line-height: 1.6; opacity: 0.95; margin-bottom: 24px;">
+        Your exam session has been permanently revoked due to repeated proctoring violations (unauthorized tab switching, mobile copy detection, or voice anomalies).
+      </p>
+      <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); padding: 14px 24px; margin-bottom: 24px; font-size: 0.9rem;">
+        Candidate Status: <strong>DISQUALIFIED FOR THIS BATCH</strong> &bull; Incident logged with NTI Exam Security.
+      </div>
+      <button type="button" class="btn-primary-cta" id="btn-terminated-exit" style="background: #FFFFFF; color: #991B1B; font-weight: 800; padding: 14px 28px;">
+        Exit to Homepage
+      </button>
+    </div>
   </div>
 
   <!-- ======================================================================
-       MODAL 11: EXAM RESULT & UNLOCKED INTERNSHIP
+       MODAL 11: EXAM RESULT & WHATSAPP CHANNEL SUBMISSION
        ====================================================================== -->
   <div class="modal-overlay" id="modal-exam-result" role="dialog" aria-modal="true">
     <div class="modal-card modal-lg">
@@ -1088,8 +1246,8 @@
         <div class="modal-header-left">
           <div class="modal-header-icon" style="background: #D1FAE5; color: #059669;">🎉</div>
           <div>
-            <h3 class="modal-title">Exam Submitted Successfully</h3>
-            <p class="modal-subtitle">Nish Technologies Qualifier Test Evaluation</p>
+            <h3 class="modal-title">Exam Submitted Successfully!</h3>
+            <p class="modal-subtitle">All responses securely transmitted to NTI Evaluation Team</p>
           </div>
         </div>
         <button type="button" class="modal-close-btn" data-close-modal="modal-exam-result" aria-label="Close modal">&times;</button>
@@ -1098,50 +1256,66 @@
       <div class="modal-body result-card-wrap">
         <div class="qualified-badge-ribbon">
           <span>🏆</span>
-          <span>STATUS: QUALIFIED</span>
+          <span>EVALUATION IN PROGRESS &bull; STIPEND CANDIDATE</span>
         </div>
 
-        <h2 style="font-size: 2rem; font-weight: 800; color: var(--navy-header); margin-bottom: 8px;">
-          Congratulations! You Qualified!
+        <h2 style="font-size: 1.85rem; font-weight: 800; color: var(--navy-header); margin-bottom: 8px;">
+          All Details Received by NTI!
         </h2>
-        <p style="font-size: 1rem; color: var(--text-muted); max-width: 580px; margin: 0 auto 20px;">
-          You are eligible for the next stage of the stipend-based internship program at Nish Technologies Inc.
+        <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 620px; margin: 0 auto 18px;">
+          Your test answers have been securely logged into the NTI central evaluation database. Score calculations and proctoring logs have been recorded.
         </p>
 
         <div class="unlocked-internship-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
-            <h3 style="margin-bottom: 0;">🚀 Internship Opportunity Unlocked</h3>
+            <h3 style="margin-bottom: 0;">🚀 Stipend-Based Internship Selection</h3>
             <span style="background: #10B981; color: #FFFFFF; font-weight: 800; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem;">Stipend: ₹30,000 / month</span>
           </div>
 
           <div class="candidate-summary-ticket" style="background: #FFFFFF;">
             <div class="ticket-item">
+              <strong>Application ID</strong>
+              <span id="result-app-id" style="font-family: monospace; font-weight: 800; color: var(--primary);">NTI-REG-2026-904812</span>
+            </div>
+            <div class="ticket-item">
               <strong>Allocated Domain</strong>
               <span id="result-allocated-domain">VLSI Architecture</span>
             </div>
             <div class="ticket-item">
-              <strong>Program Duration</strong>
-              <span>3 to 6 Months</span>
+              <strong>Questions Attempted</strong>
+              <span id="result-attempted-count">45 of 45 Questions</span>
             </div>
             <div class="ticket-item">
-              <strong>Learning Mode</strong>
-              <span>Online / Hybrid</span>
-            </div>
-            <div class="ticket-item">
-              <strong>Mentorship Status</strong>
-              <span style="color: #059669;">Assigned Industry Mentor</span>
+              <strong>Your Score</strong>
+              <span id="result-score-display" style="color: #059669; font-weight: 800;">38 / 45 (Aptitude: 17/20, Domain: 21/25)</span>
             </div>
           </div>
 
-          <p style="font-size: 0.9rem; color: var(--navy-text); margin-top: 14px; line-height: 1.55;">
-            Our talent operations team has received your test results. Your verification badge and onboarding orientation details will be shared on your registered WhatsApp group and email.
-          </p>
+          <!-- Official Results Announcement Box -->
+          <div style="background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: var(--radius-md); padding: 16px 18px; margin-top: 18px; text-align: left;">
+            <h4 style="font-size: 1rem; color: #065F46; font-weight: 800; margin-bottom: 6px;">
+              📢 Official Results Announcement on WhatsApp Channel:
+            </h4>
+            <p style="font-size: 0.88rem; color: #047857; line-height: 1.55; margin-bottom: 12px;">
+              All final merit scores, rank lists, and selection letters will be announced on our official WhatsApp Channel. <strong>The Top 10 Performers will be awarded the verified Stipend-Based Internship of ₹30,000 / month!</strong>
+            </p>
+            <div style="display: flex; gap: 10px; flex-direction: column;">
+              <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-whatsapp-join" id="result-btn-whatsapp-channel" style="background: #059669; justify-content: center; font-size: 1rem; padding: 14px;">
+                👉 Join &amp; Stay Tuned to Official WhatsApp Channel for Results
+              </a>
+              <a href="#" target="_blank" class="btn-secondary-cta" id="result-btn-whatsapp" style="justify-content: center; font-size: 0.88rem;">
+                Join Candidate WhatsApp Batch Group
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div style="margin-top: 24px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-          <a href="#" target="_blank" class="btn-whatsapp-join" id="result-btn-whatsapp" style="max-width: 320px;">
-            Join WhatsApp Batch Group &rarr;
-          </a>
+        <div style="margin-top: 20px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary-cta" data-close-modal="modal-exam-result">
+            Back to Homepage
+          </button>
+        </div>
+      </div>
           <button type="button" class="btn-secondary-cta" data-close-modal="modal-exam-result">
             Back to Homepage
           </button>
