@@ -1,5 +1,5 @@
 // NTI Comprehensive Study & Practice Preparation Material Hub - Nish Technologies Inc
-// Massive 130+ High-Yield Aptitude & Logical Reasoning Q&As + Extensive Domain Technical Material with Detailed Step-by-Step Explanations
+// Massive 130+ Aptitude Questions + Extensive Domain Specialization Guides with Step-by-Step Explanations
 // Unlocked exclusively via Candidate Security Passcode
 
 export const APTITUDE_STUDY_MODULES = [
@@ -953,75 +953,15 @@ export const APTITUDE_STUDY_MODULES = [
 ];
 
 export const DOMAIN_STUDY_GUIDES = {
-  'content-writing': {
-    domainName: 'Content Writing & Copywriting',
-    category: 'Creative & Digital Media',
-    icon: '✍️',
-    overview: 'Content Writing combines audience psychology, narrative structuring, SEO algorithms, and persuasive copywriting frameworks to build high-converting editorial campaigns.',
-    coreModules: [
-      {
-        title: 'SEO Writing, Search Intent & Keyword Optimization',
-        concepts: 'Understanding 4 search intents (Informational, Navigational, Commercial, Transactional). Meta optimization (Title <60 chars, Meta Description <160 chars), H1-H4 structural tagging, LSI keyword distribution (1-2% density), and voice search readability.',
-        practice: [
-          {
-            q: 'What is the optimal keyword density recommended in modern SEO writing to prevent search engine keyword stuffing penalties?',
-            ans: '1% to 2%',
-            detail: 'Keyword stuffing (exceeding 3-4%) triggers algorithmic penalties from Google search systems. Modern natural language processing (NLP) algorithms prioritize semantic context, LSI keywords, and high readability scores over repetitive keywords.'
-          },
-          {
-            q: 'In digital copywriting, what does the AIDA marketing framework stand for?',
-            ans: 'Attention, Interest, Desire, Action',
-            detail: 'AIDA is a classic four-stage psychological model: 1. Attention (Catch the headline), 2. Interest (Present relatable pain points), 3. Desire (Showcase transformation/benefits), 4. Action (Clear Call-To-Action CTA).'
-          },
-          {
-            q: 'What is the primary difference between Copywriting and Content Writing?',
-            ans: 'Copywriting drives immediate user action/sales, whereas Content Writing informs, educates, and builds brand authority.',
-            detail: 'Copywriting is focused on conversion (landing pages, ads, email campaigns). Content writing is focused on long-term organic authority and engagement (blog articles, whitepapers, tutorials).'
-          },
-          {
-            q: 'What is the PAS copywriting formula and when is it most effectively utilized?',
-            ans: 'Problem, Agitate, Solve — used on high-converting landing pages and sales copy.',
-            detail: 'PAS identifies the reader\'s critical pain point (Problem), amplifies the emotional/financial cost of inaction (Agitate), and introduces your product/service as the relief (Solve).'
-          },
-          {
-            q: 'What role do Latent Semantic Indexing (LSI) keywords play in modern SEO content creation?',
-            ans: 'They provide thematic context to search crawlers without repeating primary keywords.',
-            detail: 'LSI keywords are semantically related terms (e.g. for "car loan", LSI includes "interest rate", "EMI calculator", "down payment") helping search algorithms understand article depth.'
-          }
-        ]
-      },
-      {
-        title: 'Editorial Standards, Readability & Tone Adaptation',
-        concepts: 'Flesch-Kincaid grade level tuning, active vs passive voice ratio (>80% active), tone of voice matrices (B2B corporate vs B2C casual), plagiarism prevention, and fact-checking methodology.',
-        practice: [
-          {
-            q: 'What Flesch-Kincaid Reading Ease score range is ideal for mainstream public web audiences?',
-            ans: '60 to 70 (Grade 7–8 reading level)',
-            detail: 'Scores between 60–70 ensure smooth comprehension for general web users, keeping bounce rates low and dwell time high.'
-          },
-          {
-            q: 'Why should editorial content prioritize active voice over passive voice?',
-            ans: 'Active voice is clearer, more concise, direct, and engaging for modern digital readers.',
-            detail: 'Active voice specifies the doer of the action upfront, reducing wordiness and eliminating ambiguous sentence structures.'
-          },
-          {
-            q: 'What is the purpose of a Brand Style Guide in multi-author editorial teams?',
-            ans: 'To maintain consistent voice, capitalization, formatting, punctuation, and terminology across all publishing channels.',
-            detail: 'Style guides ensure that regardless of which copywriter writes a piece, the brand sounds unified, professional, and authentic.'
-          }
-        ]
-      }
-    ]
-  },
   'vlsi': {
     domainName: 'VLSI & Chip Design (Semiconductor Engineering)',
     category: 'Hardware & Electronics Engineering',
     icon: '⚡',
-    overview: 'VLSI encompasses front-end digital design (Verilog/SystemVerilog, RTL synthesis, FSMs) and back-end physical design (floorplanning, clock tree synthesis, Static Timing Analysis STA, DRC/LVS).',
+    overview: 'VLSI encompasses front-end digital design (Verilog/SystemVerilog, RTL synthesis, FSMs) and back-end physical design (floorplanning, clock tree synthesis, Static Timing Analysis STA, DRC/LVS, FPGA implementation).',
     coreModules: [
       {
         title: 'Digital Logic, Verilog RTL & State Machine Modeling',
-        concepts: 'Combinational vs sequential logic, blocking (=) vs non-blocking (<=) assignments, Mealy vs Moore state machines, setup time ($t_{su}$), hold time ($t_h$), clock-to-q delay ($t_{cq}$), and metastable states.',
+        concepts: 'Combinational vs sequential logic, blocking (=) vs non-blocking (<=) assignments, Mealy vs Moore state machines, setup time (t_su), hold time (t_h), clock-to-q delay (t_cq), metastability, and RTL synthesis pipelines.',
         practice: [
           {
             q: 'Why are non-blocking assignments (<=) strictly mandatory for sequential always blocks in Verilog?',
@@ -1029,7 +969,7 @@ export const DOMAIN_STUDY_GUIDES = {
             detail: 'Blocking assignments (=) execute sequentially, creating simulation synthesis mismatches and clock skew race hazards in hardware flip-flop registers.'
           },
           {
-            q: 'What is Setup Time ($t_{su}$) in sequential flip-flop timing?',
+            q: 'What is Setup Time (t_su) in sequential flip-flop timing?',
             ans: 'The minimum time the input data signal must remain stable BEFORE the active clock transition edge.',
             detail: 'Violating setup time causes internal transistor threshold indeterminacy, resulting in output metastability and logic data corruption.'
           },
@@ -1047,7 +987,7 @@ export const DOMAIN_STUDY_GUIDES = {
       },
       {
         title: 'Static Timing Analysis (STA), Physical Design & Fabrication',
-        concepts: 'Setup/Hold slack calculations ($Slack = Required - Arrival$), Clock Tree Synthesis (CTS), skew and jitter budgeting, DRC (Design Rule Checking), LVS (Layout Versus Schematic), and FinFET scaling.',
+        concepts: 'Setup/Hold slack calculations (Slack = Required - Arrival), Clock Tree Synthesis (CTS), skew and jitter budgeting, DRC (Design Rule Checking), LVS (Layout Versus Schematic), and FinFET scaling.',
         practice: [
           {
             q: 'What does a positive Slack value indicate in Static Timing Analysis (STA)?',
@@ -1063,6 +1003,11 @@ export const DOMAIN_STUDY_GUIDES = {
             q: 'Why is Clock Tree Synthesis (CTS) a pivotal stage in physical design?',
             ans: 'It builds a balanced routing network (H-tree/mesh) to minimize clock skew and insertion delay across millions of registers.',
             detail: 'Uncontrolled clock tree delay causes catastrophic hold/setup timing violations across adjacent pipeline stages.'
+          },
+          {
+            q: 'What is the purpose of Design for Testability (DFT) scan chains in ASIC manufacturing?',
+            ans: 'To convert internal flip-flops into shift registers for automated post-fabrication silicon fault detection (ATPG).',
+            detail: 'DFT scan chains allow external automatic test equipment (ATE) to shift in test vectors, clock the logic, and shift out results to detect stuck-at silicon faults.'
           }
         ]
       }
@@ -1081,7 +1026,7 @@ export const DOMAIN_STUDY_GUIDES = {
           {
             q: 'How does L1 Regularization (Lasso) differ fundamentally from L2 Regularization (Ridge)?',
             ans: 'L1 drives feature weights to absolute zero (feature selection); L2 shrinks weights close to zero without zeroing them out.',
-            detail: 'L1 adds the sum of absolute coefficients ($|w|$) to the cost function, creating sparse models. L2 adds squared magnitudes ($w^2$), preventing any single weight from dominating.'
+            detail: 'L1 adds the sum of absolute coefficients (|w|) to the cost function, creating sparse models. L2 adds squared magnitudes (w²), preventing any single weight from dominating.'
           },
           {
             q: 'What is the primary cause of vanishing gradients in deep recurrent or deep feedforward neural networks?',
@@ -1111,8 +1056,97 @@ export const DOMAIN_STUDY_GUIDES = {
           },
           {
             q: 'What is the difference between Data Drift and Concept Drift in production ML systems?',
-            ans: 'Data Drift is a shift in input feature distribution $P(X)$; Concept Drift is a change in the underlying statistical relationship between features and target $P(Y|X)$.',
+            ans: 'Data Drift is a shift in input feature distribution P(X); Concept Drift is a change in the underlying statistical relationship between features and target P(Y|X).',
             detail: 'Both drifts degrade production inference accuracy over time, requiring continuous telemetry and automated retraining pipelines.'
+          },
+          {
+            q: 'How does transfer learning leverage pretrained models for domain-specific tasks?',
+            ans: 'By freezing early feature-extraction layers and fine-tuning top classification heads with domain data.',
+            detail: 'Early layers in vision/NLP models capture universal low-level features (edges/textures or word syntax), drastically cutting training time and dataset size requirements.'
+          }
+        ]
+      }
+    ]
+  },
+  'java': {
+    domainName: 'Java Enterprise Programming & Spring Boot',
+    category: 'Enterprise Software & Microservices',
+    icon: '☕',
+    overview: 'Master Core Java, JVM architecture, Memory Management (Garbage Collection), Object-Oriented Design Patterns, Spring Boot Microservices, Hibernate ORM, and RESTful API engineering.',
+    coreModules: [
+      {
+        title: 'Core Java, JVM Internals & Multithreading',
+        concepts: 'JVM architecture (ClassLoader, Heap, Stack, Metaspace), Garbage Collection algorithms (G1, ZGC), Collections framework, Immutability, volatile vs synchronized, Java 8+ Streams and Lambdas.',
+        practice: [
+          {
+            q: 'What is the difference between JVM Stack and Heap memory in Java?',
+            ans: 'Stack stores primitive local variables and method call frames; Heap stores all instantiated objects.',
+            detail: 'Stack memory is thread-private and fast, automatically cleaned up when method returns. Heap is shared across all threads and managed by the Garbage Collector.'
+          },
+          {
+            q: 'What purpose does the `volatile` keyword serve in Java concurrent programming?',
+            ans: 'It guarantees visibility of variable updates across all threads by reading/writing directly to main memory instead of CPU caches.',
+            detail: 'While volatile ensures memory visibility, it does NOT guarantee atomicity for compound operations like count++.'
+          },
+          {
+            q: 'Why should custom classes override both `equals()` and `hashCode()` simultaneously?',
+            ans: 'To maintain the contract required by hash-based collections (HashMap, HashSet).',
+            detail: 'If two objects are equal according to equals(), they must produce the identical hashCode(), otherwise HashMap lookups will fail to retrieve stored entries.'
+          },
+          {
+            q: 'How does the Spring Dependency Injection (IoC) container manage object lifecycles?',
+            ans: 'By creating, wiring, configuring, and managing beans via metadata annotations (@Component, @Autowired, @Service).',
+            detail: 'Inversion of Control decouples component creation from business logic, making systems modular and easily unit-testable.'
+          }
+        ]
+      },
+      {
+        title: 'Spring Boot, Microservices & JPA/Hibernate',
+        concepts: 'Spring Boot auto-configuration, REST controllers, Spring Security & JWT, JPA Entity lifecycle, N+1 query problem, transactions (@Transactional), and microservices circuit breakers (Resilience4j).',
+        practice: [
+          {
+            q: 'What is the JPA/Hibernate "N+1 Query Problem" and how is it resolved?',
+            ans: 'When fetching 1 parent entity triggers N separate queries for its children; resolved using JOIN FETCH or EntityGraphs.',
+            detail: 'Using `JOIN FETCH` queries both parent and lazy-loaded child records in a single SQL operation, drastically reducing database roundtrips.'
+          },
+          {
+            q: 'What is the role of an API Gateway in a microservices architecture?',
+            ans: 'Single entry point handling request routing, authentication, rate limiting, and SSL termination.',
+            detail: 'API Gateways prevent client applications from directly coupling to internal microservices network addresses.'
+          }
+        ]
+      }
+    ]
+  },
+  'python': {
+    domainName: 'Python Programming & Backend Systems',
+    category: 'Programming Languages & Systems',
+    icon: '🐍',
+    overview: 'Python systems programming, memory management (CPython reference counting & GC), GIL mechanics, decorators, generators, asynchronous concurrency (asyncio), and data engineering.',
+    coreModules: [
+      {
+        title: 'Advanced Python Internals, Concurrency & Memory Model',
+        concepts: 'CPython Global Interpreter Lock (GIL), GIL implications for multi-threading vs multi-processing, memory management (arena allocator, cyclic garbage collection), *args/**kwargs, decorators, context managers (__enter__, __exit__), and generator memory efficiency.',
+        practice: [
+          {
+            q: 'What is the Global Interpreter Lock (GIL) in CPython and what is its primary effect on CPU-bound multi-threaded programs?',
+            ans: 'A mutex that prevents multiple native threads from executing Python bytecodes simultaneously, restricting CPU-bound tasks to a single core.',
+            detail: 'To achieve true multi-core CPU parallelism in Python, developers use the `multiprocessing` module or native C/Rust extensions rather than `threading`.'
+          },
+          {
+            q: 'How do Python generator functions (yield) optimize memory consumption compared to standard list returns?',
+            ans: 'Generators produce values on-demand one by one (lazy evaluation) without allocating the entire dataset in memory.',
+            detail: 'Streaming a 10GB log file with a generator consumes negligible memory (a few kilobytes) instead of exhausting system RAM.'
+          },
+          {
+            q: 'What is the primary difference between a Python shallow copy and a deep copy?',
+            ans: 'Shallow copy duplicates the outer object while referencing inner nested objects; Deep copy recursively duplicates all nested objects.',
+            detail: 'Mutating a nested list inside a shallow copy inadvertently mutates the original object, whereas a deep copy ensures complete isolation.'
+          },
+          {
+            q: 'How does Python\'s asyncio event loop achieve high I/O concurrency on a single thread?',
+            ans: 'By using non-blocking OS socket multiplexing (epoll/kqueue) and cooperative multitasking with coroutines (async/await).',
+            detail: 'When a coroutine awaits an I/O operation (database query or network fetch), the event loop immediately switches execution to other pending tasks.'
           }
         ]
       }
@@ -1126,7 +1160,7 @@ export const DOMAIN_STUDY_GUIDES = {
     coreModules: [
       {
         title: 'Frontend Architecture, React Internals & Modern JavaScript',
-        concepts: 'Virtual DOM diffing algorithm, React Fiber, hooks (`useEffect`, `useMemo`, `useCallback`), closures, event bubbling/delegation, asynchronous event loops (Microtasks vs Macrotasks), and CSS Grid/Flexbox layouts.',
+        concepts: 'Virtual DOM diffing algorithm, React Fiber, hooks (useEffect, useMemo, useCallback), closures, event bubbling/delegation, asynchronous event loops (Microtasks vs Macrotasks), and CSS Grid/Flexbox layouts.',
         practice: [
           {
             q: 'What is the fundamental difference between the JavaScript Microtask Queue and Macrotask (Callback) Queue?',
@@ -1134,9 +1168,9 @@ export const DOMAIN_STUDY_GUIDES = {
             detail: 'The browser event loop processes all pending microtasks to completion before moving to the next macrotask or rendering frame.'
           },
           {
-            q: 'When should `useCallback` or `useMemo` be employed in a React component?',
+            q: 'When should useCallback or useMemo be employed in a React component?',
             ans: 'To memoize expensive computations or prevent unnecessary child re-renders when passing functions/objects as props to memoized components.',
-            detail: 'Overusing `useMemo` for trivial calculations introduces unnecessary memory overhead; it is best reserved for heavy data filtering or stable prop reference equality.'
+            detail: 'Overusing useMemo for trivial calculations introduces unnecessary memory overhead; it is best reserved for heavy data filtering or stable prop reference equality.'
           },
           {
             q: 'What is Cross-Origin Resource Sharing (CORS) and why does the browser enforce it?',
@@ -1145,7 +1179,7 @@ export const DOMAIN_STUDY_GUIDES = {
           },
           {
             q: 'How does indexing in SQL databases (B-Tree) accelerate query execution performance?',
-            ans: 'It reduces lookup time complexity from $O(N)$ full table scan to $O(\\log N)$ balanced tree traversal.',
+            ans: 'It reduces lookup time complexity from O(N) full table scan to O(log N) balanced tree traversal.',
             detail: 'Indexes store ordered pointers to table rows. While they vastly speed up SELECT queries, they incur a slight write penalty on INSERT, UPDATE, and DELETE operations.'
           }
         ]
@@ -1168,35 +1202,141 @@ export const DOMAIN_STUDY_GUIDES = {
       }
     ]
   },
-  'python': {
-    domainName: 'Python Programming & Backend Systems',
-    category: 'Programming Languages & Systems',
-    icon: '🐍',
-    overview: 'Python systems programming, memory management (CPython reference counting & GC), GIL mechanics, decorators, generators, asynchronous concurrency (asyncio), and data engineering.',
+  'data-science': {
+    domainName: 'Data Science & Advanced Analytics',
+    category: 'Data Analytics & Statistics',
+    icon: '📊',
+    overview: 'Exploratory Data Analysis (EDA), Statistical Hypothesis Testing, Feature Engineering, Regression/Classification Modeling, Time-Series Forecasting, and Big Data manipulation.',
     coreModules: [
       {
-        title: 'Advanced Python Internals, Concurrency & Memory Model',
-        concepts: 'CPython Global Interpreter Lock (GIL), GIL implications for multi-threading vs multi-processing, memory management (arena allocator, cyclic garbage collection), `*args`/`**kwargs`, decorators, context managers (`__enter__`, `__exit__`), and generator memory efficiency.',
+        title: 'Statistical Inference, Hypothesis Testing & Feature Engineering',
+        concepts: 'Probability distributions (Normal, Binomial, Poisson), Central Limit Theorem (CLT), p-values, z-test/t-test, ANOVA, Chi-Square tests, handling missing data (MICE, median imputation), and outlier detection (IQR, Z-score).',
         practice: [
           {
-            q: 'What is the Global Interpreter Lock (GIL) in CPython and what is its primary effect on CPU-bound multi-threaded programs?',
-            ans: 'A mutex that prevents multiple native threads from executing Python bytecodes simultaneously, restricting CPU-bound tasks to a single core.',
-            detail: 'To achieve true multi-core CPU parallelism in Python, developers use the `multiprocessing` module or native C/Rust extensions rather than `threading`.'
+            q: 'What is the Central Limit Theorem (CLT) and why is it fundamental in Data Science?',
+            ans: 'The distribution of sample means approximates a normal distribution as sample size becomes large (n ≥ 30), regardless of population shape.',
+            detail: 'CLT enables parametric hypothesis testing (z-tests, t-tests, confidence intervals) on real-world non-normal datasets.'
           },
           {
-            q: 'How do Python generator functions (`yield`) optimize memory consumption compared to standard list returns?',
-            ans: 'Generators produce values on-demand one by one (lazy evaluation) without allocating the entire dataset in memory.',
-            detail: 'Streaming a 10GB log file with a generator consumes negligible memory (a few kilobytes) instead of exhausting system RAM.'
+            q: 'In statistical hypothesis testing, what is a Type I error vs a Type II error?',
+            ans: 'Type I is rejecting a true Null Hypothesis (False Positive); Type II is failing to reject a false Null Hypothesis (False Negative).',
+            detail: 'The significance level α represents the probability of committing a Type I error, while β is Type II error probability.'
           },
           {
-            q: 'What is the primary difference between a Python `shallow copy` and a `deep copy`?',
-            ans: 'Shallow copy duplicates the outer object while referencing inner nested objects; Deep copy recursively duplicates all nested objects.',
-            detail: 'Mutating a nested list inside a shallow copy inadvertently mutates the original object, whereas a deep copy ensures complete isolation.'
+            q: 'How does PCA (Principal Component Analysis) perform dimensionality reduction?',
+            ans: 'By computing eigenvectors and eigenvalues of the covariance matrix to project data onto orthogonal axes of maximum variance.',
+            detail: 'PCA compresses hundreds of correlated features into a few uncorrelated principal components, eliminating multicollinearity.'
+          }
+        ]
+      }
+    ]
+  },
+  'cyber-security': {
+    domainName: 'Cyber Security & Ethical Hacking',
+    category: 'Security & Cloud Defense',
+    icon: '🛡️',
+    overview: 'Network security protocols, Cryptography (Symmetric/Asymmetric), OWASP Top 10 Web Vulnerabilities, Penetration Testing, SOC SIEM monitoring, and Incident Response.',
+    coreModules: [
+      {
+        title: 'OWASP Top 10, Cryptography & Threat Mitigation',
+        concepts: 'SQL Injection (SQLi), Cross-Site Scripting (XSS), CSRF, Zero Trust Architecture, Public Key Infrastructure (PKI), TLS handshake, Port scanning (Nmap), and WAF (Web Application Firewalls).',
+        practice: [
+          {
+            q: 'How do Parameterized Queries (Prepared Statements) prevent SQL Injection attacks completely?',
+            ans: 'They separate SQL code execution from user input parameters, ensuring inputs are treated strictly as data literals.',
+            detail: 'The database pre-compiles the SQL template before injecting parameters, making it impossible for user payload strings to alter query structure.'
           },
           {
-            q: 'How does Python\'s `asyncio` event loop achieve high I/O concurrency on a single thread?',
-            ans: 'By using non-blocking OS socket multiplexing (epoll/kqueue) and cooperative multitasking with coroutines (`async`/`await`).',
-            detail: 'When a coroutine awaits an I/O operation (database query or network fetch), the event loop immediately switches execution to other pending tasks.'
+            q: 'What is the difference between Symmetric and Asymmetric Cryptography?',
+            ans: 'Symmetric uses a single shared secret key for encryption/decryption; Asymmetric uses a public key to encrypt and a private key to decrypt.',
+            detail: 'TLS protocols combine both: Asymmetric (RSA/ECC) establishes the initial secure handshake, then switches to fast Symmetric (AES-256) for bulk session encryption.'
+          },
+          {
+            q: 'What is the core security principle of "Zero Trust Architecture"?',
+            ans: '"Never trust, always verify" — every request is authenticated, authorized, and encrypted regardless of network perimeter.',
+            detail: 'Zero Trust eliminates the traditional assumption that internal corporate intranet traffic is inherently safe.'
+          }
+        ]
+      }
+    ]
+  },
+  'cloud-computing': {
+    domainName: 'Cloud Computing & DevOps (AWS / Azure / GCP)',
+    category: 'Cloud Infrastructure & DevOps',
+    icon: '☁️',
+    overview: 'Cloud infrastructure design, Virtualization, Containers (Docker, Kubernetes), Infrastructure as Code (Terraform), CI/CD pipelines, and high availability serverless patterns.',
+    coreModules: [
+      {
+        title: 'Cloud Architecture, Containerization & CI/CD Pipelines',
+        concepts: 'IaaS vs PaaS vs SaaS, VPC networking & subnets, Docker image layers & multi-stage builds, Kubernetes Pods/Deployments/Services, CI/CD automated gates, and Auto Scaling groups.',
+        practice: [
+          {
+            q: 'What is the primary architectural purpose of a Kubernetes Ingress Controller?',
+            ans: 'To manage external HTTP/HTTPS routing, load balancing, and SSL termination into internal cluster services.',
+            detail: 'Ingress eliminates the cost and complexity of provisioning separate cloud load balancers for each internal service.'
+          },
+          {
+            q: 'What is Infrastructure as Code (IaC) and what problem does it solve?',
+            ans: 'Managing server and cloud provisioning through version-controlled code templates (Terraform/CloudFormation) to eliminate configuration drift.',
+            detail: 'IaC allows deterministic, reproducible infrastructure deployment across staging and production environments.'
+          }
+        ]
+      }
+    ]
+  },
+  'iot': {
+    domainName: 'Internet of Things (IoT) & Embedded Edge',
+    category: 'Smart Hardware & Connected Devices',
+    icon: '🌐',
+    overview: 'Microcontroller hardware (ESP32, Arduino, ARM Cortex), IoT communication protocols (MQTT, CoAP, BLE, LoRaWAN), sensor interfacing (I2C, SPI, UART), and Edge AI.',
+    coreModules: [
+      {
+        title: 'IoT Protocols, Hardware Interfacing & Edge Computing',
+        concepts: 'MQTT Publish/Subscribe broker architecture, QoS levels (0, 1, 2), I2C two-wire bus vs SPI multi-wire speed, power optimization for battery-operated nodes, and OTA firmware updates.',
+        practice: [
+          {
+            q: 'Why is MQTT the preferred messaging protocol for resource-constrained IoT devices over HTTP?',
+            ans: 'MQTT uses a lightweight binary packet header (minimum 2 bytes) and publish/subscribe architecture, saving power and bandwidth.',
+            detail: 'HTTP headers are text-heavy (hundreds of bytes) and require persistent request/response handshakes, draining battery in remote sensor nodes.'
+          },
+          {
+            q: 'What is the primary difference between I2C and SPI peripheral communication interfaces?',
+            ans: 'I2C uses only 2 wires (SDA/SCL) and addressable slaves; SPI uses 4 wires with higher data transfer throughput.',
+            detail: 'SPI offers full-duplex high-speed communication (tens of MHz) using dedicated Chip Select lines, while I2C saves micro-controller pins.'
+          }
+        ]
+      }
+    ]
+  },
+  'content-writing': {
+    domainName: 'Content Writing & Copywriting',
+    category: 'Creative & Digital Media',
+    icon: '✍️',
+    overview: 'Content Writing combines audience psychology, narrative structuring, SEO algorithms, and persuasive copywriting frameworks to build high-converting editorial campaigns.',
+    coreModules: [
+      {
+        title: 'SEO Writing, Search Intent & Keyword Optimization',
+        concepts: 'Understanding 4 search intents (Informational, Navigational, Commercial, Transactional). Meta optimization (Title <60 chars, Meta Description <160 chars), H1-H4 structural tagging, LSI keyword distribution (1-2% density), and voice search readability.',
+        practice: [
+          {
+            q: 'What is the optimal keyword density recommended in modern SEO writing to prevent search engine keyword stuffing penalties?',
+            ans: '1% to 2%',
+            detail: 'Keyword stuffing (exceeding 3-4%) triggers algorithmic penalties from Google search systems. Modern natural language processing (NLP) algorithms prioritize semantic context, LSI keywords, and high readability scores over repetitive keywords.'
+          },
+          {
+            q: 'In digital copywriting, what does the AIDA marketing framework stand for?',
+            ans: 'Attention, Interest, Desire, Action',
+            detail: 'AIDA is a classic four-stage psychological model: 1. Attention (Catch the headline), 2. Interest (Present relatable pain points), 3. Desire (Showcase transformation/benefits), 4. Action (Clear Call-To-Action CTA).'
+          },
+          {
+            q: 'What is the primary difference between Copywriting and Content Writing?',
+            ans: 'Copywriting drives immediate user action/sales, whereas Content Writing informs, educates, and builds brand authority.',
+            detail: 'Copywriting is focused on conversion (landing pages, ads, email campaigns). Content writing is focused on long-term organic authority and engagement (blog articles, whitepapers, tutorials).'
+          },
+          {
+            q: 'What is the PAS copywriting formula and when is it most effectively utilized?',
+            ans: 'Problem, Agitate, Solve — used on high-converting landing pages and sales copy.',
+            detail: 'PAS identifies the reader\'s critical pain point (Problem), amplifies the emotional/financial cost of inaction (Agitate), and introduces your product/service as the relief (Solve).'
           }
         ]
       }
