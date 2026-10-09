@@ -651,8 +651,8 @@ class NTIApp {
     // Practice Simulator / Material Access button
     document.getElementById('btn-practice-exam-demo')?.addEventListener('click', () => {
       const inputPass = document.getElementById('input-material-passcode');
-      if (inputPass && this.currentCandidate?.candidate?.password) {
-        inputPass.value = this.currentCandidate.candidate.password;
+      if (inputPass) {
+        inputPass.value = ''; // Must be entered manually by the candidate
       }
       this.openModal('modal-passcode-unlock');
     });
