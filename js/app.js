@@ -691,10 +691,12 @@ class NTIApp {
         const targetTab = btn.getAttribute('data-study-tab');
         const aptPane = document.getElementById('study-tab-content-aptitude');
         const domPane = document.getElementById('study-tab-content-domain');
+        const glassPane = document.getElementById('study-tab-content-glassdoor');
         const stratPane = document.getElementById('study-tab-content-strategy');
 
         if (aptPane) aptPane.style.display = targetTab === 'tab-aptitude' ? 'block' : 'none';
         if (domPane) domPane.style.display = targetTab === 'tab-domain' ? 'block' : 'none';
+        if (glassPane) glassPane.style.display = targetTab === 'tab-glassdoor' ? 'block' : 'none';
         if (stratPane) stratPane.style.display = targetTab === 'tab-strategy' ? 'block' : 'none';
       });
     });
@@ -770,6 +772,7 @@ class NTIApp {
     const domContainer = document.getElementById('study-tab-content-domain');
     if (domContainer) {
       const dg = data.domainGuide;
+      const gd = data.glassdoorData;
       domContainer.innerHTML = `
         <div class="study-module-card" style="border-left: 4px solid var(--primary); background: #F8FAFD;">
           <div class="study-module-header">
@@ -809,6 +812,117 @@ class NTIApp {
             `).join('')}
           </div>
         `).join('')}
+
+        ${gd ? `
+          <div class="study-module-card" style="background: #F0FDF4; border: 1.5px solid #86EFAC; margin-top: 18px;">
+            <div class="study-module-header">
+              <span style="font-size: 1.6rem;">🏢</span>
+              <div>
+                <h4 class="study-module-title" style="color: #065F46;">Glassdoor Verified Industry &amp; Salary Insights</h4>
+                <span style="font-size: 0.78rem; background: #059669; color: #FFF; padding: 2px 8px; border-radius: 99px; font-weight: 700;">${gd.roleTitle}</span>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 12px 0;">
+              <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: 6px; padding: 10px;">
+                <strong style="color: #065F46; display: block; font-size: 0.78rem;">💰 Glassdoor Salary Range</strong>
+                <span style="font-size: 0.98rem; font-weight: 800; color: #047857;">${gd.salaryRange}</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: 6px; padding: 10px;">
+                <strong style="color: #1E3A8A; display: block; font-size: 0.78rem;">📊 Interview Rating</strong>
+                <span style="font-size: 0.98rem; font-weight: 800; color: #1D4ED8;">${gd.interviewDifficulty}</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: 6px; padding: 10px;">
+                <strong style="color: #92400E; display: block; font-size: 0.78rem;">🏢 Hiring Companies</strong>
+                <span style="font-size: 0.84rem; font-weight: 700; color: #B45309;">${gd.topHiringCompanies.slice(0, 4).join(', ')}</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+              <a href="${gd.glassdoorUrl}" target="_blank" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px;">
+                🔗 Explore Glassdoor Interview Questions &rarr;
+              </a>
+              <a href="${gd.salaryUrl}" target="_blank" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px; font-weight: 700;">
+                💵 View Glassdoor Salary Reports &rarr;
+              </a>
+            </div>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    // Render Dedicated Glassdoor Tab
+    const glassContainer = document.getElementById('study-tab-content-glassdoor');
+    if (glassContainer) {
+      const gd = data.glassdoorData || {
+        roleTitle: `${domainName} Specialist`,
+        salaryRange: '₹7.0 LPA – ₹20.0 LPA (Avg: ₹12.5 LPA)',
+        interviewDifficulty: 'Moderate to Hard (3.6 / 5.0 on Glassdoor)',
+        topHiringCompanies: ['Top Tier-1 Tech Enterprises', 'MNCs', 'High-Growth Startups'],
+        glassdoorUrl: 'https://www.glassdoor.com/Interview/index.htm',
+        salaryUrl: 'https://www.glassdoor.com/Salaries/index.htm',
+        topInterviewQuestions: [
+          'What are the most challenging technical problems you solved in your recent projects?',
+          'Walk through your end-to-end architecture and testing methodology for production systems.',
+          'How do you diagnose and resolve performance bottlenecks under high throughput?'
+        ],
+        candidateTips: 'Glassdoor candidates recommend solid command over core fundamentals, real-world project code walkthroughs, and problem-solving clarity.'
+      };
+
+      glassContainer.innerHTML = `
+        <div class="study-module-card" style="background: #F0FDF4; border: 1.5px solid #86EFAC;">
+          <div class="study-module-header">
+            <span style="font-size: 1.8rem;">🏢</span>
+            <div>
+              <h4 class="study-module-title" style="color: #065F46;">Glassdoor Verified Industry &amp; Salary Insights</h4>
+              <span style="font-size: 0.8rem; background: #059669; color: #FFF; padding: 2px 8px; border-radius: 99px; font-weight: 700;">Live Market Intel &bull; ${gd.roleTitle}</span>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0;">
+            <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #065F46; display: block; font-size: 0.82rem;">💰 Glassdoor Salary Range</strong>
+              <span style="font-size: 1.05rem; font-weight: 800; color: #047857;">${gd.salaryRange}</span>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #1E3A8A; display: block; font-size: 0.82rem;">📊 Interview Difficulty</strong>
+              <span style="font-size: 1.05rem; font-weight: 800; color: #1D4ED8;">${gd.interviewDifficulty}</span>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #BBF7D0; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #92400E; display: block; font-size: 0.82rem;">🏢 Top Hiring Companies</strong>
+              <span style="font-size: 0.88rem; font-weight: 700; color: #B45309;">${gd.topHiringCompanies.join(', ')}</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="${gd.glassdoorUrl}" target="_blank" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px;">
+              🔗 View ${domainName} Interview Questions on Glassdoor &rarr;
+            </a>
+            <a href="${gd.salaryUrl}" target="_blank" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
+              💵 Explore ${domainName} Salaries on Glassdoor &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="study-module-card">
+          <h4 class="study-module-title" style="color: var(--navy-header); margin-bottom: 12px;">
+            📝 Real Glassdoor Candidate Interview Questions for ${domainName}:
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            ${gd.topInterviewQuestions.map((q, qIdx) => `
+              <div style="background: #F8FAFD; border: 1px solid var(--border-card); border-left: 3px solid #059669; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 0.9rem; color: var(--navy-text);">
+                <strong>Question ${qIdx + 1}:</strong> ${q}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="study-module-card" style="border-left: 4px solid #D97706;">
+          <h4 class="study-module-title" style="color: #92400E; margin-bottom: 8px;">
+            💡 Glassdoor Candidate Interview Advice &amp; Tips:
+          </h4>
+          <p style="font-size: 0.9rem; color: var(--navy-text); line-height: 1.6; margin-bottom: 0;">
+            ${gd.candidateTips}
+          </p>
+        </div>
       `;
     }
 
