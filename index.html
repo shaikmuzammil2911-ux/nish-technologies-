@@ -1384,7 +1384,13 @@
             <p class="modal-subtitle" style="color: rgba(255,255,255,0.85);" id="study-hub-subtitle">Unlocked via Candidate Passcode &bull; Aptitude &amp; Domain Notes with Step-by-Step Explanations</p>
           </div>
         </div>
-        <button type="button" class="modal-close-btn" data-close-modal="modal-study-material" aria-label="Close modal" style="background: rgba(255,255,255,0.2); color: #FFFFFF;">&times;</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" id="btn-toggle-study-fullscreen" class="btn-fullscreen-toggle" title="Toggle Fullscreen" style="background: rgba(255,255,255,0.18); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            <span id="study-fullscreen-icon" style="font-size: 1rem;">⛶</span>
+            <span id="study-fullscreen-text">Full Screen</span>
+          </button>
+          <button type="button" class="modal-close-btn" data-close-modal="modal-study-material" aria-label="Close modal" style="background: rgba(255,255,255,0.2); color: #FFFFFF;">&times;</button>
+        </div>
       </div>
 
       <div class="modal-body" style="padding: 20px 24px;">
@@ -1395,6 +1401,7 @@
           <button type="button" class="study-tab-btn" data-study-tab="tab-glassdoor">🏢 Glassdoor Insights</button>
           <button type="button" class="study-tab-btn" data-study-tab="tab-ambitionbox">💼 AmbitionBox Insights</button>
           <button type="button" class="study-tab-btn" data-study-tab="tab-strategy">🎯 Sunday 6 PM Exam Strategy</button>
+          <button type="button" class="study-tab-btn" data-study-tab="tab-terms">📜 Terms &amp; Conditions</button>
         </div>
 
         <!-- Search Bar -->
@@ -1452,6 +1459,10 @@
               <li><strong>Results Publication:</strong> Verified scores and rank lists will be released on the official NTI WhatsApp Channel. Top 10 scorers are awarded the stipend internship.</li>
             </ul>
           </div>
+        </div>
+
+        <div id="study-tab-content-terms" class="study-tab-pane" style="display: none;">
+          <!-- Dynamically populated with complete Terms, Conditions & Code of Conduct via JS -->
         </div>
       </div>
 

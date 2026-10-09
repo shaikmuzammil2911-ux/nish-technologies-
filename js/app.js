@@ -682,6 +682,29 @@ class NTIApp {
   }
 
   setupStudyMaterialHub() {
+    // Fullscreen toggle for Study Material Modal
+    const fsBtn = document.getElementById('btn-toggle-study-fullscreen');
+    const modalEl = document.getElementById('modal-study-material');
+    const fsIcon = document.getElementById('study-fullscreen-icon');
+    const fsText = document.getElementById('study-fullscreen-text');
+
+    fsBtn?.addEventListener('click', () => {
+      const isFullscreen = modalEl?.classList.toggle('is-study-fullscreen');
+      if (fsIcon) fsIcon.textContent = isFullscreen ? '🗗' : '⛶';
+      if (fsText) fsText.textContent = isFullscreen ? 'Exit Full' : 'Full Screen';
+      
+      // If browser supports Fullscreen API
+      if (isFullscreen) {
+        if (!document.fullscreenElement && modalEl?.requestFullscreen) {
+          modalEl.requestFullscreen().catch(() => {});
+        }
+      } else {
+        if (document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    });
+
     // Tab switching in Study Material Modal
     document.querySelectorAll('.study-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -694,12 +717,14 @@ class NTIApp {
         const glassPane = document.getElementById('study-tab-content-glassdoor');
         const ambPane = document.getElementById('study-tab-content-ambitionbox');
         const stratPane = document.getElementById('study-tab-content-strategy');
+        const termsPane = document.getElementById('study-tab-content-terms');
 
         if (aptPane) aptPane.style.display = targetTab === 'tab-aptitude' ? 'block' : 'none';
         if (domPane) domPane.style.display = targetTab === 'tab-domain' ? 'block' : 'none';
         if (glassPane) glassPane.style.display = targetTab === 'tab-glassdoor' ? 'block' : 'none';
         if (ambPane) ambPane.style.display = targetTab === 'tab-ambitionbox' ? 'block' : 'none';
         if (stratPane) stratPane.style.display = targetTab === 'tab-strategy' ? 'block' : 'none';
+        if (termsPane) termsPane.style.display = targetTab === 'tab-terms' ? 'block' : 'none';
       });
     });
 
@@ -707,7 +732,7 @@ class NTIApp {
     const searchInput = document.getElementById('study-material-search');
     searchInput?.addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase().trim();
-      document.querySelectorAll('#modal-study-material .study-module-card').forEach(card => {
+      document.querySelectorAll('#modal-study-material .study-module-card, #modal-study-material .concept-pillar-card, #modal-study-material .terms-card-wrapper').forEach(card => {
         const text = card.textContent.toLowerCase();
         card.style.display = text.includes(q) ? 'block' : 'none';
       });
@@ -790,12 +815,25 @@ class NTIApp {
         ${dg.coreModules.map((cm, cIdx) => `
           <div class="study-module-card">
             <h4 class="study-module-title" style="color: var(--primary); margin-bottom: 8px;">Module ${cIdx + 1}: ${cm.title}</h4>
-            <div class="study-formula-box">
-              <strong>📖 Core Concepts &amp; Architecture:</strong>
-              <div style="margin-top: 4px;">${cm.concepts}</div>
+            <div class="study-formula-box" style="background: #F8FAFD; border-left: 4px solid var(--primary); padding: 14px 18px; margin-bottom: 14px;">
+              <strong style="color: var(--navy-header); font-size: 0.95rem; display: block; margin-bottom: 6px;">📖 Core Concepts &amp; Architecture Deep-Dive:</strong>
+              <div style="margin-bottom: 10px; font-size: 0.88rem; color: #1E293B; line-height: 1.55;">${cm.concepts}</div>
+
+              ${cm.conceptPillars ? `
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                  ${cm.conceptPillars.map(cp => `
+                    <div class="concept-pillar-card">
+                      <div class="concept-pillar-title">🔹 ${cp.title}</div>
+                      <ul class="concept-pillar-list">
+                        ${cp.points.map(pt => `<li>${pt}</li>`).join('')}
+                      </ul>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
             </div>
 
-            <div style="font-weight: 800; font-size: 0.92rem; color: var(--navy-header); margin: 12px 0 6px;">
+            <div style="font-weight: 800; font-size: 0.92rem; color: var(--navy-header); margin: 14px 0 6px;">
               📝 Technical Practice Questions &amp; Verified Solutions:
             </div>
 
@@ -1040,6 +1078,61 @@ class NTIApp {
           </h4>
           <p style="font-size: 0.9rem; color: var(--navy-text); line-height: 1.6; margin-bottom: 0;">
             ${ab.candidateTips}
+          </p>
+        </div>
+      `;
+    }
+
+    // Render Terms & Conditions Tab
+    const termsContainer = document.getElementById('study-tab-content-terms');
+    if (termsContainer) {
+      const tc = data.termsAndConditions || {
+        title: "Nish Technologies Examination Terms, Conditions & Candidate Code of Conduct",
+        lastUpdated: "October 2026",
+        sections: [
+          {
+            heading: "1. Security Passcode & Access Authorization",
+            icon: "🔐",
+            rules: [
+              "The Study Material Hub and Online Qualifier Examination are protected by a unique Candidate Passcode issued exclusively upon verified registration.",
+              "Passcodes are strictly non-transferable. Attempting to share or distribute passcodes will result in immediate disqualification.",
+              "Each passcode permits a single active session."
+            ]
+          }
+        ]
+      };
+
+      termsContainer.innerHTML = `
+        <div class="study-module-card" style="background: linear-gradient(135deg, #F8FAFD 0%, #EEF2FF 100%); border: 1.5px solid #C7D2FE;">
+          <div class="study-module-header">
+            <span style="font-size: 1.8rem;">📜</span>
+            <div>
+              <h4 class="study-module-title" style="color: #1E3A8A;">${tc.title}</h4>
+              <span style="font-size: 0.8rem; background: #3B82F6; color: #FFF; padding: 2px 8px; border-radius: 99px; font-weight: 700;">Official Examination Policy &bull; Updated ${tc.lastUpdated}</span>
+            </div>
+          </div>
+          <p class="study-module-desc" style="margin-bottom: 0; color: #334155;">
+            Please read these examination terms, anti-malpractice rules, and code of conduct carefully. All registered candidates participating in the NTI Sunday 6:00 PM Assessment and accessing this Study Material Hub are bound by the institutional regulations below.
+          </p>
+        </div>
+
+        ${tc.sections.map(sec => `
+          <div class="terms-card-wrapper">
+            <div class="terms-header-row">
+              <span style="font-size: 1.3rem;">${sec.icon || '📌'}</span>
+              <h4>${sec.heading}</h4>
+            </div>
+            <ul class="terms-rules-list">
+              ${sec.rules.map(rule => `<li>${rule}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+
+        <div class="study-module-card" style="background: #F0FDF4; border: 1.5px solid #86EFAC; text-align: center; padding: 18px; margin-top: 16px;">
+          <div style="font-size: 1.6rem; margin-bottom: 6px;">✅</div>
+          <h4 style="color: #065F46; font-size: 1.05rem; font-weight: 800; margin-bottom: 6px;">Candidate Policy Agreement Verified</h4>
+          <p style="font-size: 0.88rem; color: #047857; margin-bottom: 0;">
+            By entering your passcode and using this study hub, you confirm compliance with all anti-cheating, proctoring, and copyright rules.
           </p>
         </div>
       `;

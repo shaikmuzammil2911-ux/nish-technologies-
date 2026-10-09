@@ -962,6 +962,26 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Digital Logic, Verilog RTL & State Machine Modeling',
         concepts: 'Combinational vs sequential logic, blocking (=) vs non-blocking (<=) assignments, Mealy vs Moore state machines, setup time (t_su), hold time (t_h), clock-to-q delay (t_cq), metastability, and RTL synthesis pipelines.',
+        conceptPillars: [
+          {
+                    "title": "Hardware Description Language (Verilog/SystemVerilog) Standards",
+                    "points": [
+                              "Combinational vs Sequential Modeling: Combinational networks must evaluate instantaneously using `assign` or `always @(*)` with complete sensitivity lists. Sequential networks MUST use edge-triggered clocks `always @(posedge clk or negedge rst_n)`.",
+                              "Blocking (=) vs Non-Blocking (<=) Mechanics: Blocking assignments execute in strict procedural order within the simulator; Non-blocking assignments calculate all right-hand sides during the Active event region and commit to left-hand registers during the Non-Blocking Assignment (NBA) region, eliminating simulation-synthesis race conditions.",
+                              "Avoiding Inadvertent Hardware Latches: Always assign default values to all outputs at the beginning of combinational `always` blocks or provide full `else` branches and `default` cases in `case` statements.",
+                              "Mealy vs Moore Finite State Machines (FSM): Moore machine outputs depend strictly on state registers (guaranteed glitch-free and clean timing); Mealy machine outputs depend on state and inputs (faster response, but vulnerable to input glitch propagation)."
+                    ]
+          },
+          {
+                    "title": "Timing Analysis, Metastability & Clock Domain Crossing (CDC)",
+                    "points": [
+                              "Setup Time (t_su) & Hold Time (t_h): Data input must arrive and stabilize at least t_su before the active clock edge, and remain unchanged for at least t_h after the edge.",
+                              "Metastability Physics: When setup or hold timing is violated, internal back-to-back inverters in the flip-flop settle into an intermediate voltage level (between logic 0 and 1) for an unpredictable settling duration.",
+                              "Dual-Flop Synchronizer: Cascading two D flip-flops clocked by the destination clock domain exponentially reduces the probability of metastability entering downstream logic (high MTBF).",
+                              "Asynchronous FIFO & Gray Coding: Pointers crossing clock domains are converted to Gray code so that only one bit transitions at any given step, preventing intermediate state corruption during multi-bit bus sampling."
+                    ]
+          }
+],
         practice: [
           {
             q: 'Why are non-blocking assignments (<=) strictly mandatory for sequential always blocks in Verilog?',
@@ -988,6 +1008,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Static Timing Analysis (STA), Physical Design & Fabrication',
         concepts: 'Setup/Hold slack calculations (Slack = Required - Arrival), Clock Tree Synthesis (CTS), skew and jitter budgeting, DRC (Design Rule Checking), LVS (Layout Versus Schematic), and FinFET scaling.',
+        conceptPillars: [
+          {
+                    "title": "Static Timing Analysis (STA) & Slack Equations",
+                    "points": [
+                              "Setup Slack Formulation: Slack_setup = (T_period + T_skew_capture - T_su - T_jitter) - (T_cq + T_data_path_max). Must be >= 0.",
+                              "Hold Slack Formulation: Slack_hold = (T_cq + T_data_path_min - T_skew_capture) - T_h. Must be >= 0.",
+                              "Fixing Timing Violations: Setup violations are remedied by pipeline register insertion, logic restructuring, or decreasing clock frequency; Hold violations CANNOT be fixed by changing clock frequency and require buffer insertion in the physical layout.",
+                              "On-Chip Variation (OCV) & Derating: Applying statistical timing derates (e.g., ±5-10%) to model temperature gradients, supply voltage IR drops, and silicon manufacturing variations."
+                    ]
+          },
+          {
+                    "title": "Physical Design Flow (RTL-to-GDSII) & DRC/LVS",
+                    "points": [
+                              "Floorplanning & Power Grid Design: Defining die core aspect ratio, I/O pin assignments, placement of memory SRAM macros, and building robust low-IR-drop VDD/VSS power meshes.",
+                              "Clock Tree Synthesis (CTS): Constructing balanced H-tree or multi-level clock distribution networks to minimize global clock skew and insertion delay.",
+                              "Signoff Verification: Design Rule Checking (DRC) for geometric silicon spacing, Layout Versus Schematic (LVS) for electrical connectivity matching, and Electrical Rule Checking (ERC)."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What does a positive Slack value indicate in Static Timing Analysis (STA)?',
@@ -1060,6 +1099,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Supervised Learning, Loss Optimization & Regularization',
         concepts: 'Linear/Logistic regression, Decision Trees, Random Forests, Gradient Boosting (XGBoost), Loss functions (MSE, Cross-Entropy), Bias-Variance Tradeoff, L1 Lasso / L2 Ridge regularization, and Adam optimizer.',
+        conceptPillars: [
+          {
+                    "title": "Mathematical Foundations, Loss Formulations & Optimization",
+                    "points": [
+                              "Loss Functions: Mean Squared Error (MSE) / Huber Loss for continuous regression; Binary / Categorical Cross-Entropy (Log-Loss) for probability classification.",
+                              "Gradient Descent Algorithms: Batch GD, Stochastic GD (SGD), Mini-Batch GD, and Adam (Adaptive Moment Estimation combining Momentum and RMSprop for sparse gradients).",
+                              "Bias-Variance Tradeoff: High bias results in underfitting (model unable to capture complexity); High variance results in overfitting (model captures training noise).",
+                              "L1 Lasso vs L2 Ridge Regularization: L1 adds absolute weight penalty (∑|w|), driving irrelevant weights to zero for feature selection; L2 adds squared weight penalty (∑w²), shrinking weights smoothly to prevent domination."
+                    ]
+          },
+          {
+                    "title": "Tree-Based Models, Bagging & Boosting Ecosystem",
+                    "points": [
+                              "Decision Trees & Splitting Criteria: Gini Impurity vs Information Gain (Shannon Entropy); pruning mechanisms (cost-complexity pruning, max depth, min samples split).",
+                              "Random Forests (Bagging): Training an ensemble of de-correlated decision trees using Bootstrap sampling and random feature subsets to drastically reduce model variance.",
+                              "Gradient Boosting Machines: Sequential weak-learner training where each subsequent tree minimizes pseudo-residuals of previous trees (XGBoost, LightGBM, CatBoost)."
+                    ]
+          }
+],
         practice: [
           {
             q: 'How does L1 Regularization (Lasso) differ fundamentally from L2 Regularization (Ridge)?',
@@ -1086,6 +1144,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Deep Learning, CNN Architectures & Production Deployment',
         concepts: 'Convolutional filters, pooling, dropout, batch normalization, transfer learning, quantization, ONNX export, and model drift monitoring.',
+        conceptPillars: [
+          {
+                    "title": "Deep Neural Networks, CNNs & Self-Attention Transformers",
+                    "points": [
+                              "Convolutional Operations: Kernels, feature maps, padding (valid/same), stride, and spatial pooling (Max/Average pooling) for translation-invariant feature extraction.",
+                              "Residual Networks (ResNet): Skip/identity connections allow gradients to backpropagate unimpeded across 100+ layers, completely mitigating the vanishing gradient dilemma.",
+                              "Transformer Self-Attention: Scaled Dot-Product Attention: Attention(Q, K, V) = softmax((Q × K^T) / sqrt(d_k)) × V, enabling parallel token context learning over linear RNN sequences.",
+                              "Regularization & Normalization: Dropout (random neuron deactivation during training), Batch Normalization (zero mean, unit variance per batch), and Layer Normalization (per-sample normalization)."
+                    ]
+          },
+          {
+                    "title": "MLOps, Evaluation Metrics & Production Serving",
+                    "points": [
+                              "Classification Metrics: Precision = TP / (TP + FP); Recall = TP / (TP + FN); F1-Score = 2*(Precision*Recall)/(Precision + Recall); ROC-AUC for threshold-invariant performance.",
+                              "Data Drift vs Concept Drift: Data Drift is covariate shift P(X); Concept Drift is true statistical relationship shift P(Y|X) requiring automated retraining triggers.",
+                              "Model Serialization & Acceleration: ONNX (Open Neural Network Exchange), TensorRT quantization (FP16/INT8), and Triton Inference Server deployments."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the primary function of Batch Normalization in deep convolutional neural networks?',
@@ -1153,6 +1230,34 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Core Java, JVM Internals & Multithreading',
         concepts: 'JVM architecture (ClassLoader, Heap, Stack, Metaspace), Garbage Collection algorithms (G1, ZGC), Collections framework, Immutability, volatile vs synchronized, Java 8+ Streams and Lambdas.',
+        conceptPillars: [
+          {
+                    "title": "JVM Runtime Architecture & Memory Organization",
+                    "points": [
+                              "ClassLoader Subsystem: Three-tier delegation hierarchy (Bootstrap, Platform/Extension, Application/System) with Loading, Linking (Verify, Prepare, Resolve), and Initialization stages.",
+                              "Runtime Memory Areas: Heap (shared object storage across threads, divided into Young Eden/Survivor and Old Tenured generations), JVM Stack (thread-private method call frames with Local Variable Table and Operand Stack), and Metaspace (native memory class metadata replacing PermGen).",
+                              "Garbage Collection Algorithms: Generational GC hypothesis; Mark-Sweep-Compact cycle; G1 GC (region-based with deterministic pause targets); ZGC & Shenandoah (ultra-low latency sub-millisecond concurrent collectors using colored pointers and load barriers).",
+                              "JIT Compilation: HotSpot JVM tiered compilation using C1 (fast client compilation) and C2 (heavy hotspot optimization, loop unrolling, and method inlining)."
+                    ]
+          },
+          {
+                    "title": "Java Concurrency, Memory Model (JMM) & Multithreading",
+                    "points": [
+                              "Java Memory Model & `volatile`: Guarantees memory visibility and prevents compiler instruction reordering via memory barriers (happens-before relationship); does NOT provide atomicity for compound operations.",
+                              "`synchronized` vs `ReentrantLock`: `synchronized` is JVM-managed intrinsic monitor locking; `ReentrantLock` provides explicit lock/unlock, tryLock timeout handling, interruptible locks, and fairness policies.",
+                              "ExecutorService & Thread Pools: CorePoolSize, MaxPoolSize, KeepAliveTime, WorkQueue (LinkedBlockingQueue vs ArrayBlockingQueue), and RejectionPolicies (AbortPolicy, CallerRunsPolicy).",
+                              "Virtual Threads (Project Loom / Java 21): Ultra-lightweight user-mode threads scheduled by JVM onto limited OS carrier threads, supporting millions of concurrent I/O-bound tasks."
+                    ]
+          },
+          {
+                    "title": "Modern Java & Collections Framework Internals",
+                    "points": [
+                              "HashMap Internals: Bucket array of Linked Nodes converting to Red-Black Trees when bucket size >= 8 (TREEIFY_THRESHOLD) and capacity >= 64, achieving O(log N) worst-case lookup.",
+                              "ConcurrentHashMap: Lock-free CAS (Compare-And-Swap) and synchronized bucket node locking, eliminating table-wide locks.",
+                              "Functional Java (8–21): Streams API (`map`, `filter`, `flatMap`, `reduce`, `collect`), Lambdas, Optional API, Records (immutable data carriers), Pattern Matching for switch, and Sealed Classes/Interfaces."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the difference between JVM Stack and Heap memory in Java?',
@@ -1179,6 +1284,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Spring Boot, Microservices & JPA/Hibernate',
         concepts: 'Spring Boot auto-configuration, REST controllers, Spring Security & JWT, JPA Entity lifecycle, N+1 query problem, transactions (@Transactional), and microservices circuit breakers (Resilience4j).',
+        conceptPillars: [
+          {
+                    "title": "Spring Core IoC Container & Dependency Injection Lifecycle",
+                    "points": [
+                              "Inversion of Control (IoC) & Bean Lifecycle: Bean definition reading -> Instantiation -> Property population -> BeanPostProcessor -> @PostConstruct -> Ready -> @PreDestroy.",
+                              "Core Annotations: @Component, @Service, @Repository, @RestController, @Autowired (Constructor Injection strongly recommended for immutability and easy unit testing with Mockito).",
+                              "Spring Boot Auto-Configuration: @SpringBootApplication activates @EnableAutoConfiguration and @ComponentScan; evaluates conditional triggers (@ConditionalOnClass, @ConditionalOnProperty) from spring.factories."
+                    ]
+          },
+          {
+                    "title": "Hibernate / JPA ORM & Microservices Resilience",
+                    "points": [
+                              "JPA Entity States & Caching: Transient, Persistent, Detached, Removed; First-Level Session Cache and Second-Level Shared Cache (Redis/Ehcache).",
+                              "Resolving N+1 Query Problem: Use `JOIN FETCH` in JPQL or specify `@EntityGraph` to eagerly load related associations in a single SQL query instead of N extra queries.",
+                              "Microservices Resilience Patterns: Resilience4j Circuit Breaker (Closed -> Open -> Half-Open state transitions), Rate Limiter, Retry with exponential backoff, and Bulkhead isolation.",
+                              "Spring Cloud Ecosystem: Spring Cloud Gateway for centralized routing/authentication, Eureka/Consul for Service Discovery, Distributed Tracing with OpenTelemetry/Zipkin, and Apache Kafka for asynchronous event-driven messaging."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the JPA/Hibernate "N+1 Query Problem" and how is it resolved?',
@@ -1242,6 +1366,33 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Advanced Python Internals, Concurrency & Memory Model',
         concepts: 'CPython Global Interpreter Lock (GIL), GIL implications for multi-threading vs multi-processing, memory management (arena allocator, cyclic garbage collection), *args/**kwargs, decorators, context managers (__enter__, __exit__), and generator memory efficiency.',
+        conceptPillars: [
+          {
+                    "title": "CPython Memory Management, Reference Counting & GIL",
+                    "points": [
+                              "Global Interpreter Lock (GIL): CPython mutex ensuring thread safety for internal memory management; single process runs bytecode on one CPU core at a time; bypassed via `asyncio` for I/O and `multiprocessing` for CPU-bound tasks.",
+                              "Garbage Collection & Reference Counting: Immediate deallocation when reference count reaches 0; generational cyclic GC (Gen 0, 1, 2) detects and frees circular references.",
+                              "Advanced Python Constructs: Generators (`yield`) for memory-efficient lazy streams, Decorators (closures extending function behaviors), Context Managers (`with` statement via `__enter__`/`__exit__`), and Metaclasses (`type`).",
+                              "Modern Typing & Validation: `typing` module, Pydantic BaseModel schemas, `@dataclass`, and structural pattern matching (`match-case`)."
+                    ]
+          },
+          {
+                    "title": "Asynchronous Concurrency (`asyncio`) & Backend Frameworks",
+                    "points": [
+                              "Event Loop & Coroutines: Single-threaded non-blocking cooperative concurrency using `async`/`await`, `asyncio.gather()`, and `asyncio.create_task()`, achieving 50k+ req/sec for I/O.",
+                              "FastAPI & Starlette: ASGI web framework with automatic OpenAPI/Swagger documentation, dependency injection, and Pydantic serialization.",
+                              "Django Architecture & ORM: Model-Template-View (MTV) pattern; optimizing queries using `select_related()` (SQL inner join for single relationships) and `prefetch_related()` (batch query for many relationships); Django REST Framework (DRF) viewsets."
+                    ]
+          },
+          {
+                    "title": "NumPy Vectorization & High-Performance Data Processing",
+                    "points": [
+                              "NumPy C-Contiguous Arrays: SIMD vectorized computations bypassing Python loop overhead; broadcasting rules across unequal tensor shapes.",
+                              "Pandas Optimization: Avoid row-wise iteration (`.iterrows()`); use vectorized column operations, categorical data types, and chunked read (`chunksize`) for gigabyte-scale datasets.",
+                              "Production Stack: Gunicorn process manager with Uvicorn worker threads running behind Nginx reverse proxy with SSL termination."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the Global Interpreter Lock (GIL) in CPython and what is its primary effect on CPU-bound multi-threaded programs?',
@@ -1314,6 +1465,24 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Frontend Architecture, React Internals & Modern JavaScript',
         concepts: 'Virtual DOM diffing algorithm, React Fiber, hooks (useEffect, useMemo, useCallback), closures, event bubbling/delegation, asynchronous event loops (Microtasks vs Macrotasks), and CSS Grid/Flexbox layouts.',
+        conceptPillars: [
+          {
+                    "title": "React Architecture, Virtual DOM & Fiber Reconciler",
+                    "points": [
+                              "Virtual DOM & React Fiber: Incremental reconciliation, split-phase rendering (Render phase: pure, cancellable; Commit phase: DOM mutations), and automatic state batching.",
+                              "Hooks Mastery: `useState`, `useEffect` (lifecycle management & cleanup), `useCallback` and `useMemo` for referential stability, `useRef` for persistent references without re-renders, and `useContext`.",
+                              "State Management: Redux Toolkit (RTK Query for automatic cache invalidation and normalized state), Zustand for lightweight atomic stores, and TanStack React Query for asynchronous server-state management.",
+                              "Next.js App Router & SSR: React Server Components (RSC) for zero-bundle server rendering, Client Components (`'use client'`), Static Site Generation (SSG), and Server Actions for form submissions."
+                    ]
+          },
+          {
+                    "title": "Browser Internals, CSS Architecture & Web Performance",
+                    "points": [
+                              "Critical Rendering Path: HTML Parsing -> DOM -> CSSOM -> Render Tree -> Layout (Reflow) -> Paint -> GPU Compositing.",
+                              "Core Web Vitals Optimization: Largest Contentful Paint (LCP < 2.5s), Interaction to Next Paint (INP < 200ms), and Cumulative Layout Shift (CLS < 0.1); dynamic code splitting with `React.lazy()` and WebP/AVIF images."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the fundamental difference between the JavaScript Microtask Queue and Macrotask (Callback) Queue?',
@@ -1340,6 +1509,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Backend API Design, Authentication & System Scalability',
         concepts: 'JWT token signing vs session cookies, OAuth 2.0 flows, SQL ACID guarantees vs NoSQL BASE, Redis caching strategies (Cache-Aside, Write-Through), and horizontal scaling with load balancers.',
+        conceptPillars: [
+          {
+                    "title": "Node.js Event Loop & Asynchronous Backend Architecture",
+                    "points": [
+                              "Libuv Event Loop: Microtasks (`process.nextTick`, Promises) take precedence over Macrotask phases (Timers -> Pending I/O -> Poll -> Check `setImmediate` -> Close callbacks).",
+                              "RESTful API & Security Hardening: Idempotency, standard HTTP status codes, CORS configuration, Helmet.js security headers, bcrypt/Argon2 password hashing, and JWT token rotation in HttpOnly SameSite cookies.",
+                              "Rate Limiting & Caching: Distributed Redis token bucket rate limiting and in-memory response caching for hot endpoints."
+                    ]
+          },
+          {
+                    "title": "Database Engineering, WebSockets & Deployment",
+                    "points": [
+                              "PostgreSQL Relational Design: ACID transactions, B-tree/GIN indexing, foreign key constraints, connection pooling with Prisma/TypeORM.",
+                              "MongoDB NoSQL Design: Document modeling, embedding vs referencing, replica sets, and Aggregation Framework pipelines ($match, $group, $lookup).",
+                              "Real-Time WebSockets: Socket.io for bidirectional communication, heartbeat pings, room broadcasting, and fallback polling.",
+                              "Docker & CI/CD: Multi-stage Docker builds, GitHub Actions automated workflows, and production hosting on AWS ECS / Vercel."
+                    ]
+          }
+],
         practice: [
           {
             q: 'Where should JWT refresh tokens be securely stored on client browsers to prevent XSS theft?',
@@ -1403,6 +1591,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Statistical Inference, Hypothesis Testing & Feature Engineering',
         concepts: 'Probability distributions (Normal, Binomial, Poisson), Central Limit Theorem (CLT), p-values, z-test/t-test, ANOVA, Chi-Square tests, handling missing data (MICE, median imputation), and outlier detection (IQR, Z-score).',
+        conceptPillars: [
+          {
+                    "title": "Inferential Statistics, Probability & Hypothesis Testing",
+                    "points": [
+                              "Distributions & Central Limit Theorem: Regardless of initial distribution, sample means of sufficiently large sample sizes (N > 30) approximate a Normal Gaussian distribution.",
+                              "Hypothesis Testing Framework: Null (H0) vs Alternative (H1); p-value significance (alpha = 0.05); Type I (False Positive) vs Type II (False Negative) errors; Two-sample t-test, ANOVA, and Chi-Square test of independence.",
+                              "Exploratory Data Analysis: Correlation analysis (Pearson linear, Spearman monotonic), variance inflation factor (VIF for multicollinearity), skewness, and kurtosis."
+                    ]
+          },
+          {
+                    "title": "Data Preprocessing, Encoding & Predictive Modeling",
+                    "points": [
+                              "Imputation & Outlier Treatment: Mean/median for numerical data, mode for categorical, KNN imputer, and MICE (Multiple Imputation by Chained Equations); IQR method and Isolation Forests.",
+                              "Encoding & Scaling: One-Hot Encoding vs Target Encoding (with smoothing); StandardScaler vs MinMaxScaler vs RobustScaler.",
+                              "Dimensionality Reduction & Clustering: PCA for variance maximization along orthogonal eigenvectors; K-Means (Elbow method, Silhouette score), and DBSCAN for arbitrary spatial clusters.",
+                              "Advanced SQL: Window functions (`ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`), CTEs, subqueries, and execution plans (`EXPLAIN ANALYZE`)."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the Central Limit Theorem (CLT) and why is it fundamental in Data Science?',
@@ -1470,6 +1677,26 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'OWASP Top 10, Cryptography & Threat Mitigation',
         concepts: 'SQL Injection (SQLi), Cross-Site Scripting (XSS), CSRF, Zero Trust Architecture, Public Key Infrastructure (PKI), TLS handshake, Port scanning (Nmap), and WAF (Web Application Firewalls).',
+        conceptPillars: [
+          {
+                    "title": "Network Security, Protocols & Cryptographic Foundations",
+                    "points": [
+                              "Protocols & Encrypted Handshakes: TCP 3-way handshake (SYN, SYN-ACK, ACK); TLS 1.3 cryptographic handshake; DNS, ARP poisoning, and DHCP spoofing defense.",
+                              "Cryptographic Systems: Symmetric encryption (AES-256-GCM); Asymmetric encryption (RSA-4096, ECC); Hashing (SHA-256, bcrypt); Public Key Infrastructure (PKI) and digital certificates.",
+                              "Firewalls & Defense in Depth: Packet filtering, stateful inspection, Next-Gen Firewalls (NGFW with application-layer deep inspection), and Snort/Suricata IDS/IPS."
+                    ]
+          },
+          {
+                    "title": "OWASP Top 10 Web Security & Penetration Testing",
+                    "points": [
+                              "SQL Injection (SQLi): Prevented by parameterized queries, prepared statements, and ORM abstractions.",
+                              "Cross-Site Scripting (XSS): Contextual output encoding, Content Security Policy (CSP) headers, and HttpOnly cookies to mitigate cookie theft.",
+                              "Broken Authorization (BOLA/IDOR): Strict server-side object ownership verification before database query execution.",
+                              "5-Phase Pen-Testing Cycle: Reconnaissance (OSINT, Whois, Shodan) -> Scanning (Nmap, Nessus) -> Exploitation (Metasploit, Burp Suite Pro) -> Post-Exploitation & Privilege Escalation -> Reporting.",
+                              "Security Operations Center (SOC) & Zero Trust: Splunk/Sentinel SIEM log correlation for IOCs; NIST SP 800-61 Incident Response; 'Never Trust, Always Verify' architecture."
+                    ]
+          }
+],
         practice: [
           {
             q: 'How do Parameterized Queries (Prepared Statements) prevent SQL Injection attacks completely?',
@@ -1536,6 +1763,26 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'Cloud Architecture, Containerization & CI/CD Pipelines',
         concepts: 'IaaS vs PaaS vs SaaS, VPC networking & subnets, Docker image layers & multi-stage builds, Kubernetes Pods/Deployments/Services, CI/CD automated gates, and Auto Scaling groups.',
+        conceptPillars: [
+          {
+                    "title": "Cloud Infrastructure, AWS/Azure Core Services & Networking",
+                    "points": [
+                              "Service Models: IaaS (EC2/Azure VM), PaaS (Elastic Beanstalk/App Service), SaaS, and Serverless FaaS (AWS Lambda/Azure Functions).",
+                              "Virtual Private Cloud (VPC): Public/Private subnets, Internet Gateways (IGW), NAT Gateways, Route Tables, Stateful Security Groups, and Stateless Network ACLs.",
+                              "IAM Best Practices: Principle of Least Privilege (PoLP), IAM Roles (temporary STS credentials), Multi-Factor Authentication, and Service Control Policies (SCPs).",
+                              "Storage & High Availability: Block Storage (EBS), Object Storage (S3 with lifecycle transitions and bucket versioning), and Multi-AZ / Multi-Region replication."
+                    ]
+          },
+          {
+                    "title": "Docker, Kubernetes (K8s), Terraform & CI/CD",
+                    "points": [
+                              "Docker Engineering: Multi-stage Dockerfiles, minimal base images (Alpine/Distroless), non-root security contexts, and layer caching optimization.",
+                              "Kubernetes Core Architecture: Control Plane (API Server, etcd, Kube-Scheduler, Kube-Controller-Manager) and Worker Nodes (Kubelet, Kube-Proxy, Containerd).",
+                              "Workload Resources: Pods, Deployments (Rolling Updates, Rollbacks), StatefulSets, Services (ClusterIP, NodePort, LoadBalancer), and Ingress Controllers with TLS.",
+                              "Infrastructure as Code (IaC): Terraform (HCL), remote state with S3 + DynamoDB locking, modules, and automated GitHub Actions CI/CD pipelines with ArgoCD GitOps."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the primary architectural purpose of a Kubernetes Ingress Controller?',
@@ -1597,6 +1844,25 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'IoT Protocols, Hardware Interfacing & Edge Computing',
         concepts: 'MQTT Publish/Subscribe broker architecture, QoS levels (0, 1, 2), I2C two-wire bus vs SPI multi-wire speed, power optimization for battery-operated nodes, and OTA firmware updates.',
+        conceptPillars: [
+          {
+                    "title": "Embedded Microcontrollers & Low-Level Interfaces",
+                    "points": [
+                              "Microcontroller Architectures: ESP32 (dual-core Xtensa, Wi-Fi + BLE), STM32 (ARM Cortex-M), Arduino (AVR), and Raspberry Pi (ARM Cortex-A SBC).",
+                              "Hardware Communication Protocols: UART (asynchronous serial), I2C (synchronous 2-wire SDA/SCL, multi-device addressing), and SPI (synchronous 4-wire MOSI/MISO/SCK/SS, high speed).",
+                              "GPIO, ADC & PWM: Analog-to-Digital Conversion (ADC resolution, voltage reference), Pulse Width Modulation (PWM), and Interrupt Service Routines (ISRs)."
+                    ]
+          },
+          {
+                    "title": "IoT Wireless Networking, Cloud Backends & OTA Security",
+                    "points": [
+                              "MQTT (Message Queuing Telemetry Transport): Lightweight pub/sub protocol over TCP/IP, 2-byte header, QoS levels (0, 1, 2), and Last Will & Testament (LWT).",
+                              "CoAP & LoRaWAN: CoAP (UDP-based RESTful protocol for constrained nodes); LoRaWAN (long-range low-power sub-GHz RF transmission for smart cities).",
+                              "Cloud IoT Backends: AWS IoT Core, Azure IoT Hub with Device Shadow / Digital Twin synchronization.",
+                              "Firmware Security: Secure Boot with cryptographic signature verification and Dual-Partition Over-the-Air (OTA) firmware rollback."
+                    ]
+          }
+],
         practice: [
           {
             q: 'Why is MQTT the preferred messaging protocol for resource-constrained IoT devices over HTTP?',
@@ -1658,6 +1924,23 @@ export const DOMAIN_STUDY_GUIDES = {
       {
         title: 'SEO Writing, Search Intent & Keyword Optimization',
         concepts: 'Understanding 4 search intents (Informational, Navigational, Commercial, Transactional). Meta optimization (Title <60 chars, Meta Description <160 chars), H1-H4 structural tagging, LSI keyword distribution (1-2% density), and voice search readability.',
+        conceptPillars: [
+          {
+                    "title": "Technical Documentation Standards & Information Architecture",
+                    "points": [
+                              "Diátaxis Documentation Framework: Tutorials (learning-oriented), How-to Guides (problem-oriented), Reference (information-oriented), and Explanation (understanding-oriented).",
+                              "Readability & Tone: Active voice, clear sentence structures, Flesch-Kincaid Grade Level scoring (targeting Grade 7-9 for broad comprehension), and structured hierarchy (H1 -> H2 -> H3)."
+                    ]
+          },
+          {
+                    "title": "Search Engine Optimization (SEO) & Search Intent",
+                    "points": [
+                              "Search Intent Classification: Informational ('what is'), Navigational ('login'), Commercial Investigation ('best tools'), and Transactional ('pricing/enroll').",
+                              "On-Page Technical SEO: Title tag optimization (< 60 chars), meta descriptions (< 160 chars), semantic HTML5 tags, descriptive anchor text, keyword density without stuffing, and internal linking strategies.",
+                              "E-E-A-T Framework: Google Experience, Expertise, Authoritativeness, and Trustworthiness guidelines for high-ranking domain authority."
+                    ]
+          }
+],
         practice: [
           {
             q: 'What is the optimal keyword density recommended in modern SEO writing to prevent search engine keyword stuffing penalties?',
@@ -1801,6 +2084,7 @@ export function getStudyMaterialForDomain(domainKey) {
 
   return {
     totalQuestionsCount: totalAptitudeQs + domainQsCount,
+    termsAndConditions: EXAM_TERMS_AND_CONDITIONS,
     aptitudeModules: APTITUDE_STUDY_MODULES,
     domainGuide: domainGuide,
     glassdoorData: domainGuide.glassdoorData,
@@ -1822,3 +2106,74 @@ export function getStudyMaterialForDomain(domainKey) {
     }
   };
 }
+
+
+export const EXAM_TERMS_AND_CONDITIONS = {
+  title: "Nish Technologies Examination Terms, Conditions & Candidate Code of Conduct",
+  lastUpdated: "October 2026",
+  sections: [
+    {
+      heading: "1. Security Passcode & Access Authorization",
+      icon: "🔐",
+      rules: [
+        "The Study Material Hub and Online Qualifier Examination are protected by a unique Candidate Passcode issued exclusively upon verified registration.",
+        "Passcodes are strictly non-transferable. Attempting to share, resell, publish, or distribute passcodes or study materials will result in immediate disqualification and permanent blacklisting from all future Nish Technologies placement and internship drives.",
+        "Each passcode permits a single active session. Concurrent logins from multiple devices will trigger automated session revocation."
+      ]
+    },
+    {
+      heading: "2. Proprietary Intellectual Property & Copyright Notice",
+      icon: "⚖️",
+      rules: [
+        "All study materials, aptitude question banks, domain engineering guides, Glassdoor/AmbitionBox curated datasets, diagrams, code snippets, and explanations are the proprietary intellectual property of Nish Technologies Inc.",
+        "Reproduction, scraping, screenshot distribution, OCR extraction, or unauthorized uploading to third-party academic portals without express written consent constitutes copyright infringement subject to legal action under applicable cyber laws."
+      ]
+    },
+    {
+      heading: "3. Sunday 6:00 PM Qualifier Examination Protocol",
+      icon: "🎯",
+      rules: [
+        "The Qualifier Examination is scheduled strictly for every Sunday from 6:00 PM to 7:00 PM IST (60 minutes duration).",
+        "The examination comprises exactly 45 Multiple Choice Questions (20 Quantitative Aptitude & Logical Reasoning + 25 Domain-Specific Technical Questions).",
+        "The test is strictly single-attempt. Once started, the countdown timer runs continuously and will auto-submit upon expiration.",
+        "AI Proctoring is actively enforced throughout the exam. Candidates must grant continuous web camera and microphone permissions."
+      ]
+    },
+    {
+      heading: "4. Zero-Tolerance Malpractice & Anti-Cheating Guidelines",
+      icon: "🚨",
+      rules: [
+        "Browser Tab-Switching Prohibition: Candidates must remain in the active exam window throughout the 60 minutes. Switching tabs or minimizing the window triggers the Flashing Red Malpractice Alert. Accumulating three (3) tab switches results in immediate exam termination with zero score.",
+        "Multiple Face / No Face Detection: The proctoring system continuously validates that exactly one candidate is present and centered in the camera feed. Secondary individuals or face absence triggers violation strikes.",
+        "Audio & Speech Monitoring: Background voices, telephone conversations, or artificial reading assistance are monitored in real time by the audio frequency meter.",
+        "Electronic Device Ban: Use of smartphones, second monitors, smartwatches, or external communication tools during the exam is strictly prohibited."
+      ]
+    },
+    {
+      heading: "5. Internship Selection, Stipend & Evaluation Criteria",
+      icon: "💼",
+      rules: [
+        "The minimum qualifying score benchmark is 65% aggregate (at least 30 out of 45 correct answers).",
+        "Top 10 Rankers across all technology domains in each Sunday cycle will be awarded the prestigious ₹30,000/Month Stipend-Based Internship at Nish Technologies.",
+        "Qualifier rankings are determined by aggregate score, accuracy rate, and total completion time.",
+        "Official Verified Digital Certificates will be published on the Student Dashboard within 48 hours of test completion for all candidates achieving >= 65%."
+      ]
+    },
+    {
+      heading: "6. Fee Policy & Registration Terms",
+      icon: "💳",
+      rules: [
+        "Registration fees cover administrative proctoring overhead, automated certificate verification, and unlimited access to the Study Material Hub.",
+        "All registration fees are non-refundable once the personalized Candidate Passcode has been generated and dispatched.",
+        "In the event of verified medical emergency or technical disruption on the provider side, candidates may request a one-time rescheduling to the subsequent Sunday exam cycle by contacting support@nishtechnologies.com."
+      ]
+    },
+    {
+      heading: "7. Candidate Declaration & Acceptance",
+      icon: "✍️",
+      rules: [
+        "By accessing this Study Material Hub or launching the Examination Simulator, the candidate explicitly confirms having read, understood, and agreed to adhere to all terms, proctoring guidelines, and code of conduct policies stipulated by Nish Technologies Inc."
+      ]
+    }
+  ]
+};
