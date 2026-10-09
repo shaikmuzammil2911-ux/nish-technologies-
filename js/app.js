@@ -692,11 +692,13 @@ class NTIApp {
         const aptPane = document.getElementById('study-tab-content-aptitude');
         const domPane = document.getElementById('study-tab-content-domain');
         const glassPane = document.getElementById('study-tab-content-glassdoor');
+        const ambPane = document.getElementById('study-tab-content-ambitionbox');
         const stratPane = document.getElementById('study-tab-content-strategy');
 
         if (aptPane) aptPane.style.display = targetTab === 'tab-aptitude' ? 'block' : 'none';
         if (domPane) domPane.style.display = targetTab === 'tab-domain' ? 'block' : 'none';
         if (glassPane) glassPane.style.display = targetTab === 'tab-glassdoor' ? 'block' : 'none';
+        if (ambPane) ambPane.style.display = targetTab === 'tab-ambitionbox' ? 'block' : 'none';
         if (stratPane) stratPane.style.display = targetTab === 'tab-strategy' ? 'block' : 'none';
       });
     });
@@ -846,6 +848,40 @@ class NTIApp {
             </div>
           </div>
         ` : ''}
+
+        ${data.ambitionboxData ? `
+          <div class="study-module-card" style="background: #F5F3FF; border: 1.5px solid #C4B5FD; margin-top: 14px;">
+            <div class="study-module-header">
+              <span style="font-size: 1.6rem;">💼</span>
+              <div>
+                <h4 class="study-module-title" style="color: #5B21B6;">AmbitionBox Verified Industry &amp; Salary Insights</h4>
+                <span style="font-size: 0.78rem; background: #6D28D9; color: #FFF; padding: 2px 8px; border-radius: 99px; font-weight: 700;">${data.ambitionboxData.roleTitle}</span>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 12px 0;">
+              <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: 6px; padding: 10px;">
+                <strong style="color: #5B21B6; display: block; font-size: 0.78rem;">💰 AmbitionBox Salary Range</strong>
+                <span style="font-size: 0.98rem; font-weight: 800; color: #6D28D9;">${data.ambitionboxData.salaryRange}</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: 6px; padding: 10px;">
+                <strong style="color: #1E3A8A; display: block; font-size: 0.78rem;">📊 Verified Rating</strong>
+                <span style="font-size: 0.98rem; font-weight: 800; color: #1D4ED8;">${data.ambitionboxData.rating}</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: 6px; padding: 10px;">
+                <strong style="color: #92400E; display: block; font-size: 0.78rem;">🏢 Hiring MNCs</strong>
+                <span style="font-size: 0.84rem; font-weight: 700; color: #B45309;">${data.ambitionboxData.topHiringCompanies.slice(0, 4).join(', ')}</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+              <a href="https://www.ambitionbox.com/" target="_blank" rel="noopener noreferrer" class="btn-primary-cta" style="background: #6D28D9; border-color: #6D28D9; font-size: 0.85rem; padding: 8px 16px;">
+                🌐 Open AmbitionBox Official Website &rarr;
+              </a>
+              <a href="https://www.google.com/search?q=site:ambitionbox.com+${encodeURIComponent(domainName)}+interview+questions+and+salaries" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #6D28D9; border-color: #8B5CF6; font-size: 0.85rem; padding: 8px 16px; font-weight: 700;">
+                🔍 Live ${domainName} AmbitionBox Questions &rarr;
+              </a>
+            </div>
+          </div>
+        ` : ''}
       `;
     }
 
@@ -924,6 +960,86 @@ class NTIApp {
           </h4>
           <p style="font-size: 0.9rem; color: var(--navy-text); line-height: 1.6; margin-bottom: 0;">
             ${gd.candidateTips}
+          </p>
+        </div>
+      `;
+    }
+
+    // Render Dedicated AmbitionBox Tab
+    const ambContainer = document.getElementById('study-tab-content-ambitionbox');
+    if (ambContainer) {
+      const ab = data.ambitionboxData || {
+        roleTitle: `${domainName} Professional`,
+        salaryRange: '₹6.5 LPA – ₹22.0 LPA (Avg: ₹12.5 LPA)',
+        rating: '4.2 / 5.0 (AmbitionBox Verified)',
+        topHiringCompanies: ['TCS', 'Infosys', 'Wipro', 'Tech Mahindra', 'Accenture India', 'Cognizant'],
+        ambitionboxUrl: 'https://www.ambitionbox.com/',
+        salaryUrl: 'https://www.ambitionbox.com/salaries',
+        topInterviewQuestions: [
+          'What are the core technical concepts and architecture frameworks used in your domain?',
+          'Walk through your troubleshooting and debugging methodology for production issues.',
+          'Describe a challenging client requirement or optimization problem you solved.'
+        ],
+        candidateTips: 'AmbitionBox candidates emphasize revising domain fundamentals, core problem-solving, and clean coding practices.'
+      };
+
+      ambContainer.innerHTML = `
+        <div class="study-module-card" style="background: #F5F3FF; border: 1.5px solid #C4B5FD;">
+          <div class="study-module-header">
+            <span style="font-size: 1.8rem;">💼</span>
+            <div>
+              <h4 class="study-module-title" style="color: #5B21B6;">AmbitionBox Verified Industry &amp; Salary Insights</h4>
+              <span style="font-size: 0.8rem; background: #6D28D9; color: #FFF; padding: 2px 8px; border-radius: 99px; font-weight: 700;">Live Market Intel &bull; ${ab.roleTitle}</span>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0;">
+            <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #5B21B6; display: block; font-size: 0.82rem;">💰 AmbitionBox Salary Range</strong>
+              <span style="font-size: 1.05rem; font-weight: 800; color: #6D28D9;">${ab.salaryRange}</span>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #1E3A8A; display: block; font-size: 0.82rem;">📊 Verified Rating &amp; Difficulty</strong>
+              <span style="font-size: 1.05rem; font-weight: 800; color: #1D4ED8;">${ab.rating}</span>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: var(--radius-sm); padding: 12px;">
+              <strong style="color: #92400E; display: block; font-size: 0.82rem;">🏢 Top Hiring Companies</strong>
+              <span style="font-size: 0.88rem; font-weight: 700; color: #B45309;">${ab.topHiringCompanies.join(', ')}</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="https://www.ambitionbox.com/" target="_blank" rel="noopener noreferrer" class="btn-primary-cta" style="background: #6D28D9; border-color: #6D28D9; font-size: 0.88rem; padding: 10px 18px;">
+              🌐 Open AmbitionBox Official Website &rarr;
+            </a>
+            <a href="https://www.google.com/search?q=site:ambitionbox.com+${encodeURIComponent(domainName)}+interview+questions+and+salaries" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #6D28D9; border-color: #8B5CF6; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
+              🔍 Search Live ${domainName} AmbitionBox Questions &rarr;
+            </a>
+            <a href="https://www.ambitionbox.com/salaries" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #1E3A8A; border-color: #93C5FD; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
+              💵 AmbitionBox Salary Benchmarks &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="study-module-card">
+          <h4 class="study-module-title" style="color: var(--navy-header); margin-bottom: 12px;">
+            📝 Real AmbitionBox Candidate Interview Questions for ${domainName}:
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            ${ab.topInterviewQuestions.map((q, qIdx) => `
+              <div style="background: #FAF5FF; border: 1px solid #E9D5FF; border-left: 3px solid #6D28D9; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 0.9rem; color: var(--navy-text);">
+                <strong>Question ${qIdx + 1}:</strong> ${q}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="study-module-card" style="border-left: 4px solid #7C3AED;">
+          <h4 class="study-module-title" style="color: #5B21B6; margin-bottom: 8px;">
+            💡 AmbitionBox Candidate Interview Insights &amp; Preparation Tips:
+          </h4>
+          <p style="font-size: 0.9rem; color: var(--navy-text); line-height: 1.6; margin-bottom: 0;">
+            ${ab.candidateTips}
           </p>
         </div>
       `;

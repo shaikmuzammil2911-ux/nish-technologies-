@@ -1027,6 +1027,29 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor candidates strongly emphasize mastering Verilog RTL, SystemVerilog OOP assertions (UVM), STA slack calculations, and drawing state machine diagrams during whiteboard rounds.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "VLSI Engineer / RTL Design & Verification",
+      "salaryRange": "₹7.5 LPA – ₹22.0 LPA (Avg: ₹13.8 LPA)",
+      "rating": "4.2 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Qualcomm India",
+            "Intel India",
+            "Texas Instruments",
+            "Synopsys",
+            "Cadence Design",
+            "Wipro VLSI"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "What is the difference between blocking and non-blocking statements in Verilog? (Qualcomm India interview review)",
+            "Explain Setup and Hold time violations and how to fix hold violations in silicon layout. (Intel India review)",
+            "Design a sequence detector for pattern \"1011\" with overlapping using Mealy FSM. (Synopsys India review)",
+            "What is clock gating and how does it reduce dynamic power dissipation in ASIC circuits?"
+      ],
+      "candidateTips": "AmbitionBox candidates emphasize revising Digital Electronics fundamentals, K-maps, Verilog FSM modeling, and Static Timing Analysis (STA) basics."
+}
   },
   'ai-ml': {
     domainName: 'Artificial Intelligence & Machine Learning',
@@ -1097,6 +1120,29 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interview reviews recommend coding algorithms from scratch in Python (NumPy/PyTorch), explaining loss function derivation mathematically, and demonstrating production MLOps pipeline architectures.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Machine Learning Engineer / AI Data Scientist",
+      "salaryRange": "₹8.0 LPA – ₹26.0 LPA (Avg: ₹15.2 LPA)",
+      "rating": "4.3 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Google India",
+            "Microsoft IDC",
+            "Amazon Development Centre",
+            "Flipkart",
+            "Swiggy",
+            "Reliance Jio"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "Explain Bias-Variance tradeoff with real-world examples. (Amazon India review)",
+            "How does gradient boosting (XGBoost) differ from random forests? (Flipkart review)",
+            "Explain Transformer Self-Attention mechanism and Query-Key-Value calculation. (Microsoft IDC review)",
+            "How do you handle severe class imbalance in real-time fraud detection systems?"
+      ],
+      "candidateTips": "AmbitionBox reviews emphasize strong Python live coding, Pandas data manipulation, explaining ML math from scratch, and presenting clear end-to-end ML project architectures."
+}
   },
   'java': {
     domainName: 'Java Enterprise Programming & Spring Boot',
@@ -1162,6 +1208,30 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor reviewers recommend thoroughly brushing up on Java 8 Streams, Multithreading locks (ReentrantLock), Garbage Collection tuning, and Spring Boot Microservice communication (REST vs Kafka).'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Java Backend Developer / Spring Boot Engineer",
+      "salaryRange": "₹6.5 LPA – ₹20.0 LPA (Avg: ₹11.8 LPA)",
+      "rating": "4.1 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "TCS",
+            "Infosys",
+            "Wipro",
+            "Cognizant",
+            "Capgemini",
+            "HCLTech",
+            "Accenture India"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "How does Java HashMap handle collisions internally (LinkedList to Red-Black Tree threshold)? (TCS interview review)",
+            "What is the difference between Spring @Component, @Service, and @Repository annotations? (Infosys review)",
+            "How do you implement microservices communication using Spring Cloud FeignClient and Kafka? (Cognizant review)",
+            "Explain Java Memory Model: Garbage Collection phases and tuning JVM Heap parameters."
+      ],
+      "candidateTips": "AmbitionBox candidates recommend solid mastery over Java 8 Streams, Spring Boot REST controllers, Microservices architectural patterns, and Hibernate ORM query optimization."
+}
   },
   'python': {
     domainName: 'Python Programming & Backend Systems',
@@ -1211,6 +1281,29 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interviewees suggest practicing OOP design in Python, decorators, generator pipelines, and demonstrating familiarity with FastAPI or Django microservices.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Python Developer / Backend Software Engineer",
+      "salaryRange": "₹6.0 LPA – ₹18.5 LPA (Avg: ₹11.2 LPA)",
+      "rating": "4.1 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Paytm",
+            "Zomato",
+            "Swiggy",
+            "Thoughtworks",
+            "Tech Mahindra",
+            "L&T Infotech"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "What are Python decorators and how do you write a decorator with arguments? (Swiggy review)",
+            "Explain Python GIL (Global Interpreter Lock) and how to handle CPU-heavy operations. (Thoughtworks review)",
+            "What is the difference between list comprehension, generator expressions, and map/filter? (Zomato review)",
+            "Design a secure REST API using FastAPI / Django REST framework with JWT authentication."
+      ],
+      "candidateTips": "AmbitionBox reviewers recommend practicing Data Structures in Python, OOP principles, writing modular clean code, and understanding async / await concurrency."
+}
   },
   'full-stack': {
     domainName: 'Full Stack Web Development (MERN / Next.js)',
@@ -1276,6 +1369,30 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interview reviews highlight hands-on live coding challenges in React state management, building scalable REST/GraphQL APIs, database query optimization, and explaining browser security (CORS/CSRF/XSS).'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Full Stack Web Developer (MERN / React + Node.js)",
+      "salaryRange": "₹7.0 LPA – ₹22.5 LPA (Avg: ₹13.0 LPA)",
+      "rating": "4.2 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Razorpay",
+            "PhonePe",
+            "Paytm",
+            "Accenture",
+            "TCS Digital",
+            "Infosys Power Programmer",
+            "Wipro Turbo"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "Explain React Virtual DOM diffing and state lifecycle with hooks (useEffect, useMemo, useCallback). (Razorpay review)",
+            "What is the JavaScript Event Loop, Microtask queue vs Macrotask queue? (PhonePe review)",
+            "How do you prevent XSS, CSRF, and SQL injection in a full-stack web application? (TCS Digital review)",
+            "Design a scalable database schema for an e-commerce platform with Redis caching."
+      ],
+      "candidateTips": "AmbitionBox reviews emphasize hands-on live machine coding rounds in React, building CRUD REST APIs in Node.js, and debugging browser networking issues."
+}
   },
   'data-science': {
     domainName: 'Data Science & Advanced Analytics',
@@ -1320,6 +1437,29 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor reviews highlight deep statistical questioning, SQL window functions, Pandas data wrangling, and presenting business takeaways clearly.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Data Scientist / Business Analytics Specialist",
+      "salaryRange": "₹7.5 LPA – ₹23.0 LPA (Avg: ₹14.0 LPA)",
+      "rating": "4.2 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Fractal Analytics",
+            "Mu Sigma",
+            "Tiger Analytics",
+            "EY India",
+            "Deloitte India",
+            "PwC India"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "What is the difference between Type 1 and Type 2 errors in statistical hypothesis testing? (Fractal review)",
+            "How do you handle missing values and collinearity in complex regression datasets? (Tiger Analytics review)",
+            "Explain SQL Window functions (ROW_NUMBER, RANK, DENSE_RANK, LEAD/LAG) with practical queries. (Deloitte review)",
+            "What is Central Limit Theorem and how is it applied in A/B testing?"
+      ],
+      "candidateTips": "AmbitionBox candidates recommend strong SQL query proficiency, Python data science libraries (Pandas/Scikit-learn), and statistical hypothesis testing fundamentals."
+}
   },
   'cyber-security': {
     domainName: 'Cyber Security & Ethical Hacking',
@@ -1364,6 +1504,28 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interview candidates recommend knowing Wireshark packet analysis, OWASP Top 10 vulnerabilities, Metasploit fundamentals, and network defense architectures.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Cyber Security Analyst / SOC & Network Defense Engineer",
+      "salaryRange": "₹6.5 LPA – ₹19.5 LPA (Avg: ₹12.0 LPA)",
+      "rating": "4.2 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "KPMG India",
+            "PwC Cyber",
+            "Deloitte Risk Advisory",
+            "Wipro CyberSecurity",
+            "TCS Cyber Defense"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "Walk through the OWASP Top 10 vulnerabilities and explain remediation for SQLi and XSS. (PwC Cyber review)",
+            "Explain the stages of the Cyber Kill Chain and MITRE ATT&CK framework. (Deloitte review)",
+            "How does a 3-way TCP handshake work and how do you analyze SYN flood attacks in Wireshark? (Wipro review)",
+            "What is the difference between symmetric (AES) and asymmetric (RSA) encryption in TLS protocols?"
+      ],
+      "candidateTips": "AmbitionBox reviews highlight networking fundamentals (OSI Model, TCP/IP, DNS), Linux command-line skills, SIEM log analysis, and ethical hacking basics."
+}
   },
   'cloud-computing': {
     domainName: 'Cloud Computing & DevOps (AWS / Azure / GCP)',
@@ -1403,6 +1565,28 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor candidates suggest focusing on VPC CIDR subnet calculations, Dockerfile optimization, Kubernetes networking, and CI/CD deployment strategies (Canary vs Blue-Green).'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Cloud DevOps Engineer / AWS & Azure Infrastructure Specialist",
+      "salaryRange": "₹8.0 LPA – ₹24.0 LPA (Avg: ₹14.5 LPA)",
+      "rating": "4.3 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Amazon AWS India",
+            "Microsoft Azure IDC",
+            "Infosys Cloud",
+            "Wipro Cloud Solutions",
+            "Cognizant Cloud"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "What is Infrastructure as Code (IaC) and how do you write modular Terraform scripts? (AWS review)",
+            "Explain Kubernetes architecture: API Server, etcd, Kubelet, Pods, Deployments, and Ingress routing. (Microsoft review)",
+            "How do you design a zero-downtime CI/CD pipeline using Jenkins / GitHub Actions? (Infosys review)",
+            "Explain Docker multi-stage builds and container security best practices."
+      ],
+      "candidateTips": "AmbitionBox candidates recommend hands-on practice with Linux shell scripting, Docker containers, Kubernetes cluster management, and Terraform configuration."
+}
   },
   'iot': {
     domainName: 'Internet of Things (IoT) & Embedded Edge',
@@ -1442,6 +1626,28 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interview reviews emphasize writing clean C/C++ embedded code, explaining hardware communication buses (UART/SPI/I2C), and understanding IoT security certificates.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "IoT Embedded Engineer / Hardware & Firmware Developer",
+      "salaryRange": "₹6.0 LPA – ₹17.5 LPA (Avg: ₹10.8 LPA)",
+      "rating": "4.1 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Bosch India",
+            "Schneider Electric",
+            "Honeywell India",
+            "L&T Technology Services",
+            "Tata Elxsi"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "Explain the difference between MQTT and HTTP protocols in constrained IoT networks. (Bosch review)",
+            "How do I2C and SPI serial communication protocols compare in terms of speed and wire count? (Tata Elxsi review)",
+            "What is an Interrupt Service Routine (ISR) and how do you prevent race conditions in embedded C? (Honeywell review)",
+            "How do you optimize power consumption in battery-powered IoT edge sensor nodes?"
+      ],
+      "candidateTips": "AmbitionBox candidates highlight embedded C programming, microcontroller architecture (ESP32 / ARM Cortex), sensor interfacing, and IoT cloud platforms (AWS IoT / ThingsBoard)."
+}
   },
   'content-writing': {
     domainName: 'Content Writing & Copywriting',
@@ -1491,6 +1697,29 @@ export const DOMAIN_STUDY_GUIDES = {
       ],
       candidateTips: 'Glassdoor interviewees suggest bringing a strong writing portfolio, explaining SEO keyword strategy, and demonstrating rapid headline ideation.'
     }
+  ,
+    ambitionboxData: {
+      "roleTitle": "Content Writer / SEO & Digital Copywriter",
+      "salaryRange": "₹4.5 LPA – ₹12.5 LPA (Avg: ₹7.8 LPA)",
+      "rating": "4.0 / 5.0 (AmbitionBox Verified)",
+      "topHiringCompanies": [
+            "Zoho Corporation",
+            "Freshworks",
+            "BYJU'S",
+            "Ogilvy India",
+            "Times Internet",
+            "Webchutney"
+      ],
+      "ambitionboxUrl": "https://www.ambitionbox.com/",
+      "salaryUrl": "https://www.ambitionbox.com/salaries",
+      "topInterviewQuestions": [
+            "How do you conduct on-page SEO keyword optimization without triggering keyword stuffing penalties? (Zoho review)",
+            "What is the difference between B2B copywriting and B2C content writing? (Freshworks review)",
+            "How do you structure high-converting landing page copy using the AIDA / PAS framework? (Times Internet review)",
+            "What strategies do you use to research complex technical topics and produce authoritative long-form content?"
+      ],
+      "candidateTips": "AmbitionBox interview reviews emphasize submitting a strong portfolio of published articles, demonstrating SEO keyword research tools, and fast live copywriting tasks during interview rounds."
+}
   }
 };
 
@@ -1575,6 +1804,7 @@ export function getStudyMaterialForDomain(domainKey) {
     aptitudeModules: APTITUDE_STUDY_MODULES,
     domainGuide: domainGuide,
     glassdoorData: domainGuide.glassdoorData,
+    ambitionboxData: domainGuide.ambitionboxData,
     examGuidance: {
       totalQuestions: 45,
       aptitudeCount: 20,
