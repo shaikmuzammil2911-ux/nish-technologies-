@@ -258,7 +258,7 @@
         <div class="qualifier-info-col">
           <div class="qualifier-info-item">
             <span>📅</span>
-            <span>Date & Time: 11th October 2026 (Sunday) | 6 PM - 7 PM</span>
+            <span id="qualifier-banner-date">Date &amp; Time: Every Sunday | 6:00 PM – 7:00 PM</span>
           </div>
           <div class="qualifier-info-item">
             <span>⏱️</span>
@@ -529,8 +529,11 @@
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn-primary-cta" id="btn-domain-apply-now" style="width: 100%; justify-content: center;">
+      <div class="modal-footer" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="domains.html" target="_blank" class="btn-secondary-cta" id="btn-domain-open-page" style="justify-content: center; flex: 1; text-decoration: none; font-weight: 700;">
+          🔗 Open in Dedicated Page ↗
+        </a>
+        <button type="button" class="btn-primary-cta" id="btn-domain-apply-now" style="justify-content: center; flex: 1.2;">
           Apply for Exam <span>&rarr;</span>
         </button>
       </div>
@@ -1073,11 +1076,14 @@
           <!-- 6:00 PM Countdown -->
           <div class="exam-countdown-box">
             <div>
-              <div style="font-size: 0.82rem; opacity: 0.85; text-transform: uppercase; font-weight: 700;">Official Exam Window</div>
-              <strong style="font-size: 1rem; color: #FFFFFF;">11th October 2026 &bull; Starts at 6:00 PM (18:00 hrs)</strong>
+              <div style="font-size: 0.82rem; opacity: 0.85; text-transform: uppercase; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                <span>Official Exam Window</span>
+                <span id="dash-window-status-badge" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 99px; background: #F59E0B; color: #78350F; font-weight: 800;">OPENS SUNDAY 6:00 PM</span>
+              </div>
+              <strong style="font-size: 1rem; color: #FFFFFF;" id="dash-next-exam-date">Every Sunday &bull; 6:00 PM – 7:00 PM IST</strong>
             </div>
             <div style="text-align: right;">
-              <div style="font-size: 0.78rem; opacity: 0.85; text-transform: uppercase;">Countdown to 6:00 PM:</div>
+              <div style="font-size: 0.78rem; opacity: 0.85; text-transform: uppercase;">Countdown to Exam:</div>
               <div class="countdown-digits" id="dash-countdown-clock">00:00:00</div>
             </div>
           </div>
@@ -1094,7 +1100,10 @@
           <!-- CTAs -->
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
             <button type="button" class="btn-primary-cta" id="btn-start-exam-now" style="background: #10B981; border-color: #10B981; font-size: 1rem; padding: 14px 24px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
-              🚀 Enter Exam Hall &bull; Start Exam Now &rarr;
+              🚀 Enter Official Exam Hall &bull; Start Exam &rarr;
+            </button>
+            <button type="button" class="btn-secondary-cta" id="btn-practice-exam-demo" style="background: rgba(255,255,255,0.15); color: #FFFFFF; border-color: rgba(255,255,255,0.4); font-weight: 700;">
+              🧪 Practice Simulator (Demo Mode)
             </button>
             <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-secondary-cta" id="dash-btn-whatsapp" style="background: #FFFFFF; color: #059669; border-color: #059669; font-weight: 700;">
               👉 Stay Tuned to WhatsApp Channel for Results
@@ -1311,11 +1320,6 @@
         </div>
 
         <div style="margin-top: 20px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary-cta" data-close-modal="modal-exam-result">
-            Back to Homepage
-          </button>
-        </div>
-      </div>
           <button type="button" class="btn-secondary-cta" data-close-modal="modal-exam-result">
             Back to Homepage
           </button>

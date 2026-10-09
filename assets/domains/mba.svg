@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradMBA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B0764"/>
+      <stop offset="50%" stop-color="#581C87"/>
+      <stop offset="100%" stop-color="#2E1065"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradMBA)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#4C1D95" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">MBA &amp; STRATEGIC LEADERSHIP</text>
+  <text x="590" y="76" fill="#E9D5FF" font-family="system-ui, sans-serif" font-size="14">STRATEGY • AGILE • PM</text>
+
+  <!-- Left: Strategic Growth Framework -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#4C1D95" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="75" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Corporate Strategy Framework</text>
+
+  <rect x="75" y="180" width="290" height="55" rx="8" fill="#3B0764" stroke="#A855F7" stroke-width="1"/>
+  <text x="90" y="205" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Product-Market Fit &amp; Go-To-Market</text>
+  <text x="90" y="224" fill="#D8B4FE" font-family="system-ui, sans-serif" font-size="11">TAM: $4.2B • SAM: $850M • SOM: $120M</text>
+
+  <rect x="75" y="245" width="290" height="55" rx="8" fill="#3B0764" stroke="#D946EF" stroke-width="1"/>
+  <text x="90" y="270" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Agile &amp; Scrum Sprint Leadership</text>
+  <text x="90" y="289" fill="#D8B4FE" font-family="system-ui, sans-serif" font-size="11">Velocity: 48 pts/sprint • 99% Delivery</text>
+
+  <rect x="75" y="310" width="290" height="55" rx="8" fill="#3B0764" stroke="#10B981" stroke-width="1"/>
+  <text x="90" y="335" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Executive Stakeholder Alignment</text>
+  <text x="90" y="354" fill="#D8B4FE" font-family="system-ui, sans-serif" font-size="11">Board Decks, OKRs &amp; KPI Governance</text>
+
+  <text x="75" y="420" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">Leadership Index: 9.6 / 10</text>
+  <text x="75" y="450" fill="#E9D5FF" font-family="system-ui, sans-serif" font-size="12">Direct placement pathways to Product &amp; Consulting roles</text>
+
+  <!-- Right: Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#4C1D95" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Enterprise Project Execution</text>
+  
+  <rect x="435" y="180" width="140" height="75" rx="10" fill="#3B0764"/>
+  <text x="450" y="205" fill="#E9D5FF" font-family="system-ui, sans-serif" font-size="12">On-Time Delivery</text>
+  <text x="450" y="238" fill="#34D399" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">98.4%</text>
+
+  <rect x="590" y="180" width="140" height="75" rx="10" fill="#3B0764"/>
+  <text x="605" y="205" fill="#E9D5FF" font-family="system-ui, sans-serif" font-size="12">Budget Variance</text>
+  <text x="605" y="238" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">-3.2%</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#4C1D95" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="435" y="375" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Business Value Creation</text>
+
+  <path d="M 435 480 Q 520 410, 610 430 T 730 380" fill="none" stroke="#D946EF" stroke-width="4"/>
+  <circle cx="730" cy="380" r="6" fill="#F0ABFC"/>
+  <text x="620" y="470" fill="#F3E8FF" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">3.8x ROI</text>
+</svg>

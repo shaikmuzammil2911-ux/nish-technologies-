@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradCiv" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064E3B"/>
+      <stop offset="50%" stop-color="#065F46"/>
+      <stop offset="100%" stop-color="#022C22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradCiv)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#065F46" stroke="#10B981" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#6EE7B7" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">CIVIL &amp; STRUCTURAL DESIGN</text>
+  <text x="590" y="76" fill="#A7F3D0" font-family="system-ui, sans-serif" font-size="14">AUTOCAD • STAAD.PRO • BIM</text>
+
+  <!-- Left: 3D Building Wireframe -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="75" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">RCC Structural Analysis (G+12)</text>
+
+  <!-- Building Grid / Truss -->
+  <g transform="translate(100, 180)" stroke="#34D399" stroke-width="2" fill="none">
+    <rect x="20" y="20" width="200" height="200"/>
+    <line x1="20" y1="70" x2="220" y2="70"/>
+    <line x1="20" y1="120" x2="220" y2="120"/>
+    <line x1="20" y1="170" x2="220" y2="170"/>
+    
+    <line x1="70" y1="20" x2="70" y2="220"/>
+    <line x1="120" y1="20" x2="120" y2="220"/>
+    <line x1="170" y1="20" x2="170" y2="220"/>
+
+    <!-- Diagonal cross bracing -->
+    <line x1="20" y1="20" x2="70" y2="70" stroke="#10B981" stroke-dasharray="4"/>
+    <line x1="70" y1="20" x2="20" y2="70" stroke="#10B981" stroke-dasharray="4"/>
+    <line x1="170" y1="170" x2="220" y2="220" stroke="#10B981" stroke-dasharray="4"/>
+    <line x1="220" y1="170" x2="170" y2="220" stroke="#10B981" stroke-dasharray="4"/>
+  </g>
+
+  <text x="75" y="440" fill="#6EE7B7" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">IS 456 / IS 1893 Seismic Compliance</text>
+  <text x="75" y="470" fill="#D1FAE5" font-family="system-ui, sans-serif" font-size="12">Foundation Bearing Capacity: 280 kN/m²</text>
+
+  <!-- Right: Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Load &amp; Deflection Metrics</text>
+  
+  <rect x="435" y="180" width="140" height="75" rx="10" fill="#022C22"/>
+  <text x="450" y="205" fill="#A7F3D0" font-family="system-ui, sans-serif" font-size="12">Max Shear Force</text>
+  <text x="450" y="238" fill="#34D399" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">42.8 kN</text>
+
+  <rect x="590" y="180" width="140" height="75" rx="10" fill="#022C22"/>
+  <text x="605" y="205" fill="#A7F3D0" font-family="system-ui, sans-serif" font-size="12">Max Deflection</text>
+  <text x="605" y="238" fill="#6EE7B7" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">2.4 mm</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="435" y="375" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">BIM 3D Model Readiness</text>
+
+  <rect x="435" y="405" width="290" height="25" rx="4" fill="#022C22"/>
+  <rect x="435" y="405" width="260" height="25" rx="4" fill="#10B981"/>
+  <text x="445" y="423" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Revit Clash Detection: 0 Clashes</text>
+
+  <rect x="435" y="445" width="290" height="25" rx="4" fill="#022C22"/>
+  <rect x="435" y="445" width="240" height="25" rx="4" fill="#34D399"/>
+  <text x="445" y="463" fill="#022C22" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">BOQ &amp; Estimation Accuracy: 99.4%</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradSB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A192F"/>
+      <stop offset="50%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradSB)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#93C5FD" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">SALES &amp; BUSINESS DEVELOPMENT</text>
+  <text x="590" y="76" fill="#BFDBFE" font-family="system-ui, sans-serif" font-size="14">B2B • CRM • REVENUE</text>
+
+  <!-- Left: Pipeline Stage -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="75" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Enterprise Deals Pipeline</text>
+
+  <rect x="75" y="180" width="290" height="50" rx="8" fill="#0F172A" stroke="#3B82F6" stroke-width="1"/>
+  <text x="90" y="205" fill="#93C5FD" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Discovery &amp; Qualification</text>
+  <text x="90" y="222" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11">42 Accounts • ₹1.8 Cr Pipeline</text>
+
+  <rect x="75" y="240" width="290" height="50" rx="8" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="90" y="265" fill="#C4B5FD" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Technical Demo &amp; POC</text>
+  <text x="90" y="282" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11">18 Accounts • ₹95 Lakhs Pipeline</text>
+
+  <rect x="75" y="300" width="290" height="50" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="90" y="325" fill="#6EE7B7" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Contract Won &amp; Onboarded</text>
+  <text x="90" y="342" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11">12 Accounts • ₹68 Lakhs ACV</text>
+
+  <text x="75" y="410" fill="#93C5FD" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">Win Rate: 36.4% (Industry Top Quartile)</text>
+  <text x="75" y="435" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">HubSpot / Salesforce Enterprise Stack</text>
+
+  <!-- Right: Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Quarterly Revenue Quota</text>
+  
+  <rect x="435" y="180" width="140" height="75" rx="10" fill="#0F172A"/>
+  <text x="450" y="205" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">Quota Attainment</text>
+  <text x="450" y="238" fill="#10B981" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">128%</text>
+
+  <rect x="590" y="180" width="140" height="75" rx="10" fill="#0F172A"/>
+  <text x="605" y="205" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">Avg Deal Size</text>
+  <text x="605" y="238" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">₹6.5L</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="435" y="375" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Client Acquisition Velocity</text>
+
+  <path d="M 435 480 Q 520 440, 600 400 T 730 380" fill="none" stroke="#3B82F6" stroke-width="4"/>
+  <circle cx="730" cy="380" r="6" fill="#60A5FA"/>
+  <text x="630" y="470" fill="#93C5FD" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">+44% MoM</text>
+</svg>

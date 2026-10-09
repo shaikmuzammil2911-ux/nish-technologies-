@@ -606,8 +606,33 @@
         document.getElementById('modal-payment-success').classList.add('active');
       });
 
+      // Mobile menu toggle
+      const mobileToggle = document.getElementById('btn-mobile-toggle');
+      const mobileDrawer = document.getElementById('mobile-menu-drawer');
+      mobileToggle?.addEventListener('click', () => {
+        mobileToggle.classList.toggle('active');
+        mobileDrawer?.classList.toggle('active');
+      });
+
       // Initial render
       render(DOMAINS);
+
+      // Check URL parameters for direct domain modal opening
+      const urlParams = new URLSearchParams(window.location.search);
+      const domainParam = urlParams.get('domain');
+      if (domainParam) {
+        const query = domainParam.toLowerCase().trim();
+        const match = DOMAINS.find(d => 
+          d.id.toLowerCase() === query || 
+          d.shortTitle.toLowerCase() === query || 
+          d.name.toLowerCase().includes(query)
+        );
+        if (match) {
+          setTimeout(() => {
+            openDomain(match);
+          }, 150);
+        }
+      }
     });
   </script>
 </body>

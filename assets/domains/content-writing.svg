@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradCW" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#082F49"/>
+      <stop offset="50%" stop-color="#0C4A6E"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradCW)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#075985" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">CONTENT WRITING &amp; TECHNICAL COPYWRITING</text>
+  <text x="590" y="76" fill="#BAE6FD" font-family="system-ui, sans-serif" font-size="14">SEO • ARTICLES • COPY</text>
+
+  <!-- Left: Article Layout Document -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="75" y="150" width="120" height="24" rx="4" fill="#0284C7"/>
+  <text x="85" y="167" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">FEATURED BLOG</text>
+
+  <text x="75" y="210" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="18" font-weight="bold">Scaling SaaS Tech Architecture</text>
+  
+  <rect x="75" y="235" width="290" height="8" rx="4" fill="#38BDF8" opacity="0.6"/>
+  <rect x="75" y="255" width="260" height="8" rx="4" fill="#BAE6FD" opacity="0.5"/>
+  <rect x="75" y="275" width="280" height="8" rx="4" fill="#BAE6FD" opacity="0.5"/>
+  <rect x="75" y="295" width="200" height="8" rx="4" fill="#BAE6FD" opacity="0.5"/>
+
+  <rect x="75" y="325" width="290" height="90" rx="8" fill="#0369A1" stroke="#38BDF8" stroke-width="1"/>
+  <text x="90" y="355" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">💡 Key Takeaways:</text>
+  <text x="90" y="380" fill="#BAE6FD" font-family="system-ui, sans-serif" font-size="12">• 84% reduction in API response latency</text>
+  <text x="90" y="400" fill="#BAE6FD" font-family="system-ui, sans-serif" font-size="12">• Enterprise zero-downtime migrations</text>
+
+  <text x="75" y="460" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">SEO Readability Score: 98/100</text>
+  <text x="75" y="485" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="12">Flesch-Kincaid Grade Level: 8.2 (Ideal for B2B)</text>
+
+  <!-- Right: Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Content Strategy Pillars</text>
+  
+  <rect x="435" y="180" width="135" height="50" rx="8" fill="#075985" stroke="#38BDF8" stroke-width="1"/>
+  <text x="445" y="210" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">✍️ Thought Leader</text>
+
+  <rect x="590" y="180" width="135" height="50" rx="8" fill="#075985" stroke="#38BDF8" stroke-width="1"/>
+  <text x="600" y="210" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">🔍 High-Intent SEO</text>
+
+  <rect x="435" y="245" width="135" height="50" rx="8" fill="#075985" stroke="#38BDF8" stroke-width="1"/>
+  <text x="445" y="275" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">📑 Whitepapers</text>
+
+  <rect x="590" y="245" width="135" height="50" rx="8" fill="#075985" stroke="#38BDF8" stroke-width="1"/>
+  <text x="600" y="275" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">🎯 Ad Copywriting</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="435" y="375" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Organic Engagement Analytics</text>
+
+  <rect x="435" y="400" width="140" height="75" rx="10" fill="#075985"/>
+  <text x="450" y="425" fill="#BAE6FD" font-family="system-ui, sans-serif" font-size="12">Avg Time on Page</text>
+  <text x="450" y="458" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">4m 32s</text>
+
+  <rect x="590" y="400" width="140" height="75" rx="10" fill="#075985"/>
+  <text x="605" y="425" fill="#BAE6FD" font-family="system-ui, sans-serif" font-size="12">Organic CTR</text>
+  <text x="605" y="458" fill="#10B981" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">8.7%</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradFin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141E30"/>
+      <stop offset="50%" stop-color="#243B55"/>
+      <stop offset="100%" stop-color="#0F2027"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradFin)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#1E293B" stroke="#EAB308" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#FDE047" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">CORPORATE FINANCE &amp; ACCOUNTS</text>
+  <text x="590" y="76" fill="#FEF08A" font-family="system-ui, sans-serif" font-size="14">GST • TALLY • MODELING</text>
+
+  <!-- Left: Balance Sheet Model -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#1E293B" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="75" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Financial Forecast Statement</text>
+
+  <rect x="75" y="180" width="290" height="45" rx="6" fill="#0F172A"/>
+  <text x="90" y="208" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="13">Total Operating Revenue</text>
+  <text x="280" y="208" fill="#10B981" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">₹4.82 Cr</text>
+
+  <rect x="75" y="235" width="290" height="45" rx="6" fill="#0F172A"/>
+  <text x="90" y="263" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="13">EBITDA Margin (34%)</text>
+  <text x="280" y="263" fill="#FDE047" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">₹1.64 Cr</text>
+
+  <rect x="75" y="290" width="290" height="45" rx="6" fill="#0F172A"/>
+  <text x="90" y="318" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="13">Net Free Cash Flow</text>
+  <text x="280" y="318" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">₹1.18 Cr</text>
+
+  <text x="75" y="380" fill="#FDE047" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">Audited Compliance: 100% (GST &amp; TDS)</text>
+  <text x="75" y="410" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">3-Statement DCF Valuation Framework</text>
+
+  <!-- Right: Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#1E293B" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Capital Allocation</text>
+  
+  <rect x="435" y="180" width="140" height="75" rx="10" fill="#0F172A"/>
+  <text x="450" y="205" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">ROI on Capital</text>
+  <text x="450" y="238" fill="#FDE047" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">24.6%</text>
+
+  <rect x="590" y="180" width="140" height="75" rx="10" fill="#0F172A"/>
+  <text x="605" y="205" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="12">Quick Ratio</text>
+  <text x="605" y="238" fill="#34D399" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">2.1x</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#1E293B" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="435" y="375" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Working Capital Optimization</text>
+
+  <rect x="435" y="400" width="290" height="25" rx="4" fill="#0F172A"/>
+  <rect x="435" y="400" width="220" height="25" rx="4" fill="#EAB308"/>
+  <text x="445" y="418" fill="#000000" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Receivables Days: 32 Days</text>
+
+  <rect x="435" y="440" width="290" height="25" rx="4" fill="#0F172A"/>
+  <rect x="435" y="440" width="160" height="25" rx="4" fill="#10B981"/>
+  <text x="445" y="458" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Inventory Turnover: 6.4x</text>
+</svg>

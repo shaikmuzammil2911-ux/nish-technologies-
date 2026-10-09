@@ -42,6 +42,8 @@ class NTIApp {
     this.setupExamEngine();
     this.setupStudentPortal();
     this.setupNumberCounters();
+    this.setupSundayExamSchedule();
+    this.checkUrlParams();
   }
 
   // =========================================================================
@@ -326,7 +328,15 @@ class NTIApp {
     document.getElementById('domain-modal-eligibility').textContent = domain.eligibility;
 
     const imgEl = document.getElementById('domain-modal-img');
-    if (imgEl) imgEl.src = domain.image;
+    if (imgEl) {
+      imgEl.src = domain.image;
+      imgEl.alt = `${domain.name} Preview Graphic`;
+    }
+
+    const openPageBtn = document.getElementById('btn-domain-open-page');
+    if (openPageBtn) {
+      openPageBtn.href = `domains.html?domain=${domain.id}`;
+    }
 
     const skillsContainer = document.getElementById('domain-modal-skills');
     if (skillsContainer) {
@@ -627,8 +637,19 @@ class NTIApp {
     });
 
     document.getElementById('btn-start-exam-now')?.addEventListener('click', () => {
+      const isLive = this.isExamActiveNow();
+      if (!isLive) {
+        this.showToast('🔒 Official Qualifier Exam opens strictly Every Sunday at 6:00 PM IST (18:00 hrs). You can click "Practice Simulator" below to preview the test.', 'error');
+        return;
+      }
       this.closeModal('modal-student-dashboard');
-      this.startOnlineExam();
+      this.startOnlineExam(false);
+    });
+
+    document.getElementById('btn-practice-exam-demo')?.addEventListener('click', () => {
+      this.closeModal('modal-student-dashboard');
+      this.showToast('🧪 Practice Simulator Mode: Full 45-Question proctored test environment preview.', 'info');
+      this.startOnlineExam(true);
     });
 
     document.getElementById('btn-dash-logout')?.addEventListener('click', () => {
@@ -638,6 +659,118 @@ class NTIApp {
       this.closeModal('modal-student-dashboard');
       this.showToast('Logged out of Student Dashboard.', 'info');
     });
+  }
+
+  isExamActiveNow() {
+    const now = new Date();
+    const day = now.getDay(); // 0 is Sunday
+    const hour = now.getHours();
+    return (day === 0 && hour === 18);
+  }
+
+  getNextSundayDate() {
+    const now = new Date();
+    const nextSunday = new Date(now);
+    const day = now.getDay();
+    const hour = now.getHours();
+
+    if (day === 0) {
+      if (hour < 18) {
+        nextSunday.setHours(18, 0, 0, 0);
+      } else if (hour === 18) {
+        nextSunday.setHours(18, 0, 0, 0);
+      } else {
+        nextSunday.setDate(now.getDate() + 7);
+        nextSunday.setHours(18, 0, 0, 0);
+      }
+    } else {
+      const daysRemaining = 7 - day;
+      nextSunday.setDate(now.getDate() + daysRemaining);
+      nextSunday.setHours(18, 0, 0, 0);
+    }
+    return nextSunday;
+  }
+
+  setupSundayExamSchedule() {
+    const updateSchedule = () => {
+      const now = new Date();
+      const target = this.getNextSundayDate();
+      const diff = target - now;
+      const isLive = this.isExamActiveNow();
+
+      const formattedDate = target.toLocaleDateString('en-US', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+      // Update next exam date display on homepage if exists
+      const bannerDateEl = document.getElementById('qualifier-banner-date');
+      if (bannerDateEl) {
+        bannerDateEl.textContent = `Date & Time: Every Sunday | 6:00 PM - 7:00 PM IST (Next: ${formattedDate})`;
+      }
+
+      const nextDateEl = document.getElementById('dash-next-exam-date');
+      if (nextDateEl) {
+        nextDateEl.textContent = `Next Official Exam Slot: ${formattedDate} @ 6:00 PM IST`;
+      }
+
+      const clockEl = document.getElementById('dash-countdown-clock');
+      const startExamBtn = document.getElementById('btn-start-exam-now');
+      const statusBadge = document.getElementById('dash-window-status-badge');
+
+      if (clockEl) {
+        if (isLive) {
+          clockEl.textContent = '00:00:00 (EXAM IS LIVE NOW!)';
+          clockEl.style.color = '#10B981';
+          if (statusBadge) {
+            statusBadge.textContent = '🟢 LIVE ACTIVE WINDOW (6:00 PM - 7:00 PM)';
+            statusBadge.style.background = '#10B981';
+          }
+          if (startExamBtn) {
+            startExamBtn.style.background = '#10B981';
+            startExamBtn.innerHTML = '🚀 Start Official Qualifier Assessment (Live Window Active) &rarr;';
+          }
+        } else {
+          const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+          const h = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+          const m = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+          const s = Math.max(0, Math.floor((diff % (1000 * 60)) / 1000));
+
+          clockEl.textContent = `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+          clockEl.style.color = '#FBBF24';
+
+          if (statusBadge) {
+            statusBadge.textContent = '🔒 LOCKED UNTIL SUNDAY 6:00 PM';
+            statusBadge.style.background = '#EF4444';
+          }
+          if (startExamBtn) {
+            startExamBtn.style.background = '#0284C7';
+            startExamBtn.innerHTML = '🔒 Exam Opens Every Sunday at 6:00 PM';
+          }
+        }
+      }
+    };
+
+    updateSchedule();
+    clearInterval(this.dashboardCountdownInterval);
+    this.dashboardCountdownInterval = setInterval(updateSchedule, 1000);
+  }
+
+  checkUrlParams() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const domParam = urlParams.get('domain');
+      if (domParam) {
+        const found = DOMAINS.find(d => d.id === domParam || d.shortTitle.toLowerCase() === domParam.toLowerCase() || d.categorySlug === domParam);
+        if (found) {
+          setTimeout(() => this.openDomainDetail(found), 300);
+        }
+      }
+    } catch {
+      // URL params fallback
+    }
   }
 
   openStudentDashboard(candidate) {
@@ -667,30 +800,7 @@ class NTIApp {
       whatsappBtn.href = candidate.whatsappChannelUrl || APP_CONFIG.whatsappChannelUrl;
     }
 
-    // 6:00 PM Live Countdown Clock
-    clearInterval(this.dashboardCountdownInterval);
-    const updateCountdown = () => {
-      const now = new Date();
-      const target = new Date();
-      target.setHours(18, 0, 0, 0); // 6:00 PM today/exam day
-      let diff = target - now;
-
-      const clockEl = document.getElementById('dash-countdown-clock');
-      if (!clockEl) return;
-
-      if (diff <= 0) {
-        clockEl.textContent = '00:00:00 (EXAM ACTIVE)';
-        clockEl.style.color = '#10B981';
-      } else {
-        const hrs = Math.floor(diff / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-        clockEl.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-      }
-    };
-    updateCountdown();
-    this.dashboardCountdownInterval = setInterval(updateCountdown, 1000);
-
+    this.setupSundayExamSchedule();
     this.openModal('modal-student-dashboard');
   }
 

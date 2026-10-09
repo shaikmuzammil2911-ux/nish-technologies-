@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDM" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0C29"/>
+      <stop offset="50%" stop-color="#302B63"/>
+      <stop offset="100%" stop-color="#24243E"/>
+    </linearGradient>
+    <linearGradient id="neonDM" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <filter id="glowDM">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGradDM)"/>
+
+  <!-- Header -->
+  <rect x="50" y="40" width="700" height="60" rx="12" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="75" y="77" fill="#F472B6" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">DIGITAL MARKETING &amp; GROWTH HACKING</text>
+  <text x="590" y="76" fill="#C4B5FD" font-family="system-ui, sans-serif" font-size="14">SEO • META ADS • GA4</text>
+
+  <!-- Left: Funnel Card -->
+  <rect x="50" y="120" width="340" height="420" rx="16" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5" opacity="0.95"/>
+  <text x="75" y="160" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Marketing Funnel &amp; CRO</text>
+
+  <!-- Funnel stages -->
+  <polygon points="80,190 360,190 330,240 110,240" fill="#6366F1" opacity="0.9"/>
+  <text x="160" y="220" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">AWARENESS (1,240,000)</text>
+
+  <polygon points="110,250 330,250 300,300 140,300" fill="#8B5CF6" opacity="0.9"/>
+  <text x="175" y="280" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">INTEREST (480,000)</text>
+
+  <polygon points="140,310 300,310 270,360 170,360" fill="#D946EF" opacity="0.9"/>
+  <text x="180" y="340" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">DECISION (124,000)</text>
+
+  <polygon points="170,370 270,370 240,420 200,420" fill="#EC4899" opacity="0.9" filter="url(#glowDM)"/>
+  <text x="185" y="400" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">PURCHASE (42,800)</text>
+
+  <text x="80" y="470" fill="#A7F3D0" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">🎯 ROAS Target: 4.8x Achieved</text>
+  <text x="80" y="500" fill="#FBCFE8" font-family="system-ui, sans-serif" font-size="13">Campaign: Multi-Channel Retargeting</text>
+
+  <!-- Right: Campaign Metrics -->
+  <rect x="410" y="120" width="340" height="200" rx="16" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5" opacity="0.95"/>
+  <text x="435" y="155" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">Ad Channel ROI Breakdown</text>
+
+  <rect x="435" y="180" width="290" height="30" rx="6" fill="#0F172A"/>
+  <rect x="435" y="180" width="220" height="30" rx="6" fill="#EC4899"/>
+  <text x="445" y="200" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Google Search Ads (42%)</text>
+
+  <rect x="435" y="225" width="290" height="30" rx="6" fill="#0F172A"/>
+  <rect x="435" y="225" width="170" height="30" rx="6" fill="#8B5CF6"/>
+  <text x="445" y="245" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Meta / Instagram (33%)</text>
+
+  <rect x="435" y="270" width="290" height="30" rx="6" fill="#0F172A"/>
+  <rect x="435" y="270" width="120" height="30" rx="6" fill="#3B82F6"/>
+  <text x="445" y="290" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">LinkedIn B2B Ads (25%)</text>
+
+  <!-- Lower Right: Stats -->
+  <rect x="410" y="340" width="340" height="200" rx="16" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5" opacity="0.95"/>
+  
+  <rect x="430" y="360" width="140" height="75" rx="10" fill="#0F172A" stroke="#EC4899" stroke-width="1"/>
+  <text x="445" y="385" fill="#C4B5FD" font-family="system-ui, sans-serif" font-size="12">CTR Average</text>
+  <text x="445" y="418" fill="#F472B6" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">6.42%</text>
+
+  <rect x="590" y="360" width="140" height="75" rx="10" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="605" y="385" fill="#C4B5FD" font-family="system-ui, sans-serif" font-size="12">Organic Growth</text>
+  <text x="605" y="418" fill="#34D399" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">+142%</text>
+
+  <path d="M 430 490 C 490 440, 560 520, 720 460" fill="none" stroke="#EC4899" stroke-width="3" filter="url(#glowDM)"/>
+</svg>
