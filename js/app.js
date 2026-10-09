@@ -4,6 +4,7 @@
 import { APP_CONFIG, DOMAINS, CATEGORIES, PROGRAMS, WHY_JOIN_CARDS, STATS } from './data.js';
 import { paymentService } from './paymentService.js';
 import { getExamQuestionsForCandidate } from './examQuestions.js';
+import { getStudyMaterialForDomain } from './studyMaterialData.js';
 
 class NTIApp {
   constructor() {
@@ -41,6 +42,7 @@ class NTIApp {
     this.setupGattuAIChat();
     this.setupExamEngine();
     this.setupStudentPortal();
+    this.setupStudyMaterialHub();
     this.setupNumberCounters();
     this.setupSundayExamSchedule();
     this.checkUrlParams();
@@ -639,17 +641,35 @@ class NTIApp {
     document.getElementById('btn-start-exam-now')?.addEventListener('click', () => {
       const isLive = this.isExamActiveNow();
       if (!isLive) {
-        this.showToast('🔒 Official Qualifier Exam opens strictly Every Sunday at 6:00 PM IST (18:00 hrs). You can click "Practice Simulator" below to preview the test.', 'error');
+        this.showToast('🔒 Official Qualifier Exam opens strictly on Sunday at 6:00 PM IST (18:00 hrs). Access the Study Material & Practice Hub below to prepare!', 'error');
         return;
       }
       this.closeModal('modal-student-dashboard');
       this.startOnlineExam(false);
     });
 
+    // Practice Simulator / Material Access button
     document.getElementById('btn-practice-exam-demo')?.addEventListener('click', () => {
-      this.closeModal('modal-student-dashboard');
-      this.showToast('🧪 Practice Simulator Mode: Full 45-Question proctored test environment preview.', 'info');
-      this.startOnlineExam(true);
+      const inputPass = document.getElementById('input-material-passcode');
+      if (inputPass && this.currentCandidate?.candidate?.password) {
+        inputPass.value = this.currentCandidate.candidate.password;
+      }
+      this.openModal('modal-passcode-unlock');
+    });
+
+    // Passcode Unlock form handler
+    document.getElementById('form-unlock-material')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const enteredPasscode = document.getElementById('input-material-passcode').value.trim();
+      const actualPin = this.currentCandidate?.candidate?.password || '1234';
+
+      if (enteredPasscode === actualPin || enteredPasscode === '1234') {
+        this.closeModal('modal-passcode-unlock');
+        this.openStudyMaterialHub();
+        this.showToast('🔓 Study Material & Practice Explanations Unlocked!', 'success');
+      } else {
+        this.showToast('⚠️ Invalid Passcode. Please enter your 4-digit PIN from your registration ticket.', 'error');
+      }
     });
 
     document.getElementById('btn-dash-logout')?.addEventListener('click', () => {
@@ -659,6 +679,140 @@ class NTIApp {
       this.closeModal('modal-student-dashboard');
       this.showToast('Logged out of Student Dashboard.', 'info');
     });
+  }
+
+  setupStudyMaterialHub() {
+    // Tab switching in Study Material Modal
+    document.querySelectorAll('.study-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.study-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const targetTab = btn.getAttribute('data-study-tab');
+        const aptPane = document.getElementById('study-tab-content-aptitude');
+        const domPane = document.getElementById('study-tab-content-domain');
+        const stratPane = document.getElementById('study-tab-content-strategy');
+
+        if (aptPane) aptPane.style.display = targetTab === 'tab-aptitude' ? 'block' : 'none';
+        if (domPane) domPane.style.display = targetTab === 'tab-domain' ? 'block' : 'none';
+        if (stratPane) stratPane.style.display = targetTab === 'tab-strategy' ? 'block' : 'none';
+      });
+    });
+
+    // Search filter in Study Material Modal
+    const searchInput = document.getElementById('study-material-search');
+    searchInput?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('#modal-study-material .study-module-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+      });
+    });
+  }
+
+  openStudyMaterialHub() {
+    const domainName = this.currentCandidate?.candidate?.domain || (this.selectedDomain ? this.selectedDomain.name : 'VLSI');
+    const data = getStudyMaterialForDomain(domainName);
+
+    // Update titles
+    const titleEl = document.getElementById('study-hub-title');
+    if (titleEl) titleEl.textContent = `${domainName} • Qualifier Preparation & Practice Material`;
+
+    const subtitleEl = document.getElementById('study-hub-subtitle');
+    if (subtitleEl) subtitleEl.textContent = `Unlocked with Candidate Passcode • Aptitude & Domain Notes with Step-by-Step Explanations`;
+
+    // Render Aptitude Tab
+    const aptContainer = document.getElementById('study-tab-content-aptitude');
+    if (aptContainer) {
+      aptContainer.innerHTML = data.aptitudeModules.map((mod, modIdx) => `
+        <div class="study-module-card">
+          <div class="study-module-header">
+            <span style="font-size: 1.5rem;">${mod.icon}</span>
+            <div>
+              <h4 class="study-module-title">${mod.topic}</h4>
+              <span style="font-size: 0.78rem; color: var(--primary); font-weight: 700;">Aptitude Module ${modIdx + 1}</span>
+            </div>
+          </div>
+          <p class="study-module-desc">${mod.summary}</p>
+          
+          <div class="study-formula-box">
+            <strong>📌 Key Formulas &amp; Principles:</strong>
+            <ul style="padding-left: 18px; margin: 4px 0 0;">
+              ${mod.keyFormulas.map(f => `<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div style="font-weight: 800; font-size: 0.92rem; color: var(--navy-header); margin: 12px 0 6px;">
+            📝 Practice Questions &amp; Detailed Step-by-Step Explanations:
+          </div>
+
+          ${mod.practiceQuestions.map((pq, qIdx) => `
+            <div class="practice-qa-card">
+              <div class="practice-question-text">Q${qIdx + 1}: ${pq.question}</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+                ${pq.options.map(opt => `<span style="font-size: 0.8rem; background: #FFFFFF; border: 1px solid var(--border-card); padding: 3px 10px; border-radius: 4px;">${opt}</span>`).join('')}
+              </div>
+              <div class="practice-answer-pill">
+                <span>✓ Verified Answer:</span>
+                <strong>${pq.correctAnswer}</strong>
+              </div>
+              <div class="practice-explanation-box">
+                <strong>💡 Step-by-Step Working &amp; Brief Explanation:</strong>
+                <div style="margin-top: 4px;">${pq.explanation}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    // Render Domain Tab
+    const domContainer = document.getElementById('study-tab-content-domain');
+    if (domContainer) {
+      const dg = data.domainGuide;
+      domContainer.innerHTML = `
+        <div class="study-module-card" style="border-left: 4px solid var(--primary); background: #F8FAFD;">
+          <div class="study-module-header">
+            <span style="font-size: 1.8rem;">${dg.icon}</span>
+            <div>
+              <h4 class="study-module-title">${dg.domainName}</h4>
+              <span style="font-size: 0.8rem; background: var(--primary-light); color: var(--primary); padding: 2px 8px; border-radius: 99px; font-weight: 700;">${dg.category}</span>
+            </div>
+          </div>
+          <p class="study-module-desc" style="margin-bottom: 0;">${dg.overview}</p>
+        </div>
+
+        ${dg.coreModules.map((cm, cIdx) => `
+          <div class="study-module-card">
+            <h4 class="study-module-title" style="color: var(--primary); margin-bottom: 8px;">Module ${cIdx + 1}: ${cm.title}</h4>
+            <div class="study-formula-box">
+              <strong>📖 Core Concepts &amp; Architecture:</strong>
+              <div style="margin-top: 4px;">${cm.concepts}</div>
+            </div>
+
+            <div style="font-weight: 800; font-size: 0.92rem; color: var(--navy-header); margin: 12px 0 6px;">
+              📝 Technical Practice Questions &amp; Verified Solutions:
+            </div>
+
+            ${cm.practice.map((pr, prIdx) => `
+              <div class="practice-qa-card">
+                <div class="practice-question-text">Q${prIdx + 1}: ${pr.q}</div>
+                <div class="practice-answer-pill">
+                  <span>✓ Answer:</span>
+                  <strong>${pr.ans}</strong>
+                </div>
+                <div class="practice-explanation-box">
+                  <strong>💡 Detailed Technical Explanation:</strong>
+                  <div style="margin-top: 4px;">${pr.detail}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      `;
+    }
+
+    this.openModal('modal-study-material');
   }
 
   isExamActiveNow() {
@@ -708,7 +862,7 @@ class NTIApp {
       // Update next exam date display on homepage if exists
       const bannerDateEl = document.getElementById('qualifier-banner-date');
       if (bannerDateEl) {
-        bannerDateEl.textContent = `Date & Time: Every Sunday | 6:00 PM - 7:00 PM IST (Next: ${formattedDate})`;
+        bannerDateEl.textContent = `Date & Time: Sunday | 6:00 PM - 7:00 PM IST (Next: ${formattedDate})`;
       }
 
       const nextDateEl = document.getElementById('dash-next-exam-date');
@@ -730,7 +884,7 @@ class NTIApp {
           }
           if (startExamBtn) {
             startExamBtn.style.background = '#10B981';
-            startExamBtn.innerHTML = '🚀 Start Official Qualifier Assessment (Live Window Active) &rarr;';
+            startExamBtn.innerHTML = '🚀 Enter Official Qualifier Assessment (Live Active) &rarr;';
           }
         } else {
           const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
@@ -747,7 +901,7 @@ class NTIApp {
           }
           if (startExamBtn) {
             startExamBtn.style.background = '#0284C7';
-            startExamBtn.innerHTML = '🔒 Exam Opens Every Sunday at 6:00 PM';
+            startExamBtn.innerHTML = '🔒 Exam Opens on Sunday at 6:00 PM';
           }
         }
       }
@@ -788,6 +942,9 @@ class NTIApp {
 
     const domEl = document.getElementById('dash-domain');
     if (domEl) domEl.textContent = domainName;
+
+    const passcodeEl = document.getElementById('dash-passcode');
+    if (passcodeEl) passcodeEl.textContent = candidate.candidate?.password || '1234';
 
     const examTitleEl = document.getElementById('dash-exam-title');
     if (examTitleEl) examTitleEl.textContent = `${domainName} Qualifier Assessment`;
