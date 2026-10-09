@@ -837,11 +837,11 @@ class NTIApp {
               </div>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-              <a href="${gd.glassdoorUrl}" target="_blank" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px;">
-                🔗 Explore Glassdoor Interview Questions &rarr;
+              <a href="https://www.glassdoor.co.in/" target="_blank" rel="noopener noreferrer" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px;">
+                🌐 Open Glassdoor Official Website &rarr;
               </a>
-              <a href="${gd.salaryUrl}" target="_blank" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px; font-weight: 700;">
-                💵 View Glassdoor Salary Reports &rarr;
+              <a href="https://www.google.com/search?q=site:glassdoor.co.in+${encodeURIComponent(domainName)}+interview+questions" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.85rem; padding: 8px 16px; font-weight: 700;">
+                🔍 Live ${domainName} Questions &rarr;
               </a>
             </div>
           </div>
@@ -857,8 +857,8 @@ class NTIApp {
         salaryRange: '₹7.0 LPA – ₹20.0 LPA (Avg: ₹12.5 LPA)',
         interviewDifficulty: 'Moderate to Hard (3.6 / 5.0 on Glassdoor)',
         topHiringCompanies: ['Top Tier-1 Tech Enterprises', 'MNCs', 'High-Growth Startups'],
-        glassdoorUrl: 'https://www.glassdoor.com/Interview/index.htm',
-        salaryUrl: 'https://www.glassdoor.com/Salaries/index.htm',
+        glassdoorUrl: 'https://www.glassdoor.co.in/',
+        salaryUrl: 'https://www.glassdoor.co.in/Salaries/index.htm',
         topInterviewQuestions: [
           'What are the most challenging technical problems you solved in your recent projects?',
           'Walk through your end-to-end architecture and testing methodology for production systems.',
@@ -893,11 +893,14 @@ class NTIApp {
           </div>
 
           <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="${gd.glassdoorUrl}" target="_blank" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px;">
-              🔗 View ${domainName} Interview Questions on Glassdoor &rarr;
+            <a href="https://www.glassdoor.co.in/" target="_blank" rel="noopener noreferrer" class="btn-primary-cta" style="background: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px;">
+              🌐 Open Glassdoor Official Website &rarr;
             </a>
-            <a href="${gd.salaryUrl}" target="_blank" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
-              💵 Explore ${domainName} Salaries on Glassdoor &rarr;
+            <a href="https://www.google.com/search?q=site:glassdoor.co.in+${encodeURIComponent(domainName)}+interview+questions+and+salaries" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #059669; border-color: #059669; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
+              🔍 Search Live ${domainName} Glassdoor Questions &rarr;
+            </a>
+            <a href="https://www.glassdoor.co.in/Salaries/index.htm" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="background: #FFFFFF; color: #1E3A8A; border-color: #93C5FD; font-size: 0.88rem; padding: 10px 18px; font-weight: 700;">
+              💵 Glassdoor Salary Portal &rarr;
             </a>
           </div>
         </div>
