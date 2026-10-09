@@ -1141,7 +1141,17 @@ class NTIApp {
     this.openModal('modal-study-material');
   }
 
+  hasCandidateCompletedCurrentCycle() {
+    const appId = this.currentCandidate?.applicationId;
+    if (!appId) return false;
+    const submissions = JSON.parse(localStorage.getItem('nti_exam_submissions') || '[]');
+    return submissions.some(s => s.applicationId === appId);
+  }
+
   isExamActiveNow() {
+    // If the candidate has already finished their exam for this cycle, window is not active for re-attempt
+    if (this.hasCandidateCompletedCurrentCycle()) return false;
+
     const now = new Date();
     const day = now.getDay(); // 0 is Sunday
     const hour = now.getHours();
@@ -1153,13 +1163,15 @@ class NTIApp {
     const nextSunday = new Date(now);
     const day = now.getDay();
     const hour = now.getHours();
+    const isCompleted = this.hasCandidateCompletedCurrentCycle();
 
     if (day === 0) {
-      if (hour < 18) {
+      if (!isCompleted && hour < 18) {
         nextSunday.setHours(18, 0, 0, 0);
-      } else if (hour === 18) {
+      } else if (!isCompleted && hour === 18) {
         nextSunday.setHours(18, 0, 0, 0);
       } else {
+        // If completed or after 6:00 PM Sunday, automatically advance to next week's Sunday!
         nextSunday.setDate(now.getDate() + 7);
         nextSunday.setHours(18, 0, 0, 0);
       }
@@ -1177,6 +1189,7 @@ class NTIApp {
       const target = this.getNextSundayDate();
       const diff = target - now;
       const isLive = this.isExamActiveNow();
+      const isCompleted = this.hasCandidateCompletedCurrentCycle();
 
       const formattedDate = target.toLocaleDateString('en-US', {
         weekday: 'long',
@@ -1192,25 +1205,46 @@ class NTIApp {
       }
 
       const nextDateEl = document.getElementById('dash-next-exam-date');
-      if (nextDateEl) {
-        nextDateEl.textContent = `Next Official Exam Slot: ${formattedDate} @ 6:00 PM IST`;
-      }
-
       const clockEl = document.getElementById('dash-countdown-clock');
       const startExamBtn = document.getElementById('btn-start-exam-now');
       const statusBadge = document.getElementById('dash-window-status-badge');
 
+      if (isCompleted) {
+        if (nextDateEl) {
+          nextDateEl.textContent = `Next Official Qualifier Slot: ${formattedDate} @ 6:00 PM IST`;
+        }
+        if (statusBadge) {
+          statusBadge.textContent = '✅ EXAM ATTEMPT SUBMITTED & LOGGED';
+          statusBadge.style.background = '#10B981';
+          statusBadge.style.color = '#FFFFFF';
+        }
+        if (startExamBtn) {
+          startExamBtn.style.background = '#64748B';
+          startExamBtn.style.borderColor = '#64748B';
+          startExamBtn.style.boxShadow = 'none';
+          startExamBtn.innerHTML = `✅ Exam Submitted (Next Cycle: ${formattedDate})`;
+          startExamBtn.disabled = true;
+          startExamBtn.style.cursor = 'default';
+        }
+      } else if (nextDateEl) {
+        nextDateEl.textContent = `Next Official Exam Slot: ${formattedDate} @ 6:00 PM IST`;
+      }
+
       if (clockEl) {
-        if (isLive) {
+        if (isLive && !isCompleted) {
           clockEl.textContent = '00:00:00 (EXAM IS LIVE NOW!)';
           clockEl.style.color = '#10B981';
           if (statusBadge) {
             statusBadge.textContent = '🟢 LIVE ACTIVE WINDOW (6:00 PM - 7:00 PM)';
             statusBadge.style.background = '#10B981';
+            statusBadge.style.color = '#FFFFFF';
           }
           if (startExamBtn) {
             startExamBtn.style.background = '#10B981';
+            startExamBtn.style.borderColor = '#10B981';
             startExamBtn.innerHTML = '🚀 Enter Official Qualifier Assessment (Live Active) &rarr;';
+            startExamBtn.disabled = false;
+            startExamBtn.style.cursor = 'pointer';
           }
         } else {
           const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
@@ -1219,15 +1253,21 @@ class NTIApp {
           const s = Math.max(0, Math.floor((diff % (1000 * 60)) / 1000));
 
           clockEl.textContent = `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
-          clockEl.style.color = '#FBBF24';
+          clockEl.style.color = isCompleted ? '#38BDF8' : '#FBBF24';
 
-          if (statusBadge) {
-            statusBadge.textContent = '🔒 LOCKED UNTIL SUNDAY 6:00 PM';
-            statusBadge.style.background = '#EF4444';
-          }
-          if (startExamBtn) {
-            startExamBtn.style.background = '#0284C7';
-            startExamBtn.innerHTML = '🔒 Exam Opens on Sunday at 6:00 PM';
+          if (!isCompleted) {
+            if (statusBadge) {
+              statusBadge.textContent = '🔒 LOCKED UNTIL SUNDAY 6:00 PM';
+              statusBadge.style.background = '#EF4444';
+              statusBadge.style.color = '#FFFFFF';
+            }
+            if (startExamBtn) {
+              startExamBtn.style.background = '#0284C7';
+              startExamBtn.style.borderColor = '#0284C7';
+              startExamBtn.innerHTML = '🔒 Exam Opens on Sunday at 6:00 PM';
+              startExamBtn.disabled = false;
+              startExamBtn.style.cursor = 'pointer';
+            }
           }
         }
       }
@@ -1719,6 +1759,22 @@ class NTIApp {
       submittedAt: new Date().toISOString()
     });
     localStorage.setItem('nti_exam_submissions', JSON.stringify(submissions));
+
+    // Calculate next Sunday exam date automatically
+    const nextSunday = this.getNextSundayDate();
+    const nextSundayFormatted = nextSunday.toLocaleDateString('en-US', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+    const resultNextDateEl = document.getElementById('result-next-exam-date');
+    if (resultNextDateEl) {
+      resultNextDateEl.textContent = `${nextSundayFormatted} @ 6:00 PM IST`;
+    }
+
+    // Refresh student dashboard schedule & timers immediately
+    this.setupSundayExamSchedule();
 
     this.openModal('modal-exam-result');
     this.showToast('✅ All exam responses securely submitted to NTI Evaluation Team!', 'success');
