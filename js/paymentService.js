@@ -181,6 +181,54 @@ export class PaymentService {
     localStorage.setItem("nti_candidates", JSON.stringify(existingCandidates));
     localStorage.setItem("nti_active_candidate", JSON.stringify(verifiedRecord));
 
+    // Automatically sync to Supabase production database
+    try {
+      import('./supabaseClient.js').then(({ supabaseService }) => {
+        // 1. Save Registration
+        supabaseService.saveRegistration({
+          application_id: verifiedRecord.applicationId,
+          full_name: verifiedRecord.candidate?.name || verifiedRecord.candidate?.fullName,
+          email: verifiedRecord.candidate?.email,
+          phone: verifiedRecord.candidate?.mobile,
+          college: verifiedRecord.candidate?.college || 'Student',
+          graduation_year: verifiedRecord.candidate?.qualification || '2026',
+          domain: verifiedRecord.candidate?.domain,
+          status: 'Confirmed',
+          passcode: '8129',
+          payment_status: 'Paid',
+          amount_paid: verifiedRecord.amountPaid || 153,
+          transaction_id: verifiedRecord.transactionId
+        });
+
+        // 2. Save Payment Transaction
+        supabaseService.savePayment({
+          transaction_id: verifiedRecord.transactionId,
+          order_id: verifiedRecord.orderId,
+          application_id: verifiedRecord.applicationId,
+          student_name: verifiedRecord.candidate?.name || verifiedRecord.candidate?.fullName,
+          student_email: verifiedRecord.candidate?.email,
+          student_phone: verifiedRecord.candidate?.mobile,
+          course_name: `${verifiedRecord.candidate?.domain} Qualifier Assessment`,
+          amount: verifiedRecord.amountPaid || 153,
+          currency: 'INR',
+          payment_method: paymentDetails.paymentMethod || 'UPI',
+          payment_status: 'Successful',
+          gateway_ref: paymentDetails.signature || 'sig_verified'
+        });
+
+        // 3. Save Enrollment
+        supabaseService.createEnrollment({
+          student_name: verifiedRecord.candidate?.name || verifiedRecord.candidate?.fullName,
+          student_email: verifiedRecord.candidate?.email,
+          student_phone: verifiedRecord.candidate?.mobile,
+          course_name: `${verifiedRecord.candidate?.domain} Internship Track`,
+          status: 'Active',
+          payment_status: 'Paid',
+          amount: verifiedRecord.amountPaid || 153
+        });
+      }).catch(() => {});
+    } catch {}
+
     return verifiedRecord;
   }
 

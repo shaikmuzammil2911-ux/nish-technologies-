@@ -1756,9 +1756,31 @@ class NTIApp {
       attemptedCount: attemptedCount,
       violationsCount: this.examState.violationsCount,
       answers: this.examState.answers,
-      submittedAt: new Date().toISOString()
     });
     localStorage.setItem('nti_exam_submissions', JSON.stringify(submissions));
+
+    // Sync submission to Supabase
+    try {
+      import('./supabaseClient.js').then(({ supabaseService }) => {
+        supabaseService.request('exam_submissions', {
+          method: 'POST',
+          body: JSON.stringify({
+            application_id: appId,
+            student_name: this.currentCandidate?.candidate?.name || 'Student',
+            student_email: this.currentCandidate?.candidate?.email,
+            domain: domain,
+            total_score: totalScore,
+            aptitude_score: aptitudeScore,
+            domain_score: domainScore,
+            attempted_count: attemptedCount,
+            violations_count: this.examState.violationsCount || 0,
+            answers: this.examState.answers,
+            is_qualified: totalScore >= 30,
+            submitted_at: new Date().toISOString()
+          })
+        }).catch(() => {});
+      }).catch(() => {});
+    } catch {}
 
     // Calculate next Sunday exam date automatically
     const nextSunday = this.getNextSundayDate();

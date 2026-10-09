@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nish Technologies • Complete Master Admin Panel</title>
+  <meta name="description" content="Centralized enterprise administration portal for Nish Technologies: student registrations, courses, payments, live website CMS, and Cloudinary media management.">
+  <link rel="icon" type="image/png" href="assets/nti-logo-clean.png">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for Live Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. ADMIN AUTHENTICATION SCREEN (LOGIN VIEW)
+       ====================================================================== -->
+  <div id="admin-login-view" class="admin-login-screen">
+    <div class="admin-login-card">
+      <div class="login-brand-header">
+        <img src="assets/nti-logo-clean.png" alt="Nish Technologies Logo" class="login-brand-logo">
+        <h2 class="login-title">Master Admin Portal</h2>
+        <p class="login-subtitle">Nish Technologies Enterprise Control System</p>
+      </div>
+
+      <div id="login-error-alert" style="display: none; background: #FEE2E2; border: 1.5px solid #FCA5A5; color: #991B1B; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px; font-weight: 600;"></div>
+
+      <form id="admin-login-form">
+        <div class="admin-input-group">
+          <label for="admin-email" class="admin-label">Administrator Email</label>
+          <input type="email" id="admin-email" class="admin-input" placeholder="admin@nishtechnologies.com" required value="admin@nishtechnologies.com">
+        </div>
+
+        <div class="admin-input-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label for="admin-password" class="admin-label" style="margin-bottom: 0;">Security Password</label>
+            <span style="font-size: 0.75rem; color: #64748B;">Default: NishTech@2026</span>
+          </div>
+          <input type="password" id="admin-password" class="admin-input" placeholder="Enter master password" required value="NishTech@2026">
+        </div>
+
+        <button type="submit" id="btn-admin-login-submit" class="btn-admin-primary" style="margin-top: 8px;">
+          <span>🔐 Secure Admin Sign In</span>
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--admin-border); text-align: center; font-size: 0.78rem; color: #64748B;">
+        <span>Connected to Supabase (<code>qjxvfzhtgakwidnnkiuh</code>) &bull; Cloudinary (<code>eduwk9jq</code>)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       2. MASTER ADMIN APPLICATION LAYOUT (DASHBOARD & MODULES)
+       ====================================================================== -->
+  <div id="admin-app-layout" class="admin-layout" style="display: none;">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="assets/nti-logo-clean.png" alt="NTI Logo" class="sidebar-brand-logo">
+          <div>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF;">Nish Tech</div>
+            <div style="font-size: 0.68rem; color: #94A3B8;">Admin v2.5</div>
+          </div>
+        </div>
+        <span class="sidebar-badge">PRO</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Business</span>
+        <button type="button" class="sidebar-nav-item active" data-view="dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Analytics Dashboard</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="students">
+          <span class="nav-icon">👥</span>
+          <span>Student Management</span>
+          <span class="nav-badge" id="badge-students-count">0</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="courses">
+          <span class="nav-icon">🎓</span>
+          <span>Course Management</span>
+          <span class="nav-badge" id="badge-courses-count">0</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="enrollments">
+          <span class="nav-icon">📝</span>
+          <span>Course Enrollments</span>
+        </button>
+
+        <span class="nav-section-label">Finance &amp; Operations</span>
+        <button type="button" class="sidebar-nav-item" data-view="payments">
+          <span class="nav-icon">💳</span>
+          <span>Payments &amp; Revenue</span>
+          <span class="nav-badge" style="background: #10B981;" id="badge-payments-count">₹0</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="inquiries">
+          <span class="nav-icon">📬</span>
+          <span>Inquiries &amp; Leads</span>
+          <span class="nav-badge" id="badge-inquiries-count">0</span>
+        </button>
+
+        <span class="nav-section-label">Website &amp; Assets</span>
+        <button type="button" class="sidebar-nav-item" data-view="cms">
+          <span class="nav-icon">🌐</span>
+          <span>Live Website CMS</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="media">
+          <span class="nav-icon">🖼️</span>
+          <span>Cloudinary Media</span>
+        </button>
+        <button type="button" class="sidebar-nav-item" data-view="announcements">
+          <span class="nav-icon">📢</span>
+          <span>Announcements</span>
+        </button>
+
+        <span class="nav-section-label">Security &amp; Audit</span>
+        <button type="button" class="sidebar-nav-item" data-view="logs">
+          <span class="nav-icon">🛡️</span>
+          <span>Activity Audit Logs</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar">AD</div>
+          <div class="admin-user-details">
+            <div class="admin-name" id="admin-user-name">Administrator</div>
+            <div class="admin-role">Superadmin</div>
+          </div>
+        </div>
+        <button type="button" class="btn-sidebar-logout" id="btn-admin-logout" title="Sign Out">
+          <span style="font-size: 1.1rem;">🚪</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="admin-main">
+      
+      <!-- Top Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button type="button" class="btn-mobile-sidebar-toggle" id="btn-sidebar-toggle">☰</button>
+          <h1 class="page-breadcrumb-title" id="page-current-title">Analytics Dashboard</h1>
+        </div>
+
+        <div class="topbar-right">
+          <div class="status-indicator-pill" title="Connected to Supabase production database">
+            <span class="status-dot"></span>
+            <span>Supabase Connected</span>
+          </div>
+          <div class="status-indicator-pill" style="background: #EEF2FF; color: #4338CA; border-color: #C7D2FE;" title="Cloudinary Active (eduwk9jq)">
+            <span class="status-dot" style="background: #6366F1;"></span>
+            <span>Cloudinary Active</span>
+          </div>
+          <a href="index.html" target="_blank" class="btn-admin-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+            <span>🌐 View Live Site</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Body Panes -->
+      <main class="admin-content-body">
+        
+        <!-- ==================================================================
+             VIEW 1: DASHBOARD & LIVE ANALYTICS
+             ================================================================== -->
+        <section id="view-dashboard" class="admin-view-panel active">
+          <!-- Filter Controls -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #0F172A;">Business Performance &amp; Real-time Metrics</h3>
+              <p style="font-size: 0.82rem; color: #64748B;">Calculated dynamically from verified Supabase records</p>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <select id="dash-date-filter" class="admin-select-filter">
+                <option value="all">All Time Records</option>
+                <option value="today">Today</option>
+                <option value="7d">Last 7 Days</option>
+                <option value="30d">Last 30 Days</option>
+                <option value="month">This Month</option>
+              </select>
+              <button type="button" class="btn-admin-secondary" id="btn-refresh-dashboard">
+                <span>🔄 Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Top Metric Cards Grid -->
+          <div class="stats-grid-4">
+            <div class="admin-stat-card">
+              <div>
+                <div class="stat-label">Total Registered Students</div>
+                <div class="stat-value" id="dash-stat-students">0</div>
+                <div class="stat-subtext"><strong id="dash-stat-today-regs" style="color: #059669;">+0 today</strong> &bull; verified candidates</div>
+              </div>
+              <div class="stat-icon-wrap stat-icon-blue">👥</div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div>
+                <div class="stat-label">Total Net Revenue</div>
+                <div class="stat-value" style="color: #059669;" id="dash-stat-revenue">₹0</div>
+                <div class="stat-subtext"><span id="dash-stat-payments-count">0</span> verified successful transactions</div>
+              </div>
+              <div class="stat-icon-wrap stat-icon-green">💰</div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div>
+                <div class="stat-label">Active Course Tracks</div>
+                <div class="stat-value" id="dash-stat-courses">0</div>
+                <div class="stat-subtext"><span id="dash-stat-published-courses">0</span> published tracks online</div>
+              </div>
+              <div class="stat-icon-wrap stat-icon-purple">🎓</div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div>
+                <div class="stat-label">Total Inquiries / Leads</div>
+                <div class="stat-value" id="dash-stat-inquiries">0</div>
+                <div class="stat-subtext"><span id="dash-stat-new-inquiries" style="color: #D97706;">0 new</span> awaiting response</div>
+              </div>
+              <div class="stat-icon-wrap stat-icon-amber">📬</div>
+            </div>
+          </div>
+
+          <!-- Interactive Analytics Charts Grid -->
+          <div class="charts-grid-2">
+            <div class="admin-card">
+              <div class="card-header-bar">
+                <h4 class="card-title-text">📈 Student Registrations Trend</h4>
+                <span style="font-size: 0.78rem; color: #64748B;">Weekly Growth</span>
+              </div>
+              <div class="chart-card-body">
+                <canvas id="chart-registrations"></canvas>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="card-header-bar">
+                <h4 class="card-title-text">💵 Revenue Collection Breakdown</h4>
+                <span style="font-size: 0.78rem; color: #64748B;">Gross vs Net Collections</span>
+              </div>
+              <div class="chart-card-body">
+                <canvas id="chart-revenue"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity Split Tables -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+            <div class="admin-card">
+              <div class="card-header-bar">
+                <h4 class="card-title-text">Recent Student Registrations</h4>
+                <button type="button" class="btn-admin-action" style="font-size: 0.75rem; padding: 4px 8px;" onclick="window.adminApp.switchView('students')">View All</button>
+              </div>
+              <div class="admin-table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Candidate</th>
+                      <th>Domain</th>
+                      <th>Passcode</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-recent-students-tbody">
+                    <tr><td colspan="4" style="text-align: center; color: #94A3B8;">Loading registrations...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="card-header-bar">
+                <h4 class="card-title-text">Recent Verified Payments</h4>
+                <button type="button" class="btn-admin-action" style="font-size: 0.75rem; padding: 4px 8px;" onclick="window.adminApp.switchView('payments')">View All</button>
+              </div>
+              <div class="admin-table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Transaction ID</th>
+                      <th>Student</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-recent-payments-tbody">
+                    <tr><td colspan="4" style="text-align: center; color: #94A3B8;">Loading transactions...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 2: STUDENT MANAGEMENT & REGISTRATIONS
+             ================================================================== -->
+        <section id="view-students" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Registered Students &amp; Applications</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Comprehensive database of all applicants and qualifier candidates</p>
+              </div>
+              <div class="card-action-group">
+                <input type="text" id="search-students" class="admin-search-input" placeholder="🔍 Search name, email, app ID...">
+                <select id="filter-students-domain" class="admin-select-filter">
+                  <option value="all">All Domains</option>
+                  <option value="vlsi">VLSI</option>
+                  <option value="ai-ml">AI &amp; ML</option>
+                  <option value="java">Java Full Stack</option>
+                  <option value="python">Python Full Stack</option>
+                  <option value="full-stack">MERN Web Dev</option>
+                  <option value="cyber-security">Cyber Security</option>
+                  <option value="cloud-computing">Cloud &amp; DevOps</option>
+                  <option value="data-science">Data Science</option>
+                </select>
+                <select id="filter-students-status" class="admin-select-filter">
+                  <option value="all">All Statuses</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Verified">Verified</option>
+                </select>
+                <button type="button" class="btn-admin-secondary" id="btn-export-students-csv">
+                  <span>📥 Export CSV</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>App ID</th>
+                    <th>Student Name</th>
+                    <th>Email &amp; Phone</th>
+                    <th>Domain</th>
+                    <th>Passcode</th>
+                    <th>Payment</th>
+                    <th>Registered At</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="students-table-tbody">
+                  <!-- Populated dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 3: COURSE & INTERNSHIP MANAGEMENT
+             ================================================================== -->
+        <section id="view-courses" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Course Tracks &amp; Specializations</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Manage syllabus, stipends, Cloudinary banners, and publish status</p>
+              </div>
+              <div class="card-action-group">
+                <button type="button" class="btn-admin-primary" id="btn-open-add-course-modal" style="width: auto;">
+                  <span>➕ Add New Course Track</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <th>Category</th>
+                    <th>Stipend &amp; Fee</th>
+                    <th>Duration</th>
+                    <th>Enrollments</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="courses-table-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 4: COURSE ENROLLMENTS
+             ================================================================== -->
+        <section id="view-enrollments" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Student Course Enrollments</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Active student-to-course batch allocations</p>
+              </div>
+              <div class="card-action-group">
+                <input type="text" id="search-enrollments" class="admin-search-input" placeholder="🔍 Search student or course...">
+                <button type="button" class="btn-admin-secondary" id="btn-export-enrollments-csv">
+                  <span>📥 Export CSV</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Enrolled Course</th>
+                    <th>Enrollment Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="enrollments-table-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 5: PAYMENTS & FINANCIAL REPORTS
+             ================================================================== -->
+        <section id="view-payments" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Payment Transactions &amp; Revenue Reports</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Verified UPI and Razorpay transactions linked to candidates</p>
+              </div>
+              <div class="card-action-group">
+                <input type="text" id="search-payments" class="admin-search-input" placeholder="🔍 Search Tx ID, App ID, Name...">
+                <select id="filter-payment-status" class="admin-select-filter">
+                  <option value="all">All Payment Statuses</option>
+                  <option value="Successful">Successful</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Failed">Failed</option>
+                  <option value="Refunded">Refunded</option>
+                </select>
+                <button type="button" class="btn-admin-secondary" id="btn-export-payments-csv">
+                  <span>📥 Export Report CSV</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Candidate</th>
+                    <th>Domain</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Date &amp; Time</th>
+                  </tr>
+                </thead>
+                <tbody id="payments-table-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 6: LIVE WEBSITE CONTENT MANAGEMENT (CMS)
+             ================================================================== -->
+        <section id="view-cms" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Live Website Content Management System (CMS)</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Updates are saved to Supabase and reflected immediately on the public website</p>
+              </div>
+            </div>
+
+            <div style="padding: 24px;">
+              <form id="cms-settings-form">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                  <div class="admin-input-group">
+                    <label class="admin-label">Homepage Hero Badge Text</label>
+                    <input type="text" id="cms-hero-badge" class="admin-input" value="🚀 NISH TECHNOLOGIES • QUALIFIER 2026">
+                  </div>
+                  <div class="admin-input-group">
+                    <label class="admin-label">Stipend Offer Amount</label>
+                    <input type="text" id="cms-stipend-amount" class="admin-input" value="₹30,000 / month">
+                  </div>
+                </div>
+
+                <div class="admin-input-group">
+                  <label class="admin-label">Hero Main Heading</label>
+                  <input type="text" id="cms-hero-heading" class="admin-input" value="Accelerate Your Tech Career with Stipend-Based Industry Internships">
+                </div>
+
+                <div class="admin-input-group">
+                  <label class="admin-label">Hero Subheading &amp; Description</label>
+                  <textarea id="cms-hero-desc" class="admin-input" rows="3">Join India's premier hands-on internship program across 25+ cutting-edge domains. Crack the Sunday 6:00 PM Qualifier to unlock verified certificates, real-world project mentorship, and ₹30,000/month stipend opportunities.</textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                  <div class="admin-input-group">
+                    <label class="admin-label">Official Support Email</label>
+                    <input type="email" id="cms-support-email" class="admin-input" value="support@nishtechnologies.com">
+                  </div>
+                  <div class="admin-input-group">
+                    <label class="admin-label">WhatsApp Channel URL</label>
+                    <input type="url" id="cms-whatsapp-channel" class="admin-input" value="https://whatsapp.com/channel/0029Va9NTIOfficialChannel">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn-admin-primary" style="width: auto; padding: 12px 28px;">
+                  <span>💾 Save &amp; Publish Content to Live Website</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 7: CLOUDINARY IMAGE & MEDIA MANAGER
+             ================================================================== -->
+        <section id="view-media" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Cloudinary Media Library &amp; Asset Management</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Cloud Name: <code>eduwk9jq</code> &bull; Upload Preset: <code>ml_default</code></p>
+              </div>
+            </div>
+
+            <div style="padding: 24px;">
+              <!-- Dropzone -->
+              <div class="dropzone-upload-box" id="cloudinary-dropzone">
+                <div style="font-size: 2.2rem; margin-bottom: 8px;">☁️</div>
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--admin-text-main); margin-bottom: 4px;">
+                  Drop image files here, or <span style="color: var(--admin-primary); text-decoration: underline;">click to browse</span>
+                </h4>
+                <p style="font-size: 0.8rem; color: #64748B;">Supports JPG, PNG, WebP, SVG (Max 10MB)</p>
+                <input type="file" id="cloudinary-file-input" accept="image/*" style="display: none;">
+              </div>
+
+              <!-- Upload Progress Bar -->
+              <div id="media-upload-progress-wrap" style="display: none; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+                  <span id="media-upload-filename">Uploading image to Cloudinary...</span>
+                  <span id="media-upload-pct">0%</span>
+                </div>
+                <div style="height: 6px; background: #E2E8F0; border-radius: 3px; overflow: hidden;">
+                  <div id="media-upload-fill" style="height: 100%; width: 0%; background: #0284C7; transition: width 0.1s ease;"></div>
+                </div>
+              </div>
+
+              <!-- Media Gallery Grid -->
+              <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--admin-text-main); margin-bottom: 14px;">
+                Uploaded Cloudinary Assets:
+              </h4>
+              <div class="media-gallery-grid" id="media-gallery-grid">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 8: INQUIRIES & CONTACT LEADS
+             ================================================================== -->
+        <section id="view-inquiries" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Contact Form Inquiries &amp; Leads</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Messages submitted by prospective students and partners</p>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email &amp; Phone</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inquiries-table-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 9: ANNOUNCEMENTS & NOTICES
+             ================================================================== -->
+        <section id="view-announcements" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Student Portal Notices &amp; Banners</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Broadcast live announcements to all registered candidates</p>
+              </div>
+              <div class="card-action-group">
+                <button type="button" class="btn-admin-primary" id="btn-open-add-announcement-modal" style="width: auto;">
+                  <span>➕ Post New Notice</span>
+                </button>
+              </div>
+            </div>
+
+            <div style="padding: 24px;" id="announcements-list-container">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 10: ACTIVITY LOGS & SECURITY AUDIT
+             ================================================================== -->
+        <section id="view-logs" class="admin-view-panel">
+          <div class="admin-card">
+            <div class="card-header-bar">
+              <div>
+                <h3 class="card-title-text">Administrative Security &amp; Activity Logs</h3>
+                <p style="font-size: 0.8rem; color: #64748B; margin-top: 2px;">Audit trail of all administrative actions, logins, and updates</p>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Admin Email</th>
+                    <th>Action</th>
+                    <th>Entity Type</th>
+                    <th>Entity Reference</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="logs-table-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODALS: STUDENT PROFILE DETAILS MODAL
+       ====================================================================== -->
+  <div class="admin-modal-overlay" id="modal-student-detail">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Student Profile &amp; Application Details</h3>
+        <button type="button" class="admin-modal-close" onclick="window.adminApp.closeModal('modal-student-detail')">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="student-detail-body">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-admin-secondary" onclick="window.adminApp.closeModal('modal-student-detail')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODALS: ADD / EDIT COURSE MODAL
+       ====================================================================== -->
+  <div class="admin-modal-overlay" id="modal-course-edit">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" id="course-modal-title">Add Course Track</h3>
+        <button type="button" class="admin-modal-close" onclick="window.adminApp.closeModal('modal-course-edit')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="form-course-edit">
+          <input type="hidden" id="course-edit-id">
+          
+          <div class="admin-input-group">
+            <label class="admin-label">Course Title</label>
+            <input type="text" id="course-form-title" class="admin-input" required placeholder="e.g. VLSI & Chip Design">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="admin-input-group">
+              <label class="admin-label">Category</label>
+              <input type="text" id="course-form-category" class="admin-input" required placeholder="e.g. Hardware & Electronics">
+            </div>
+            <div class="admin-input-group">
+              <label class="admin-label">Course Slug / Identifier</label>
+              <input type="text" id="course-form-slug" class="admin-input" required placeholder="e.g. vlsi">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="admin-input-group">
+              <label class="admin-label">Assessment Fee (INR)</label>
+              <input type="number" id="course-form-fee" class="admin-input" value="153">
+            </div>
+            <div class="admin-input-group">
+              <label class="admin-label">Stipend Amount</label>
+              <input type="text" id="course-form-stipend" class="admin-input" value="₹30,000 / month">
+            </div>
+          </div>
+
+          <div class="admin-input-group">
+            <label class="admin-label">Short Description</label>
+            <textarea id="course-form-desc" class="admin-input" rows="2" placeholder="Brief summary for domain cards..."></textarea>
+          </div>
+
+          <div class="admin-input-group">
+            <label class="admin-label">Cloudinary Banner Image URL</label>
+            <input type="url" id="course-form-image" class="admin-input" placeholder="https://res.cloudinary.com/eduwk9jq/image/upload/...">
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <button type="button" class="btn-admin-secondary" onclick="window.adminApp.closeModal('modal-course-edit')">Cancel</button>
+            <button type="submit" class="btn-admin-primary" style="width: auto;">Save Course Track</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Application Logic -->
+  <script type="module" src="js/adminApp.js"></script>
+</body>
+</html>
