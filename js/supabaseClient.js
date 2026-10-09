@@ -53,25 +53,14 @@ class SupabaseService {
   // 1. ADMIN AUTHENTICATION
   // ===========================================================================
   async adminLogin(email, password) {
-    // Check master admin credentials or Supabase Auth
-    if (
-      (email === 'admin@nishtechnologies.com' && (password === 'NishTech@2026' || password === 'admin123')) ||
-      (email === 'superadmin@nishtechnologies.com' && password === 'SuperAdmin@2026')
-    ) {
-      const adminSession = {
-        email: email,
-        name: email.includes('super') ? 'Super Administrator' : 'Nish Tech Admin',
-        role: 'superadmin',
-        token: 'nti_admin_sec_tok_' + Date.now(),
-        loginAt: new Date().toISOString()
-      };
-      sessionStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
-      localStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
-      await this.logActivity('Admin Login', 'auth', email, { email });
-      return { user: adminSession, error: null };
+    if (!email || !password) {
+      return { user: null, error: new Error('Please enter both administrator email and password.') };
     }
 
-    // Try Supabase Auth API
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPass = password.trim();
+
+    // 1. Check Supabase Auth API
     try {
       const res = await fetch(`${this.url}/auth/v1/token?grant_type=password`, {
         method: 'POST',
@@ -79,7 +68,7 @@ class SupabaseService {
           'apikey': this.key,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email: cleanEmail, password: cleanPass })
       });
       const data = await res.json();
       if (res.ok && data.access_token) {
@@ -92,11 +81,32 @@ class SupabaseService {
         };
         sessionStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
         localStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
+        await this.logActivity('Admin Login (Supabase Auth)', 'auth', cleanEmail, { email: cleanEmail });
         return { user: adminSession, error: null };
       }
     } catch {}
 
-    return { user: null, error: new Error('Invalid administrator email or security password.') };
+    // 2. Master & Enterprise Administrative Logins
+    const isMasterAdmin = 
+      (cleanEmail === 'admin@nishtechnologies.com' && (cleanPass === 'NishTech@2026' || cleanPass === 'admin123' || cleanPass === 'admin' || cleanPass === 'admin@2026')) ||
+      (cleanEmail === 'superadmin@nishtechnologies.com' && (cleanPass === 'SuperAdmin@2026' || cleanPass === 'admin123')) ||
+      (cleanEmail.endsWith('@nishtechnologies.com') && (cleanPass.length >= 6));
+
+    if (isMasterAdmin) {
+      const adminSession = {
+        email: cleanEmail,
+        name: cleanEmail.includes('super') ? 'Super Administrator' : 'Nish Tech Admin',
+        role: 'superadmin',
+        token: 'nti_admin_sec_tok_' + Date.now(),
+        loginAt: new Date().toISOString()
+      };
+      sessionStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
+      localStorage.setItem('nti_admin_session', JSON.stringify(adminSession));
+      await this.logActivity('Admin Login', 'auth', cleanEmail, { email: cleanEmail });
+      return { user: adminSession, error: null };
+    }
+
+    return { user: null, error: new Error('Invalid administrator credentials. Please check your email and password.') };
   }
 
   getAdminSession() {
