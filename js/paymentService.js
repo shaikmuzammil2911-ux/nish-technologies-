@@ -97,7 +97,7 @@ export class PaymentService {
           key: this.gatewayKey,
           amount: order.amountInPaise || (order.totalAmount * 100),
           currency: "INR",
-          name: APP_CONFIG.brandName || "Nish Technologies Inc",
+          name: "Nish Technologies",
           description: isCourse 
             ? `${order.candidate?.domain || "Python"} Course Program & Certification`
             : `${order.candidate?.domain || "VLSI"} Qualifier Test Fee`,
@@ -108,6 +108,8 @@ export class PaymentService {
             contact: order.candidate?.mobile || ""
           },
           notes: {
+            merchant_name: "Nish Technologies",
+            company: "Nish Technologies",
             applicationId: order.applicationId,
             domain: order.candidate?.domain || "",
             program: order.candidate?.program || ""

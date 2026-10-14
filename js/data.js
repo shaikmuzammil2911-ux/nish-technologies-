@@ -2,7 +2,7 @@
 // Reusable, Dynamic Data Architecture for Domains, Programs, Exam & Settings
 
 export const APP_CONFIG = {
-  brandName: "NISH TECHNOLOGIES INC",
+  brandName: "Nish Technologies",
   shortBrand: "NTI",
   tagline: "Learn | Build | Grow",
   examName: "Nish Technologies Qualifier Test",
