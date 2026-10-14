@@ -30,6 +30,7 @@ export const APP_CONFIG = {
   },
   whatsappGroupUrl: "https://chat.whatsapp.com/invite/NTI-Qualifier-Official-Batch-2026",
   whatsappChannelUrl: "https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43",
+  razorpayKeyId: "rzp_test_TndXiRp8L7QJ68",
   supportEmail: "hr@nishtechnologies.com",
   supportPhone: "+91 98765 43210",
   headquarters: "Kukatpally, Hyderabad - 500072, Telangana",

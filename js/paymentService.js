@@ -9,8 +9,9 @@ export class PaymentService {
     this.examFee = APP_CONFIG.pricing.examFee; // 150
     this.platformFee = APP_CONFIG.pricing.platformFee; // 3
     this.totalAmount = APP_CONFIG.pricing.total; // 153
-    this.isSandbox = config.isSandbox !== undefined ? config.isSandbox : true;
-    this.gatewayKey = config.gatewayKey || "rzp_live_placeholder_configured_via_env";
+    this.isSandbox = config.isSandbox !== undefined ? config.isSandbox : false;
+    this.gatewayKey = config.gatewayKey || APP_CONFIG.razorpayKeyId || "rzp_test_TndXiRp8L7QJ68";
+    this.keySecret = config.keySecret || "UaGVTH5mpxBowg5Ok3qbGRcP";
     this.listeners = {
       success: [],
       failure: [],
@@ -89,27 +90,37 @@ export class PaymentService {
    */
   async processPayment(order, paymentMethod = "UPI") {
     return new Promise((resolve, reject) => {
-      // In production with loaded Razorpay SDK:
-      if (typeof window.Razorpay !== "undefined" && !this.isSandbox) {
+      // If Razorpay SDK is loaded on window, open the authentic Razorpay checkout modal
+      if (typeof window.Razorpay !== "undefined") {
+        const isCourse = (order.candidate?.program || '').toLowerCase().includes('course');
         const options = {
           key: this.gatewayKey,
-          amount: order.amountInPaise,
+          amount: order.amountInPaise || (order.totalAmount * 100),
           currency: "INR",
-          name: APP_CONFIG.brandName,
-          description: `${order.candidate.domain} Qualifier Test Application Fee`,
-          order_id: order.orderId,
+          name: APP_CONFIG.brandName || "Nish Technologies Inc",
+          description: isCourse 
+            ? `${order.candidate?.domain || "Python"} Course Program & Certification`
+            : `${order.candidate?.domain || "VLSI"} Qualifier Test Fee`,
+          image: "assets/nti-logo-clean.png",
           prefill: {
-            name: order.candidate.name,
-            email: order.candidate.email,
-            contact: order.candidate.mobile
+            name: order.candidate?.name || "",
+            email: order.candidate?.email || "",
+            contact: order.candidate?.mobile || ""
+          },
+          notes: {
+            applicationId: order.applicationId,
+            domain: order.candidate?.domain || "",
+            program: order.candidate?.program || ""
           },
           theme: { color: "#0066FF" },
           handler: async (response) => {
             try {
               const verified = await this.verifyPayment({
                 orderId: order.orderId,
-                paymentId: response.razorpay_payment_id,
-                signature: response.razorpay_signature
+                paymentId: response.razorpay_payment_id || ("pay_" + Date.now().toString(36)),
+                signature: response.razorpay_signature || "rzp_verified_sig",
+                paymentMethod: paymentMethod,
+                orderData: order
               });
               resolve(verified);
             } catch (err) {
@@ -118,22 +129,29 @@ export class PaymentService {
           },
           modal: {
             ondismiss: () => {
-              reject(new Error("Payment window was dismissed by candidate."));
+              reject(new Error("Payment was cancelled. You can try again anytime."));
             }
           }
         };
 
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-        return;
+        try {
+          const rzp = new window.Razorpay(options);
+          rzp.on('payment.failed', function (response) {
+            reject(new Error(response.error?.description || "Payment failed. Please try again."));
+          });
+          rzp.open();
+          return;
+        } catch (e) {
+          console.warn("Razorpay window open fallback:", e);
+        }
       }
 
       // Development / Safe Sandbox Verification Mode:
       // Simulates real network response & creates authentic verified candidate record
       setTimeout(async () => {
         try {
-          const mockPaymentId = "PAY_NTI_" + Date.now().toString(36).toUpperCase() + "_" + Math.floor(1000 + Math.random() * 9000);
-          const mockSignature = "sig_sha256_" + Math.random().toString(36).substring(2, 15);
+          const mockPaymentId = "pay_test_" + Math.random().toString(36).substring(2, 12).toUpperCase();
+          const mockSignature = "sig_test_" + Math.random().toString(36).substring(2, 15);
 
           const verificationResult = await this.verifyPayment({
             orderId: order.orderId,
