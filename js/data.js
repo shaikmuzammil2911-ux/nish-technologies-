@@ -22,8 +22,14 @@ export const APP_CONFIG = {
     total: 153,
     currencySymbol: "₹"
   },
+  coursePricing: {
+    courseFee: 200,
+    platformFee: 4,
+    total: 204,
+    currencySymbol: "₹"
+  },
   whatsappGroupUrl: "https://chat.whatsapp.com/invite/NTI-Qualifier-Official-Batch-2026",
-  whatsappChannelUrl: "https://whatsapp.com/channel/0029Va9NTIOfficialChannel",
+  whatsappChannelUrl: "https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43",
   supportEmail: "hr@nishtechnologies.com",
   supportPhone: "+91 98765 43210",
   headquarters: "Kukatpally, Hyderabad - 500072, Telangana",
@@ -659,8 +665,23 @@ export const PROGRAMS = [
     subtitle: "Gain hands-on experience & ₹30,000/mo stipend",
     description: "Work directly on live client projects with dedicated 1-on-1 industry mentorship, weekly code reviews, and stipend-based compensation upon qualifier completion.",
     duration: "3 – 6 Months",
-    badge: "Most Popular",
-    icon: "cap"
+    badge: "₹150 Fee + ₹3 Platform",
+    icon: "cap",
+    fee: 150,
+    platformFee: 3,
+    totalFee: 153
+  },
+  {
+    id: "course",
+    title: "Course Program",
+    subtitle: "Python Full Stack & Domain Courses with Live Modules & Certificate",
+    description: "Master full-stack and specialized technologies with Topmate-style video modules, live code labs, practical projects, domain assessments, and verifiable certification.",
+    duration: "Self-Paced / 3 Months",
+    badge: "₹200 Fee + ₹4 Platform",
+    icon: "book-open",
+    fee: 200,
+    platformFee: 4,
+    totalFee: 204
   },
   {
     id: "certification",

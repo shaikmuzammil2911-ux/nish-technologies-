@@ -604,10 +604,39 @@
             <div class="form-group">
               <label class="form-label" for="form-program">Select Program *</label>
               <select id="form-program" class="form-select" required>
-                <option value="Internship Program">Internship Program</option>
+                <option value="Course Program" selected>Course Program (₹200 Fee + ₹4 Platform = ₹204 Total)</option>
+                <option value="Internship Program">Internship Program (₹150 Fee + ₹3 Platform = ₹153 Total)</option>
                 <option value="Certification Programs">Certification Programs</option>
                 <option value="Job Program">Job Program</option>
               </select>
+              
+              <!-- Prominent Visible Payment Breakdown Card in this section -->
+              <div id="form-program-payment-box" class="form-payment-callout" role="region" aria-label="Program Fee Summary">
+                <div class="fpc-header">
+                  <div class="fpc-title">
+                    <span>💳</span>
+                    <span id="fp-fee-title">Course Program Payment Breakdown</span>
+                  </div>
+                  <span class="fpc-tag" id="fp-fee-tag">₹204 Payable</span>
+                </div>
+                <div class="fpc-grid">
+                  <div class="fpc-row">
+                    <span id="fp-base-label">Course Curriculum Fee:</span>
+                    <strong id="fp-base-amount">₹200</strong>
+                  </div>
+                  <div class="fpc-row">
+                    <span id="fp-platform-label">Platform &amp; Assessment Fee:</span>
+                    <strong id="fp-platform-amount">₹4</strong>
+                  </div>
+                  <div class="fpc-row total">
+                    <span>Total Amount To Pay:</span>
+                    <strong id="fp-total-amount">₹204</strong>
+                  </div>
+                </div>
+                <div class="fpc-benefits" id="fp-benefits-note">
+                  ✓ Full access to Topmate-style 6-Module Course Player, Live Code Labs &amp; Certificate
+                </div>
+              </div>
               <span class="form-error-msg" id="err-program"></span>
             </div>
           </div>
@@ -646,8 +675,8 @@
           </div>
           <span class="form-error-msg" id="err-terms" style="display: block; margin-top: -12px; margin-bottom: 12px;"></span>
 
-          <button type="submit" class="btn-primary-cta" id="btn-submit-apply-form" style="width: 100%; justify-content: center;">
-            Proceed to Payment <span>&rarr;</span>
+          <button type="submit" class="btn-primary-cta" id="btn-submit-apply-form" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px; font-weight: 800; box-shadow: 0 4px 16px rgba(0, 102, 255, 0.25);">
+            Pay ₹204 &amp; Proceed to Payment <span>&rarr;</span>
           </button>
         </form>
       </div>
@@ -674,16 +703,16 @@
         <div class="order-summary-box">
           <div class="summary-heading">Order Summary</div>
           <div class="summary-line">
-            <span id="payment-summary-exam-name">Qualifier Test Exam Fee</span>
-            <span>₹150</span>
+            <span id="payment-summary-exam-name">Course Fee</span>
+            <span id="payment-summary-base-fee">₹200</span>
           </div>
           <div class="summary-line">
-            <span>Platform Fee</span>
-            <span>₹3</span>
+            <span id="payment-summary-platform-label">Platform Fee</span>
+            <span id="payment-summary-platform-fee">₹4</span>
           </div>
           <div class="summary-line total-line">
             <span>Total</span>
-            <span id="payment-summary-total">₹153</span>
+            <span id="payment-summary-total">₹204</span>
           </div>
         </div>
 
@@ -786,7 +815,7 @@
             📢 Important: Stay tuned to the official NTI WhatsApp Channel! Top 10 performers will be awarded the ₹30,000/month stipend-based internship. Results will be released here.
           </p>
           <div style="display: flex; gap: 10px; flex-direction: column;">
-            <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-whatsapp-join" id="btn-join-whatsapp-channel" style="background: #059669;">
+            <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join" id="btn-join-whatsapp-channel" style="background: #059669;">
               <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.13-.17.25-.64.8-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.17.16 1.61.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.31z"/></svg>
               👉 Join &amp; Stay Tuned to Official WhatsApp Channel
             </a>
@@ -796,8 +825,12 @@
           </div>
         </div>
 
+        <button type="button" class="btn-primary-cta" id="btn-goto-course-player" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem; background: #0066FF; margin-bottom: 10px; display: none;">
+          🚀 Open Course Player &amp; Domain Curriculum &rarr;
+        </button>
+
         <button type="button" class="btn-primary-cta" id="btn-goto-dashboard" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem;">
-          🔑 Login to Student Dashboard Now &rarr;
+          🔑 Access Student Dashboard Now &rarr;
         </button>
       </div>
     </div>
@@ -847,11 +880,22 @@
         <div class="category-card" style="padding: 20px; cursor: pointer;" id="prog-card-internship">
           <div class="cat-icon-circle" style="background: #EBF3FF; color: var(--primary);">⏱️</div>
           <div class="cat-info" style="flex: 1;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
               <span class="cat-name" style="font-size: 1.1rem;">Internship Program</span>
-              <span style="font-size: 0.75rem; background: #D1FAE5; color: #065F46; padding: 3px 8px; border-radius: 99px; font-weight: 700;">₹30,000/mo Stipend</span>
+              <span style="font-size: 0.78rem; background: #D1FAE5; color: #065F46; padding: 4px 10px; border-radius: 99px; font-weight: 800; border: 1px solid #A7F3D0;">Exam Fee: ₹150 + ₹3 Platform (Total: ₹153) &bull; ₹30,000/mo Stipend</span>
             </div>
             <span class="cat-sub" style="margin-top: 4px;">Gain hands-on experience, live corporate projects, and 1-on-1 industry mentorship.</span>
+          </div>
+        </div>
+
+        <div class="category-card" style="padding: 20px; cursor: pointer; border: 2px solid #0066FF; background: #F8FBFF;" id="prog-card-course">
+          <div class="cat-icon-circle" style="background: #E0F2FE; color: #0284C7;">📚</div>
+          <div class="cat-info" style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+              <span class="cat-name" style="font-size: 1.1rem; color: #0066FF;">Course Program</span>
+              <span style="font-size: 0.78rem; background: #DBEAFE; color: #1E40AF; padding: 4px 10px; border-radius: 99px; font-weight: 800; border: 1px solid #BFDBFE;">Course Fee: ₹200 + ₹4 Platform (Total: ₹204)</span>
+            </div>
+            <span class="cat-sub" style="margin-top: 4px;">Python Full Stack &amp; Domain Courses with modular video curriculum, live code labs, and verified certification.</span>
           </div>
         </div>
 
@@ -1107,14 +1151,17 @@
 
           <!-- CTAs -->
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-primary-cta" id="dash-btn-course-player" style="background: #0066FF; border-color: #0066FF; font-size: 1rem; padding: 14px 24px; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.4); display: none;">
+              🎓 Open Course Player &amp; Modules &rarr;
+            </button>
             <button type="button" class="btn-primary-cta" id="btn-start-exam-now" style="background: #10B981; border-color: #10B981; font-size: 1rem; padding: 14px 24px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
               🚀 Enter Official Exam Hall &bull; Start Exam &rarr;
             </button>
             <button type="button" class="btn-secondary-cta" id="btn-practice-exam-demo" style="background: rgba(255,255,255,0.15); color: #FFFFFF; border-color: rgba(255,255,255,0.4); font-weight: 700;">
               🧪 Practice Simulator (Demo Mode)
             </button>
-            <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-secondary-cta" id="dash-btn-whatsapp" style="background: #FFFFFF; color: #059669; border-color: #059669; font-weight: 700;">
-              👉 Stay Tuned to WhatsApp Channel for Results
+            <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" id="dash-btn-whatsapp" style="background: #FFFFFF; color: #059669; border-color: #059669; font-weight: 700;">
+              👉 Stay Tuned to WhatsApp Channel
             </a>
             <button type="button" class="btn-secondary-cta" id="btn-dash-logout" style="background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,0.4);">
               🚪 Logout
@@ -1321,7 +1368,7 @@
               All final merit scores, rank lists, and selection letters will be announced on our official WhatsApp Channel. <strong>The Top 10 Performers will be awarded the verified Stipend-Based Internship of ₹30,000 / month!</strong>
             </p>
             <div style="display: flex; gap: 10px; flex-direction: column;">
-              <a href="https://whatsapp.com/channel/0029Va9NTIOfficialChannel" target="_blank" class="btn-whatsapp-join" id="result-btn-whatsapp-channel" style="background: #059669; justify-content: center; font-size: 1rem; padding: 14px;">
+              <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join" id="result-btn-whatsapp-channel" style="background: #059669; justify-content: center; font-size: 1rem; padding: 14px;">
                 👉 Join &amp; Stay Tuned to Official WhatsApp Channel for Results
               </a>
               <a href="#" target="_blank" class="btn-secondary-cta" id="result-btn-whatsapp" style="justify-content: center; font-size: 0.88rem;">
@@ -1474,6 +1521,183 @@
         <button type="button" class="btn-primary-cta" data-close-modal="modal-study-material" style="padding: 10px 24px;">
           Done Studying &bull; Close Hub
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 13: TOPMATE-STYLE COURSE PLAYER & DOMAIN CONTENT HUB
+       Direct reference: https://topmate.io/seeker/course/python-full-stack-web-development?m=5&c=4
+       ====================================================================== -->
+  <div class="modal-overlay course-player-overlay" id="modal-course-player" role="dialog" aria-modal="true" style="padding: 0; background: rgba(5, 12, 26, 0.96);">
+    <div class="course-player-window">
+      <!-- Course Player Header -->
+      <header class="course-player-header">
+        <div class="cp-header-left">
+          <img src="assets/nti-logo-clean.png" alt="NTI Logo" class="cp-brand-logo">
+          <div class="cp-title-wrap">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="cp-domain-badge" id="cp-header-badge">NTI Verified Course</span>
+              <span class="cp-live-chip">● Live Curriculum</span>
+            </div>
+            <h2 class="cp-course-title" id="cp-header-title">Python Full Stack Web Development</h2>
+          </div>
+        </div>
+
+        <div class="cp-header-center">
+          <div class="cp-progress-summary">
+            <span class="cp-progress-text" id="cp-progress-label">Course Progress: 4 of 24 Lessons (16%)</span>
+            <div class="cp-progress-track">
+              <div class="cp-progress-fill" id="cp-progress-bar" style="width: 16%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cp-header-right">
+          <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="cp-whatsapp-channel-btn" id="cp-btn-whatsapp-channel" title="Join Official WhatsApp Channel">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.13-.17.25-.64.8-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.17.16 1.61.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.31z"/></svg>
+            <span>WhatsApp Channel</span>
+          </a>
+          <button type="button" class="cp-btn-exam" id="cp-btn-take-exam">
+            <span>🎯 Take Qualifier Exam</span>
+          </button>
+          <button type="button" class="cp-close-btn" data-close-modal="modal-course-player" aria-label="Close course player">&times;</button>
+        </div>
+      </header>
+
+      <!-- Course Player Main Grid -->
+      <div class="course-player-grid">
+        <!-- Sidebar Navigation (Topmate Style) -->
+        <aside class="cp-sidebar" id="cp-sidebar">
+          <div class="cp-creator-card">
+            <div class="cp-creator-avatar">🎓</div>
+            <div class="cp-creator-info">
+              <strong id="cp-creator-name">Nish Technologies Inc</strong>
+              <span>Verified Engineering Faculty</span>
+            </div>
+          </div>
+
+          <div class="cp-curriculum-header">
+            <h4>Course Curriculum</h4>
+            <span class="cp-curriculum-meta" id="cp-curriculum-meta">6 Modules &bull; 24 Lessons</span>
+          </div>
+
+          <!-- Modules Accordion List -->
+          <div class="cp-modules-accordion" id="cp-modules-list">
+            <!-- Populated dynamically from courseData.js -->
+          </div>
+        </aside>
+
+        <!-- Main Lesson Content Area -->
+        <main class="cp-main-viewer" id="cp-main-viewer">
+          <!-- Lesson Breadcrumb -->
+          <nav class="cp-breadcrumb" id="cp-breadcrumb" aria-label="Breadcrumb">
+            <span>Course</span> &gt; <span id="cp-bc-module">Module 5: Database Architecture</span> &gt; <strong id="cp-bc-chapter">5.4 - Database Migrations, Indexes &amp; ORM Optimization</strong>
+          </nav>
+
+          <!-- Lesson Title & Metadata -->
+          <div class="cp-lesson-header">
+            <div style="flex: 1;">
+              <h1 class="cp-lesson-title" id="cp-lesson-title">
+                5.4 - Database Migrations, Indexes, Connection Pooling &amp; ORM Optimization
+              </h1>
+              <div class="cp-lesson-pills" id="cp-lesson-pills">
+                <span class="cp-pill cp-pill-duration" id="cp-pill-duration">⏱️ 48 Mins</span>
+                <span class="cp-pill cp-pill-difficulty" id="cp-pill-difficulty">Advanced Architecture</span>
+                <span class="cp-pill cp-pill-type" id="cp-pill-type">🎬 Video Lecture &amp; Production Code Lab</span>
+                <span class="cp-pill cp-pill-status" id="cp-pill-status">In Progress</span>
+              </div>
+            </div>
+            <button type="button" class="cp-btn-toggle-complete" id="cp-btn-toggle-complete">
+              <span id="cp-complete-icon">✓</span>
+              <span id="cp-complete-text">Mark as Completed</span>
+            </button>
+          </div>
+
+          <!-- Video Player Container (Topmate Style) -->
+          <div class="cp-video-container" id="cp-video-container">
+            <div class="cp-video-wrapper">
+              <iframe id="cp-video-iframe" src="https://www.youtube-nocookie.com/embed/F5mRW0jo-U4?autoplay=0&rel=0&modestbranding=1" title="Course Lecture Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- Lesson Content Tabs (Theory, Code Lab, Exercise, Downloads) -->
+          <div class="cp-content-tabs-wrap">
+            <div class="cp-tabs-nav" role="tablist">
+              <button type="button" class="cp-tab-btn active" data-tab="tab-overview">📖 Deep-Dive Theory &amp; Notes</button>
+              <button type="button" class="cp-tab-btn" data-tab="tab-codelab">💻 Production Code Lab</button>
+              <button type="button" class="cp-tab-btn" data-tab="tab-exercise">⚡ Hands-On Challenge</button>
+              <button type="button" class="cp-tab-btn" data-tab="tab-resources">📥 Resources &amp; Downloads</button>
+            </div>
+
+            <div class="cp-tab-pane active" id="cp-tab-overview">
+              <div class="cp-summary-box">
+                <h4 style="font-size: 1rem; color: #1E3A8A; margin-bottom: 8px;">🎯 Lesson Objective &amp; Overview:</h4>
+                <p id="cp-lesson-summary" style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin-bottom: 0;">
+                  Master the Django migrations lifecycle, resolving N+1 query bottlenecks via select_related &amp; prefetch_related, database schema indexing, and connection pooling.
+                </p>
+              </div>
+
+              <div class="cp-notes-section">
+                <h4 style="font-size: 1.05rem; color: var(--navy-header); margin-bottom: 12px;">🏛️ Architectural Key Takeaways:</h4>
+                <ul class="cp-notes-list" id="cp-notes-list">
+                  <!-- Populated dynamically -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="cp-tab-pane" id="cp-tab-codelab">
+              <div class="cp-code-block-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="cp-code-dot red"></span>
+                  <span class="cp-code-dot yellow"></span>
+                  <span class="cp-code-dot green"></span>
+                  <span class="cp-code-filename" id="cp-code-filename">models.py &bull; Production Implementation</span>
+                </div>
+                <button type="button" class="cp-copy-code-btn" id="cp-btn-copy-code">
+                  📋 Copy Code
+                </button>
+              </div>
+              <pre class="cp-code-pre"><code id="cp-code-content" class="language-python"># Production code</code></pre>
+            </div>
+
+            <div class="cp-tab-pane" id="cp-tab-exercise">
+              <div class="cp-exercise-card">
+                <div class="cp-exercise-header">
+                  <span style="font-size: 1.8rem;">⚡</span>
+                  <div>
+                    <h4 style="font-size: 1.1rem; color: #0E2040; margin-bottom: 4px;">Hands-On Engineering Challenge</h4>
+                    <span style="font-size: 0.8rem; color: #64748B;">Complete this task before advancing to the next lesson</span>
+                  </div>
+                </div>
+                <p id="cp-exercise-desc" style="font-size: 0.95rem; color: #1E293B; line-height: 1.6; margin-top: 14px;">
+                  Profile an existing slow view with django-debug-toolbar, detect duplicate queries, and refactor using select_related and custom indexes.
+                </p>
+              </div>
+            </div>
+
+            <div class="cp-tab-pane" id="cp-tab-resources">
+              <div class="cp-resources-grid" id="cp-resources-grid">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Sticky Controls Bar -->
+          <footer class="cp-footer-bar">
+            <button type="button" class="btn-secondary-cta cp-nav-btn" id="cp-btn-prev-lesson">
+              &larr; Previous Lesson
+            </button>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="btn-secondary-cta" style="color: #059669; border-color: #A7F3D0; font-weight: 700; background: #ECFDF5;">
+                💬 Join WhatsApp Channel
+              </a>
+              <button type="button" class="btn-primary-cta cp-nav-btn" id="cp-btn-next-lesson">
+                <span>Mark Complete &amp; Next Lesson</span> &rarr;
+              </button>
+            </div>
+          </footer>
+        </main>
       </div>
     </div>
   </div>

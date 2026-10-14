@@ -5,11 +5,16 @@ import { APP_CONFIG, DOMAINS, CATEGORIES, PROGRAMS, WHY_JOIN_CARDS, STATS } from
 import { paymentService } from './paymentService.js';
 import { getExamQuestionsForCandidate } from './examQuestions.js';
 import { getStudyMaterialForDomain } from './studyMaterialData.js';
+import { PYTHON_FULLSTACK_COURSE, getCourseForDomain } from './courseData.js';
 
 class NTIApp {
   constructor() {
     this.selectedDomain = DOMAINS[0]; // Default VLSI
     this.currentCandidate = paymentService.getActiveCandidate();
+    this.activeCourse = PYTHON_FULLSTACK_COURSE;
+    this.currentModuleIndex = 5;
+    this.currentChapterIndex = 4;
+    this.courseCompletedChapters = JSON.parse(localStorage.getItem('nti_course_completed') || '{}');
     this.examQuestions = [];
     this.examState = {
       active: false,
@@ -42,6 +47,7 @@ class NTIApp {
     this.setupGattuAIChat();
     this.setupExamEngine();
     this.setupStudentPortal();
+    this.setupCoursePlayer();
     this.setupStudyMaterialHub();
     this.setupNumberCounters();
     this.setupSundayExamSchedule();
@@ -167,6 +173,28 @@ class NTIApp {
     document.getElementById('btn-explore-programs-action')?.addEventListener('click', () => {
       this.closeModal('modal-join-programs');
       window.location.href = 'domains.html';
+    });
+
+    // Program Selection Cards in Modal
+    document.getElementById('prog-card-course')?.addEventListener('click', () => {
+      this.closeModal('modal-join-programs');
+      const pyDomain = DOMAINS.find(d => d.id === 'python') || this.selectedDomain;
+      this.openApplyFormForDomain(pyDomain, 'Course Program');
+    });
+
+    document.getElementById('prog-card-internship')?.addEventListener('click', () => {
+      this.closeModal('modal-join-programs');
+      this.openApplyFormForDomain(this.selectedDomain, 'Internship Program');
+    });
+
+    document.getElementById('prog-card-certification')?.addEventListener('click', () => {
+      this.closeModal('modal-join-programs');
+      this.openApplyFormForDomain(this.selectedDomain, 'Certification Programs');
+    });
+
+    document.getElementById('prog-card-job')?.addEventListener('click', () => {
+      this.closeModal('modal-join-programs');
+      this.openApplyFormForDomain(this.selectedDomain, 'Job Oriented Programs');
     });
   }
 
@@ -353,7 +381,7 @@ class NTIApp {
     this.openModal('modal-domain-detail');
   }
 
-  openApplyFormForDomain(domain) {
+  openApplyFormForDomain(domain, program = 'Internship Program') {
     this.selectedDomain = domain;
     
     // Pre-fill selected domain in form
@@ -362,12 +390,81 @@ class NTIApp {
       domainSelect.value = domain.shortTitle;
     }
 
+    const programSelect = document.getElementById('form-program');
+    if (programSelect) {
+      programSelect.value = program;
+    }
+
+    this.updateProgramFeeHint(program);
+
     const titleEl = document.getElementById('apply-form-title');
     if (titleEl) {
-      titleEl.textContent = `Apply for ${domain.shortTitle} Exam`;
+      const isCourse = (program || '').includes('Course');
+      titleEl.textContent = isCourse 
+        ? `Enroll in ${domain.shortTitle} Course Program`
+        : `Apply for ${domain.shortTitle} Exam`;
     }
 
     this.openModal('modal-apply-form');
+  }
+
+  updateProgramFeeHint(program) {
+    const isCourse = (program || '').includes('Course');
+    const cp = APP_CONFIG.coursePricing || { courseFee: 200, platformFee: 4, total: 204 };
+    const ip = { examFee: APP_CONFIG.pricing?.examFee || 150, platformFee: APP_CONFIG.pricing?.platformFee || 3, total: APP_CONFIG.pricing?.total || 153 };
+
+    // Update prominent payment box in apply form
+    const boxEl = document.getElementById('form-program-payment-box');
+    const titleEl = document.getElementById('fp-fee-title');
+    const tagEl = document.getElementById('fp-fee-tag');
+    const baseLabelEl = document.getElementById('fp-base-label');
+    const baseAmountEl = document.getElementById('fp-base-amount');
+    const platformAmountEl = document.getElementById('fp-platform-amount');
+    const totalAmountEl = document.getElementById('fp-total-amount');
+    const benefitsEl = document.getElementById('fp-benefits-note');
+    const submitBtn = document.getElementById('btn-submit-apply-form');
+
+    if (isCourse) {
+      if (boxEl) boxEl.classList.remove('internship-mode');
+      if (titleEl) titleEl.textContent = 'Course Program Payment Breakdown';
+      if (tagEl) {
+        tagEl.textContent = `₹${cp.total} Payable`;
+        tagEl.style.background = '#2563EB';
+      }
+      if (baseLabelEl) baseLabelEl.textContent = 'Course Curriculum Fee:';
+      if (baseAmountEl) baseAmountEl.textContent = `₹${cp.courseFee}`;
+      if (platformAmountEl) platformAmountEl.textContent = `₹${cp.platformFee}`;
+      if (totalAmountEl) {
+        totalAmountEl.textContent = `₹${cp.total}`;
+        totalAmountEl.style.color = '#2563EB';
+      }
+      if (benefitsEl) {
+        benefitsEl.innerHTML = '✓ Full access to Topmate-style 6-Module Course Player, Live Code Labs &amp; Certificate';
+      }
+      if (submitBtn) {
+        submitBtn.innerHTML = `Pay ₹${cp.total} &amp; Proceed to Payment <span>&rarr;</span>`;
+      }
+    } else {
+      if (boxEl) boxEl.classList.add('internship-mode');
+      if (titleEl) titleEl.textContent = 'Internship Assessment Fee Breakdown';
+      if (tagEl) {
+        tagEl.textContent = `₹${ip.total} Payable`;
+        tagEl.style.background = '#059669';
+      }
+      if (baseLabelEl) baseLabelEl.textContent = 'Exam & Qualifier Fee:';
+      if (baseAmountEl) baseAmountEl.textContent = `₹${ip.examFee}`;
+      if (platformAmountEl) platformAmountEl.textContent = `₹${ip.platformFee}`;
+      if (totalAmountEl) {
+        totalAmountEl.textContent = `₹${ip.total}`;
+        totalAmountEl.style.color = '#059669';
+      }
+      if (benefitsEl) {
+        benefitsEl.innerHTML = '✓ AI-Proctored Sunday Assessment, Stipend Eligibility (₹30,000/mo) &amp; Official Batch Channel Access';
+      }
+      if (submitBtn) {
+        submitBtn.innerHTML = `Pay ₹${ip.total} &amp; Proceed to Payment <span>&rarr;</span>`;
+      }
+    }
   }
 
   // =========================================================================
@@ -376,6 +473,11 @@ class NTIApp {
   setupFormValidation() {
     const form = document.getElementById('candidate-apply-form');
     if (!form) return;
+
+    // React to program selection changes
+    document.getElementById('form-program')?.addEventListener('change', (e) => {
+      this.updateProgramFeeHint(e.target.value);
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -465,12 +567,32 @@ class NTIApp {
   }
 
   // =========================================================================
-  // PAYMENT FLOW (PRICING FIRST REVEALED HERE: ₹150 + ₹3 = ₹153)
+  // PAYMENT FLOW (PRICING: Internship ₹150+₹3=₹153 | Course ₹200+₹4=₹204)
   // =========================================================================
   openPaymentModal(order) {
-    document.getElementById('payment-summary-exam-name').textContent = `${order.candidate.domain} Exam Fee`;
-    document.getElementById('payment-summary-total').textContent = `₹${APP_CONFIG.pricing.total}`;
-    document.getElementById('btn-pay-now').textContent = `Pay ₹${APP_CONFIG.pricing.total}`;
+    const isCourse = (order.candidate?.program || '').includes('Course');
+    const baseFee = order.items && order.items[0] ? order.items[0].amount : (isCourse ? 200 : 150);
+    const platformFee = order.items && order.items[1] ? order.items[1].amount : (isCourse ? 4 : 3);
+    const totalAmount = order.totalAmount || (baseFee + platformFee);
+
+    const nameEl = document.getElementById('payment-summary-exam-name');
+    if (nameEl) {
+      nameEl.textContent = order.items && order.items[0] 
+        ? order.items[0].name 
+        : (isCourse ? `${order.candidate.domain} Course Fee` : `${order.candidate.domain} Exam Fee`);
+    }
+
+    const baseEl = document.getElementById('payment-summary-base-fee');
+    if (baseEl) baseEl.textContent = `₹${baseFee}`;
+
+    const platEl = document.getElementById('payment-summary-platform-fee');
+    if (platEl) platEl.textContent = `₹${platformFee}`;
+
+    const totalEl = document.getElementById('payment-summary-total');
+    if (totalEl) totalEl.textContent = `₹${totalAmount}`;
+
+    const payBtn = document.getElementById('btn-pay-now');
+    if (payBtn) payBtn.textContent = `Pay ₹${totalAmount}`;
 
     this.openModal('modal-payment');
   }
@@ -501,6 +623,7 @@ class NTIApp {
         return;
       }
 
+      const totalAmt = order.totalAmount || 153;
       payBtn.disabled = true;
       payBtn.innerHTML = `<span style="display: inline-block; animation: spin 1s infinite linear;">🔄</span> Processing Secure Payment...`;
 
@@ -508,13 +631,13 @@ class NTIApp {
         const verifiedResult = await paymentService.processPayment(order, selectedMethod);
         
         payBtn.disabled = false;
-        payBtn.textContent = `Pay ₹${APP_CONFIG.pricing.total}`;
+        payBtn.textContent = `Pay ₹${totalAmt}`;
         
         this.closeModal('modal-payment');
         this.showPaymentSuccess(verifiedResult);
       } catch (err) {
         payBtn.disabled = false;
-        payBtn.textContent = `Pay ₹${APP_CONFIG.pricing.total}`;
+        payBtn.textContent = `Pay ₹${totalAmt}`;
         this.showToast(err.message || 'Payment could not be completed. Please try again.', 'error');
       }
     });
@@ -536,7 +659,10 @@ class NTIApp {
     if (passEl) passEl.textContent = record.candidate.password || '1234';
 
     const domEl = document.getElementById('ticket-domain');
-    if (domEl) domEl.textContent = record.candidate.domain;
+    if (domEl) {
+      const progLabel = record.candidate.program || 'Internship Program';
+      domEl.textContent = `${record.candidate.domain} (${progLabel})`;
+    }
 
     const channelBtn = document.getElementById('btn-join-whatsapp-channel');
     if (channelBtn) {
@@ -548,8 +674,17 @@ class NTIApp {
       whatsappBtn.href = record.whatsappGroupUrl || APP_CONFIG.whatsappGroupUrl;
     }
 
+    // Connect Topmate-style Course Player Button
+    const coursePlayerBtn = document.getElementById('btn-goto-course-player');
+    if (coursePlayerBtn) {
+      coursePlayerBtn.onclick = () => {
+        this.closeModal('modal-payment-success');
+        this.openCoursePlayer(record.candidate.domain || 'python', 5, 4);
+      };
+    }
+
     document.getElementById('btn-copy-credentials')?.addEventListener('click', () => {
-      const credText = `NTI REGISTRATION RECEIPT:\nApplication ID: ${record.applicationId}\nName: ${record.candidate.name}\nEmail: ${record.candidate.email}\nSecurity PIN: ${record.candidate.password || '1234'}\nDomain: ${record.candidate.domain}\nExam Time: 11th Oct 2026, 6:00 PM`;
+      const credText = `NTI REGISTRATION RECEIPT:\nApplication ID: ${record.applicationId}\nName: ${record.candidate.name}\nEmail: ${record.candidate.email}\nSecurity PIN: ${record.candidate.password || '1234'}\nDomain: ${record.candidate.domain}\nProgram: ${record.candidate.program || 'Internship'}\nAmount Paid: ₹${record.amountPaid || 153}\nOfficial Channel: ${APP_CONFIG.whatsappChannelUrl}`;
       navigator.clipboard?.writeText(credText).then(() => {
         this.showToast('Credentials copied to clipboard!', 'success');
       }).catch(() => {
@@ -1281,7 +1416,20 @@ class NTIApp {
   checkUrlParams() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
+      const mParam = urlParams.get('m');
+      const cParam = urlParams.get('c');
+      const viewParam = urlParams.get('view');
+      const courseParam = urlParams.get('course');
       const domParam = urlParams.get('domain');
+
+      // Direct URL deep-link to Topmate-style course curriculum (e.g. ?m=5&c=4)
+      if (viewParam === 'course' || mParam !== null || courseParam) {
+        const m = mParam !== null ? parseInt(mParam, 10) : 5;
+        const c = cParam !== null ? parseInt(cParam, 10) : 4;
+        setTimeout(() => this.openCoursePlayer(courseParam || domParam || 'python', m, c), 350);
+        return;
+      }
+
       if (domParam) {
         const found = DOMAINS.find(d => d.id === domParam || d.shortTitle.toLowerCase() === domParam.toLowerCase() || d.categorySlug === domParam);
         if (found) {
@@ -1307,7 +1455,10 @@ class NTIApp {
     if (appIdEl) appIdEl.textContent = candidate.applicationId;
 
     const domEl = document.getElementById('dash-domain');
-    if (domEl) domEl.textContent = domainName;
+    if (domEl) {
+      const progLabel = candidate.candidate?.program || 'Internship Program';
+      domEl.textContent = `${domainName} • ${progLabel}`;
+    }
 
     const passcodeEl = document.getElementById('dash-passcode');
     if (passcodeEl) passcodeEl.textContent = candidate.candidate?.password || '1234';
@@ -1321,6 +1472,15 @@ class NTIApp {
     const whatsappBtn = document.getElementById('dash-btn-whatsapp');
     if (whatsappBtn) {
       whatsappBtn.href = candidate.whatsappChannelUrl || APP_CONFIG.whatsappChannelUrl;
+    }
+
+    // Connect Topmate-style Course Player Button in Student Dashboard
+    const dashCourseBtn = document.getElementById('dash-btn-course-player');
+    if (dashCourseBtn) {
+      dashCourseBtn.onclick = () => {
+        this.closeModal('modal-student-dashboard');
+        this.openCoursePlayer(domainName, 5, 4);
+      };
     }
 
     this.setupSundayExamSchedule();
@@ -1929,6 +2089,404 @@ class NTIApp {
       plus: '➕'
     };
     return map[icon] || '📁';
+  }
+
+  // =========================================================================
+  // TOPMATE-STYLE COURSE PLAYER & DOMAIN CONTENT HUB
+  // Reference: https://topmate.io/seeker/course/python-full-stack-web-development?m=5&c=4
+  // =========================================================================
+  setupCoursePlayer() {
+    // Tab switching in Course Player
+    document.querySelectorAll('.cp-tab-btn').forEach(tabBtn => {
+      tabBtn.addEventListener('click', () => {
+        const targetTab = tabBtn.getAttribute('data-tab');
+        document.querySelectorAll('.cp-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.cp-tab-pane').forEach(p => p.classList.remove('active'));
+        
+        tabBtn.classList.add('active');
+        const pane = document.getElementById(`cp-${targetTab}`) || document.getElementById(targetTab);
+        if (pane) pane.classList.add('active');
+      });
+    });
+
+    // Copy production code snippet
+    document.getElementById('cp-btn-copy-code')?.addEventListener('click', () => {
+      const codeEl = document.getElementById('cp-code-content');
+      if (codeEl) {
+        navigator.clipboard?.writeText(codeEl.textContent).then(() => {
+          this.showToast('Production code copied to clipboard!', 'success');
+        }).catch(() => {
+          this.showToast('Code copied to clipboard.', 'info');
+        });
+      }
+    });
+
+    // Toggle current chapter completion
+    document.getElementById('cp-btn-toggle-complete')?.addEventListener('click', () => {
+      this.toggleCurrentChapterCompletion();
+    });
+
+    // Navigation buttons
+    document.getElementById('cp-btn-prev-lesson')?.addEventListener('click', () => {
+      this.navigateLesson(-1);
+    });
+
+    document.getElementById('cp-btn-next-lesson')?.addEventListener('click', () => {
+      const key = `${this.currentModuleIndex}_${this.currentChapterIndex}`;
+      if (!this.courseCompletedChapters[key]) {
+        this.courseCompletedChapters[key] = true;
+        localStorage.setItem('nti_course_completed', JSON.stringify(this.courseCompletedChapters));
+      }
+      this.navigateLesson(1);
+    });
+
+    // Take qualifier exam from course player
+    document.getElementById('cp-btn-take-exam')?.addEventListener('click', () => {
+      this.closeModal('modal-course-player');
+      const candidate = this.currentCandidate || paymentService.getActiveCandidate();
+      if (candidate) {
+        this.openStudentDashboard(candidate);
+      } else {
+        this.openApplyFormForDomain(this.selectedDomain, 'Course Program');
+      }
+    });
+  }
+
+  openCoursePlayer(domainNameOrId = 'python', moduleIndex = 5, chapterIndex = 4) {
+    this.activeCourse = getCourseForDomain(domainNameOrId);
+
+    const modules = this.activeCourse.modules;
+    let targetM = parseInt(moduleIndex, 10);
+    let targetC = parseInt(chapterIndex, 10);
+
+    const mFound = modules.find(m => m.moduleIndex === targetM);
+    if (!mFound) {
+      targetM = modules[0].moduleIndex;
+    }
+
+    const selectedM = modules.find(m => m.moduleIndex === targetM) || modules[0];
+    const cFound = selectedM.chapters.find(c => c.chapterIndex === targetC);
+    if (!cFound) {
+      targetC = selectedM.chapters[0].chapterIndex;
+    }
+
+    this.currentModuleIndex = targetM;
+    this.currentChapterIndex = targetC;
+
+    // Set Header Info
+    const titleEl = document.getElementById('cp-header-title');
+    if (titleEl) titleEl.textContent = this.activeCourse.courseTitle;
+
+    const badgeEl = document.getElementById('cp-header-badge');
+    if (badgeEl) badgeEl.textContent = `NTI ${this.activeCourse.domain} Mastery`;
+
+    const creatorNameEl = document.getElementById('cp-creator-name');
+    if (creatorNameEl) creatorNameEl.textContent = `Nish Technologies Inc • ${this.activeCourse.instructor}`;
+
+    // Render Sidebar Modules & Chapters
+    this.renderCourseSidebarModules();
+
+    // Render Current Chapter Content
+    this.renderCourseChapter(targetM, targetC);
+
+    // Update Progress
+    this.updateCourseProgressUI();
+
+    // Deep link query parameters (?m=5&c=4)
+    try {
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('m', targetM);
+      newUrl.searchParams.set('c', targetC);
+      window.history.replaceState({}, '', newUrl.toString());
+    } catch {
+      // Ignore
+    }
+
+    this.openModal('modal-course-player');
+  }
+
+  renderCourseSidebarModules() {
+    const listEl = document.getElementById('cp-modules-list');
+    if (!listEl) return;
+
+    listEl.innerHTML = this.activeCourse.modules.map(mod => {
+      const isOpen = mod.moduleIndex === this.currentModuleIndex;
+      const completedInModule = mod.chapters.filter(ch => 
+        this.courseCompletedChapters[`${mod.moduleIndex}_${ch.chapterIndex}`]
+      ).length;
+
+      const chaptersHtml = mod.chapters.map(ch => {
+        const isCurrent = (mod.moduleIndex === this.currentModuleIndex && ch.chapterIndex === this.currentChapterIndex);
+        const isDone = !!this.courseCompletedChapters[`${mod.moduleIndex}_${ch.chapterIndex}`];
+
+        return `
+          <div class="cp-chapter-item ${isCurrent ? 'active' : ''} ${isDone ? 'completed' : ''}" 
+               data-m="${mod.moduleIndex}" 
+               data-c="${ch.chapterIndex}">
+            <div class="cp-chapter-status-dot ${isDone ? 'done' : (isCurrent ? 'current' : '')}">
+              ${isDone ? '✓' : (isCurrent ? '▶' : '○')}
+            </div>
+            <div class="cp-chapter-info">
+              <span class="cp-chapter-num">${mod.moduleIndex}.${ch.chapterIndex}</span>
+              <span class="cp-chapter-title">${ch.title}</span>
+              <span class="cp-chapter-time">⏱️ ${ch.duration}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="cp-module-accordion-item ${isOpen ? 'open' : ''}" data-mod-idx="${mod.moduleIndex}">
+          <button type="button" class="cp-module-header" data-toggle-mod="${mod.moduleIndex}">
+            <div class="cp-module-header-info">
+              <span class="cp-module-badge">Module ${mod.moduleIndex}</span>
+              <strong class="cp-module-title">${mod.moduleTitle}</strong>
+              <span class="cp-module-stats">${mod.chapters.length} Lessons &bull; ${completedInModule}/${mod.chapters.length} Completed</span>
+            </div>
+            <span class="cp-module-chevron">${isOpen ? '▲' : '▼'}</span>
+          </button>
+          <div class="cp-module-body" style="${isOpen ? 'display: block;' : 'display: none;'}">
+            ${chaptersHtml}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Toggle module accordion
+    listEl.querySelectorAll('[data-toggle-mod]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const modIdx = parseInt(btn.getAttribute('data-toggle-mod'), 10);
+        const item = listEl.querySelector(`.cp-module-accordion-item[data-mod-idx="${modIdx}"]`);
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        if (isOpen) {
+          item.classList.remove('open');
+          item.querySelector('.cp-module-body').style.display = 'none';
+          item.querySelector('.cp-module-chevron').textContent = '▼';
+        } else {
+          item.classList.add('open');
+          item.querySelector('.cp-module-body').style.display = 'block';
+          item.querySelector('.cp-module-chevron').textContent = '▲';
+        }
+      });
+    });
+
+    // Chapter selection clicks
+    listEl.querySelectorAll('.cp-chapter-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const m = parseInt(item.getAttribute('data-m'), 10);
+        const c = parseInt(item.getAttribute('data-c'), 10);
+        this.renderCourseChapter(m, c);
+      });
+    });
+  }
+
+  renderCourseChapter(moduleIndex, chapterIndex) {
+    this.currentModuleIndex = moduleIndex;
+    this.currentChapterIndex = chapterIndex;
+
+    const mod = this.activeCourse.modules.find(m => m.moduleIndex === moduleIndex);
+    if (!mod) return;
+    const ch = mod.chapters.find(c => c.chapterIndex === chapterIndex);
+    if (!ch) return;
+
+    // Update active highlight in sidebar
+    document.querySelectorAll('.cp-chapter-item').forEach(el => {
+      const m = parseInt(el.getAttribute('data-m'), 10);
+      const c = parseInt(el.getAttribute('data-c'), 10);
+      if (m === moduleIndex && c === chapterIndex) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
+
+    // Ensure parent accordion is open
+    const parentItem = document.querySelector(`.cp-module-accordion-item[data-mod-idx="${moduleIndex}"]`);
+    if (parentItem && !parentItem.classList.contains('open')) {
+      parentItem.classList.add('open');
+      const body = parentItem.querySelector('.cp-module-body');
+      if (body) body.style.display = 'block';
+      const chev = parentItem.querySelector('.cp-module-chevron');
+      if (chev) chev.textContent = '▲';
+    }
+
+    // Breadcrumbs
+    const bcMod = document.getElementById('cp-bc-module');
+    if (bcMod) bcMod.textContent = `Module ${mod.moduleIndex}: ${mod.moduleTitle}`;
+    
+    const bcCh = document.getElementById('cp-bc-chapter');
+    if (bcCh) bcCh.textContent = `${mod.moduleIndex}.${ch.chapterIndex} - ${ch.title}`;
+
+    // Header & Badges
+    const titleEl = document.getElementById('cp-lesson-title');
+    if (titleEl) titleEl.textContent = `${mod.moduleIndex}.${ch.chapterIndex} - ${ch.title}`;
+
+    const durEl = document.getElementById('cp-pill-duration');
+    if (durEl) durEl.textContent = `⏱️ ${ch.duration}`;
+
+    const diffEl = document.getElementById('cp-pill-difficulty');
+    if (diffEl) diffEl.textContent = ch.difficulty || 'Advanced';
+
+    const key = `${moduleIndex}_${chapterIndex}`;
+    const isCompleted = !!this.courseCompletedChapters[key];
+
+    const statusEl = document.getElementById('cp-pill-status');
+    if (statusEl) {
+      statusEl.textContent = isCompleted ? '✓ Completed' : 'In Progress';
+      statusEl.style.background = isCompleted ? '#D1FAE5' : '#FEF3C7';
+      statusEl.style.color = isCompleted ? '#065F46' : '#92400E';
+    }
+
+    const toggleBtn = document.getElementById('cp-btn-toggle-complete');
+    const compText = document.getElementById('cp-complete-text');
+    const compIcon = document.getElementById('cp-complete-icon');
+    if (toggleBtn && compText && compIcon) {
+      if (isCompleted) {
+        compText.textContent = 'Completed';
+        compIcon.textContent = '✓';
+        toggleBtn.classList.add('completed');
+      } else {
+        compText.textContent = 'Mark as Completed';
+        compIcon.textContent = '○';
+        toggleBtn.classList.remove('completed');
+      }
+    }
+
+    // Video Player
+    const iframe = document.getElementById('cp-video-iframe');
+    if (iframe) {
+      iframe.src = `https://www.youtube-nocookie.com/embed/${ch.videoId}?autoplay=0&rel=0&modestbranding=1`;
+    }
+
+    // Tab 1: Overview & Notes
+    const summaryEl = document.getElementById('cp-lesson-summary');
+    if (summaryEl) summaryEl.textContent = ch.summary;
+
+    const notesListEl = document.getElementById('cp-notes-list');
+    if (notesListEl) {
+      notesListEl.innerHTML = ch.notes.map(note => `
+        <li class="cp-note-item">
+          <span class="cp-note-check">⚡</span>
+          <span>${note}</span>
+        </li>
+      `).join('');
+    }
+
+    // Tab 2: Code Lab
+    const filenameEl = document.getElementById('cp-code-filename');
+    if (filenameEl) filenameEl.textContent = ch.codeSnippet.filename || 'Implementation';
+
+    const codeContentEl = document.getElementById('cp-code-content');
+    if (codeContentEl) {
+      codeContentEl.textContent = ch.codeSnippet.code;
+      codeContentEl.className = `language-${ch.codeSnippet.language || 'python'}`;
+    }
+
+    // Tab 3: Hands-On Challenge
+    const exerciseDescEl = document.getElementById('cp-exercise-desc');
+    if (exerciseDescEl) exerciseDescEl.textContent = ch.exercise;
+
+    // Tab 4: Resources & Downloads
+    const resourcesEl = document.getElementById('cp-resources-grid');
+    if (resourcesEl) {
+      resourcesEl.innerHTML = (ch.resources || []).map(res => `
+        <div class="cp-resource-card">
+          <div class="cp-resource-icon">${res.type === 'pdf' ? '📄' : (res.type === 'zip' ? '📦' : '🔗')}</div>
+          <div class="cp-resource-info">
+            <strong class="cp-resource-title">${res.title}</strong>
+            <span class="cp-resource-size">${res.type.toUpperCase()} &bull; ${res.size}</span>
+          </div>
+          <a href="${res.url}" target="_blank" rel="noopener noreferrer" class="cp-resource-btn">
+            Download <span>&darr;</span>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // Update URL query params without reloading (?m=5&c=4)
+    try {
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('m', moduleIndex);
+      newUrl.searchParams.set('c', chapterIndex);
+      window.history.replaceState({}, '', newUrl.toString());
+    } catch {
+      // Ignore
+    }
+
+    this.updateCourseProgressUI();
+  }
+
+  toggleCurrentChapterCompletion() {
+    const key = `${this.currentModuleIndex}_${this.currentChapterIndex}`;
+    const newState = !this.courseCompletedChapters[key];
+    this.courseCompletedChapters[key] = newState;
+    localStorage.setItem('nti_course_completed', JSON.stringify(this.courseCompletedChapters));
+
+    this.renderCourseChapter(this.currentModuleIndex, this.currentChapterIndex);
+    this.renderCourseSidebarModules();
+    this.showToast(newState ? 'Lesson marked as completed! 🎉' : 'Lesson unmarked.', 'info');
+  }
+
+  navigateLesson(direction) {
+    const modules = this.activeCourse.modules;
+    let currentM = this.currentModuleIndex;
+    let currentC = this.currentChapterIndex;
+
+    const mIdx = modules.findIndex(m => m.moduleIndex === currentM);
+    if (mIdx === -1) return;
+    const curMod = modules[mIdx];
+    const cIdx = curMod.chapters.findIndex(c => c.chapterIndex === currentC);
+    if (cIdx === -1) return;
+
+    if (direction > 0) {
+      // Next lesson
+      if (cIdx < curMod.chapters.length - 1) {
+        this.renderCourseChapter(currentM, curMod.chapters[cIdx + 1].chapterIndex);
+      } else if (mIdx < modules.length - 1) {
+        const nextMod = modules[mIdx + 1];
+        this.renderCourseChapter(nextMod.moduleIndex, nextMod.chapters[0].chapterIndex);
+      } else {
+        this.showToast('You have completed all lessons in this curriculum! Take the Qualifier Exam to earn your certification.', 'success');
+      }
+    } else {
+      // Previous lesson
+      if (cIdx > 0) {
+        this.renderCourseChapter(currentM, curMod.chapters[cIdx - 1].chapterIndex);
+      } else if (mIdx > 0) {
+        const prevMod = modules[mIdx - 1];
+        this.renderCourseChapter(prevMod.moduleIndex, prevMod.chapters[prevMod.chapters.length - 1].chapterIndex);
+      } else {
+        this.showToast('You are at the start of the course.', 'info');
+      }
+    }
+  }
+
+  updateCourseProgressUI() {
+    if (!this.activeCourse) return;
+    let totalLessons = 0;
+    let completedCount = 0;
+
+    this.activeCourse.modules.forEach(m => {
+      m.chapters.forEach(c => {
+        totalLessons++;
+        if (this.courseCompletedChapters[`${m.moduleIndex}_${c.chapterIndex}`]) {
+          completedCount++;
+        }
+      });
+    });
+
+    const percent = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+    const labelEl = document.getElementById('cp-progress-label');
+    if (labelEl) {
+      labelEl.textContent = `Course Progress: ${completedCount} of ${totalLessons} Lessons (${percent}%)`;
+    }
+
+    const barEl = document.getElementById('cp-progress-bar');
+    if (barEl) {
+      barEl.style.width = `${percent}%`;
+    }
   }
 
   getDomainIcon(domainId) {

@@ -373,10 +373,39 @@
             <div class="form-group">
               <label class="form-label" for="form-program">Select Program *</label>
               <select id="form-program" class="form-select" required>
-                <option value="Internship Program">Internship Program</option>
+                <option value="Course Program" selected>Course Program (₹200 Fee + ₹4 Platform = ₹204 Total)</option>
+                <option value="Internship Program">Internship Program (₹150 Fee + ₹3 Platform = ₹153 Total)</option>
                 <option value="Certification Programs">Certification Programs</option>
                 <option value="Job Program">Job Program</option>
               </select>
+
+              <!-- Prominent Visible Payment Breakdown Card in this section -->
+              <div id="form-program-payment-box" class="form-payment-callout" role="region" aria-label="Program Fee Summary">
+                <div class="fpc-header">
+                  <div class="fpc-title">
+                    <span>💳</span>
+                    <span id="fp-fee-title">Course Program Payment Breakdown</span>
+                  </div>
+                  <span class="fpc-tag" id="fp-fee-tag">₹204 Payable</span>
+                </div>
+                <div class="fpc-grid">
+                  <div class="fpc-row">
+                    <span id="fp-base-label">Course Curriculum Fee:</span>
+                    <strong id="fp-base-amount">₹200</strong>
+                  </div>
+                  <div class="fpc-row">
+                    <span id="fp-platform-label">Platform &amp; Assessment Fee:</span>
+                    <strong id="fp-platform-amount">₹4</strong>
+                  </div>
+                  <div class="fpc-row total">
+                    <span>Total Amount To Pay:</span>
+                    <strong id="fp-total-amount">₹204</strong>
+                  </div>
+                </div>
+                <div class="fpc-benefits" id="fp-benefits-note">
+                  ✓ Full access to Topmate-style 6-Module Course Player, Live Code Labs &amp; Certificate
+                </div>
+              </div>
             </div>
           </div>
 
@@ -386,8 +415,8 @@
           </div>
           <span class="form-error-msg" id="err-terms" style="display: block; margin-top: -12px; margin-bottom: 12px;"></span>
 
-          <button type="submit" class="btn-primary-cta" id="btn-submit-apply-form" style="width: 100%; justify-content: center;">
-            Proceed to Payment <span>&rarr;</span>
+          <button type="submit" class="btn-primary-cta" id="btn-submit-apply-form" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 15px; font-weight: 800; box-shadow: 0 4px 16px rgba(0, 102, 255, 0.25);">
+            Pay ₹204 &amp; Proceed to Payment <span>&rarr;</span>
           </button>
         </form>
       </div>
@@ -410,9 +439,9 @@
       <div class="modal-body">
         <div class="order-summary-box">
           <div class="summary-heading">Order Summary</div>
-          <div class="summary-line"><span id="payment-summary-exam-name">Exam Fee</span><span>₹150</span></div>
-          <div class="summary-line"><span>Platform Fee</span><span>₹3</span></div>
-          <div class="summary-line total-line"><span>Total</span><span id="payment-summary-total">₹153</span></div>
+          <div class="summary-line"><span id="payment-summary-exam-name">Course Fee</span><span id="payment-summary-base-fee">₹200</span></div>
+          <div class="summary-line"><span>Platform Fee</span><span id="payment-summary-platform-fee">₹4</span></div>
+          <div class="summary-line total-line"><span>Total</span><span id="payment-summary-total">₹204</span></div>
         </div>
         <div class="payment-method-selector">
           <label class="payment-option-card selected">
@@ -423,7 +452,7 @@
           </label>
         </div>
         <button type="button" class="btn-primary-cta" id="btn-pay-now" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 16px;">
-          Pay ₹153
+          Pay ₹204
         </button>
       </div>
     </div>
@@ -445,10 +474,25 @@
         <div class="candidate-summary-ticket">
           <div class="ticket-item"><strong>Application ID</strong><span id="ticket-app-id">NTI-2026-904812</span></div>
           <div class="ticket-item"><strong>Domain</strong><span id="ticket-domain">VLSI</span></div>
+          <div class="ticket-item"><strong>Program</strong><span id="ticket-program">Course Program</span></div>
+          <div class="ticket-item"><strong>Amount Paid</strong><span id="ticket-amount" style="color: #059669; font-weight: 800;">₹204 (Verified)</span></div>
         </div>
-        <div class="whatsapp-redirect-box">
-          <a href="#" target="_blank" class="btn-whatsapp-join" id="btn-join-whatsapp-group">Join WhatsApp Group &rarr;</a>
+        <div class="whatsapp-redirect-box" style="margin-bottom: 12px;">
+          <p style="font-size: 0.88rem; color: #065F46; font-weight: 700; margin-bottom: 8px;">
+            📢 Official NTI WhatsApp Channel:
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-join" id="btn-join-whatsapp-channel" style="background: #059669; justify-content: center;">
+              👉 Join &amp; Stay Tuned to Official WhatsApp Channel
+            </a>
+            <a href="#" target="_blank" class="btn-secondary-cta" id="btn-join-whatsapp-group" style="justify-content: center; font-size: 0.86rem;">
+              Join WhatsApp Batch Group (Candidate Discussion)
+            </a>
+          </div>
         </div>
+        <a href="index.html?view=course" class="btn-primary-cta" id="btn-domains-goto-course" style="width: 100%; justify-content: center; padding: 12px; margin-top: 6px;">
+          🚀 Open Course Player &amp; Domain Content &rarr;
+        </a>
       </div>
     </div>
   </div>
@@ -583,6 +627,47 @@
         });
       });
 
+      // Dynamic fee hint & button updater
+      const updateDomainFeeHint = (prog) => {
+        const isCourse = (prog || '').includes('Course');
+        const boxEl = document.getElementById('form-program-payment-box');
+        const titleEl = document.getElementById('fp-fee-title');
+        const tagEl = document.getElementById('fp-fee-tag');
+        const baseLabelEl = document.getElementById('fp-base-label');
+        const baseAmountEl = document.getElementById('fp-base-amount');
+        const platformAmountEl = document.getElementById('fp-platform-amount');
+        const totalAmountEl = document.getElementById('fp-total-amount');
+        const benefitsEl = document.getElementById('fp-benefits-note');
+        const submitBtn = document.getElementById('btn-submit-apply-form');
+
+        if (isCourse) {
+          if (boxEl) boxEl.classList.remove('internship-mode');
+          if (titleEl) titleEl.textContent = 'Course Program Payment Breakdown';
+          if (tagEl) { tagEl.textContent = '₹204 Payable'; tagEl.style.background = '#2563EB'; }
+          if (baseLabelEl) baseLabelEl.textContent = 'Course Curriculum Fee:';
+          if (baseAmountEl) baseAmountEl.textContent = '₹200';
+          if (platformAmountEl) platformAmountEl.textContent = '₹4';
+          if (totalAmountEl) { totalAmountEl.textContent = '₹204'; totalAmountEl.style.color = '#2563EB'; }
+          if (benefitsEl) benefitsEl.innerHTML = '✓ Full access to Topmate-style 6-Module Course Player, Live Code Labs &amp; Certificate';
+          if (submitBtn) submitBtn.innerHTML = 'Pay ₹204 &amp; Proceed to Payment <span>&rarr;</span>';
+        } else {
+          if (boxEl) boxEl.classList.add('internship-mode');
+          if (titleEl) titleEl.textContent = 'Internship Assessment Fee Breakdown';
+          if (tagEl) { tagEl.textContent = '₹153 Payable'; tagEl.style.background = '#059669'; }
+          if (baseLabelEl) baseLabelEl.textContent = 'Exam & Qualifier Fee:';
+          if (baseAmountEl) baseAmountEl.textContent = '₹150';
+          if (platformAmountEl) platformAmountEl.textContent = '₹3';
+          if (totalAmountEl) { totalAmountEl.textContent = '₹153'; totalAmountEl.style.color = '#059669'; }
+          if (benefitsEl) benefitsEl.innerHTML = '✓ AI-Proctored Sunday Assessment, Stipend Eligibility (₹30,000/mo) &amp; Official Batch Channel Access';
+          if (submitBtn) submitBtn.innerHTML = 'Pay ₹153 &amp; Proceed to Payment <span>&rarr;</span>';
+        }
+      };
+
+      document.getElementById('form-program')?.addEventListener('change', (e) => {
+        updateDomainFeeHint(e.target.value);
+      });
+      updateDomainFeeHint(document.getElementById('form-program')?.value);
+
       // Apply form submit
       const form = document.getElementById('candidate-apply-form');
       form.addEventListener('submit', async (e) => {
@@ -592,15 +677,22 @@
         const mobile = document.getElementById('form-mobile').value.trim();
         const qualification = document.getElementById('form-qualification').value;
         const domain = document.getElementById('form-domain').value;
+        const program = document.getElementById('form-program')?.value || 'Course Program';
 
         if (!fullName || !email || !mobile || !qualification) {
           alert('Please fill all required fields.');
           return;
         }
 
-        const order = await paymentService.createOrder({ fullName, email, mobile, qualification, domain });
+        const order = await paymentService.createOrder({ fullName, email, mobile, qualification, domain, program });
         document.getElementById('modal-apply-form').classList.remove('active');
-        document.getElementById('payment-summary-exam-name').textContent = `${domain} Exam Fee`;
+        document.getElementById('payment-summary-exam-name').textContent = order.items[0].name;
+        const baseEl = document.getElementById('payment-summary-base-fee');
+        if (baseEl) baseEl.textContent = `₹${order.items[0].amount}`;
+        const platEl = document.getElementById('payment-summary-platform-fee');
+        if (platEl) platEl.textContent = `₹${order.items[1].amount}`;
+        document.getElementById('payment-summary-total').textContent = `₹${order.totalAmount}`;
+        document.getElementById('btn-pay-now').textContent = `Pay ₹${order.totalAmount}`;
         document.getElementById('modal-payment').classList.add('active');
       });
 
@@ -611,7 +703,16 @@
         document.getElementById('modal-payment').classList.remove('active');
         document.getElementById('ticket-app-id').textContent = verified.applicationId;
         document.getElementById('ticket-domain').textContent = verified.candidate.domain;
-        document.getElementById('btn-join-whatsapp-group').href = verified.whatsappGroupUrl;
+        if (document.getElementById('ticket-program')) {
+          document.getElementById('ticket-program').textContent = verified.candidate.program || 'Course Program';
+        }
+        if (document.getElementById('ticket-amount')) {
+          document.getElementById('ticket-amount').textContent = `₹${verified.amountPaid || 204} (Verified)`;
+        }
+        const chanBtn = document.getElementById('btn-join-whatsapp-channel');
+        if (chanBtn) chanBtn.href = verified.whatsappChannelUrl || "https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43";
+        const grpBtn = document.getElementById('btn-join-whatsapp-group');
+        if (grpBtn) grpBtn.href = verified.whatsappGroupUrl || APP_CONFIG.whatsappGroupUrl;
         document.getElementById('modal-payment-success').classList.add('active');
       });
 

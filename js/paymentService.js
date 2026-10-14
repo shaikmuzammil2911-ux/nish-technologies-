@@ -30,6 +30,19 @@ export class PaymentService {
     const orderId = "ORD_NTI_" + Date.now().toString(36).toUpperCase() + "_" + Math.floor(1000 + Math.random() * 9000);
     const applicationId = "NTI-REG-2026-" + Math.floor(100000 + Math.random() * 900000);
 
+    const program = candidateData.program || "Internship Program";
+    const isCourse = program.toLowerCase().includes("course");
+
+    const baseFee = isCourse 
+      ? (APP_CONFIG.coursePricing?.courseFee || 200) 
+      : (APP_CONFIG.pricing.examFee || 150);
+
+    const platformFee = isCourse 
+      ? (APP_CONFIG.coursePricing?.platformFee || 4) 
+      : (APP_CONFIG.pricing.platformFee || 3);
+
+    const totalAmount = baseFee + platformFee;
+
     const order = {
       orderId,
       applicationId,
@@ -40,11 +53,11 @@ export class PaymentService {
         password: candidateData.password || "1234",
         qualification: candidateData.qualification,
         domain: candidateData.domain,
-        program: candidateData.program || "Internship Program"
+        program: program
       },
       purchasedExam: {
         domain: candidateData.domain,
-        title: `${candidateData.domain} Qualifier Assessment`,
+        title: isCourse ? `${candidateData.domain} Course Program & Assessment` : `${candidateData.domain} Qualifier Assessment`,
         date: "11th October 2026 (Sunday)",
         startTime: "18:00",
         duration: 60,
@@ -52,14 +65,14 @@ export class PaymentService {
         aptitudeQuestions: 20,
         domainQuestions: 25,
         status: "PURCHASED & SCHEDULED",
-        stipend: "₹30,000/month for Top 10 Performers"
+        stipend: isCourse ? "Verified Course & Domain Certificate" : "₹30,000/month for Top 10 Performers"
       },
       items: [
-        { name: `${candidateData.domain} Exam Fee`, amount: this.examFee },
-        { name: "Platform Fee", amount: this.platformFee }
+        { name: isCourse ? `${candidateData.domain} Course Fee` : `${candidateData.domain} Exam Fee`, amount: baseFee },
+        { name: "Platform Fee", amount: platformFee }
       ],
-      amountInPaise: this.totalAmount * 100, // 15300
-      totalAmount: this.totalAmount, // 153
+      amountInPaise: totalAmount * 100,
+      totalAmount: totalAmount,
       currency: "INR",
       status: "CREATED",
       createdAt: new Date().toISOString()
@@ -165,13 +178,13 @@ export class PaymentService {
         totalQuestions: 45,
         status: "PURCHASED & SCHEDULED"
       },
-      amountPaid: this.totalAmount, // 153
+      amountPaid: orderData.totalAmount || (orderData.candidate?.program?.toLowerCase().includes("course") ? 204 : 153),
       currency: "INR",
       paymentStatus: "PAID",
       examStatus: "ELIGIBLE_FOR_EXAM",
       whatsappUnlocked: true,
       whatsappGroupUrl: APP_CONFIG.whatsappGroupUrl,
-      whatsappChannelUrl: APP_CONFIG.whatsappChannelUrl,
+      whatsappChannelUrl: "https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43",
       verifiedAt: new Date().toISOString()
     };
 

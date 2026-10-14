@@ -251,8 +251,8 @@ CREATE POLICY "Anon can read exam_submissions" ON public.exam_submissions FOR AL
 INSERT INTO public.site_settings (key, value, description)
 VALUES 
   ('exam_schedule', '{"day": "Sunday", "time": "6:00 PM - 7:00 PM IST", "duration_minutes": 60, "stipend": "₹30,000 / month", "top_rankers": 10}'::jsonb, 'Global Qualifier Exam Schedule Configuration'),
-  ('contact_info', '{"email": "support@nishtechnologies.com", "phone": "+91 98765 43210", "whatsapp_channel": "https://whatsapp.com/channel/0029Va9NTIOfficialChannel"}'::jsonb, 'Official Nish Technologies Contact Details'),
-  ('pricing_config', '{"base_fee": 150, "platform_fee": 3, "total_fee": 153, "currency": "INR"}'::jsonb, 'Standard Candidate Assessment Fee')
+  ('contact_info', '{"email": "support@nishtechnologies.com", "phone": "+91 98765 43210", "whatsapp_channel": "https://whatsapp.com/channel/0029Vb9EdXyGU3BCLhfpAa43"}'::jsonb, 'Official Nish Technologies Contact Details'),
+  ('pricing_config', '{"base_fee": 150, "platform_fee": 3, "total_fee": 153, "course_fee": 200, "course_platform_fee": 4, "course_total_fee": 204, "currency": "INR"}'::jsonb, 'Standard Candidate Assessment & Course Fee')
 ON CONFLICT (key) DO NOTHING;
 
 INSERT INTO public.courses (title, slug, category, category_slug, short_description, stipend_amount, is_published)
