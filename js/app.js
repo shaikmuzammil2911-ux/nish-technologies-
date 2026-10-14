@@ -381,7 +381,7 @@ class NTIApp {
     this.openModal('modal-domain-detail');
   }
 
-  openApplyFormForDomain(domain, program = 'Internship Program') {
+  openApplyFormForDomain(domain, program = 'Course Program') {
     this.selectedDomain = domain;
     
     // Pre-fill selected domain in form
@@ -395,76 +395,15 @@ class NTIApp {
       programSelect.value = program;
     }
 
-    this.updateProgramFeeHint(program);
-
     const titleEl = document.getElementById('apply-form-title');
     if (titleEl) {
       const isCourse = (program || '').includes('Course');
       titleEl.textContent = isCourse 
-        ? `Enroll in ${domain.shortTitle} Course Program`
+        ? `Enroll in ${domain.shortTitle} Course`
         : `Apply for ${domain.shortTitle} Exam`;
     }
 
     this.openModal('modal-apply-form');
-  }
-
-  updateProgramFeeHint(program) {
-    const isCourse = (program || '').includes('Course');
-    const cp = APP_CONFIG.coursePricing || { courseFee: 200, platformFee: 4, total: 204 };
-    const ip = { examFee: APP_CONFIG.pricing?.examFee || 150, platformFee: APP_CONFIG.pricing?.platformFee || 3, total: APP_CONFIG.pricing?.total || 153 };
-
-    // Update prominent payment box in apply form
-    const boxEl = document.getElementById('form-program-payment-box');
-    const titleEl = document.getElementById('fp-fee-title');
-    const tagEl = document.getElementById('fp-fee-tag');
-    const baseLabelEl = document.getElementById('fp-base-label');
-    const baseAmountEl = document.getElementById('fp-base-amount');
-    const platformAmountEl = document.getElementById('fp-platform-amount');
-    const totalAmountEl = document.getElementById('fp-total-amount');
-    const benefitsEl = document.getElementById('fp-benefits-note');
-    const submitBtn = document.getElementById('btn-submit-apply-form');
-
-    if (isCourse) {
-      if (boxEl) boxEl.classList.remove('internship-mode');
-      if (titleEl) titleEl.textContent = 'Course Program Payment Breakdown';
-      if (tagEl) {
-        tagEl.textContent = `₹${cp.total} Payable`;
-        tagEl.style.background = '#2563EB';
-      }
-      if (baseLabelEl) baseLabelEl.textContent = 'Course Curriculum Fee:';
-      if (baseAmountEl) baseAmountEl.textContent = `₹${cp.courseFee}`;
-      if (platformAmountEl) platformAmountEl.textContent = `₹${cp.platformFee}`;
-      if (totalAmountEl) {
-        totalAmountEl.textContent = `₹${cp.total}`;
-        totalAmountEl.style.color = '#2563EB';
-      }
-      if (benefitsEl) {
-        benefitsEl.innerHTML = '✓ Full access to Topmate-style 6-Module Course Player, Live Code Labs &amp; Certificate';
-      }
-      if (submitBtn) {
-        submitBtn.innerHTML = `Pay ₹${cp.total} &amp; Proceed to Payment <span>&rarr;</span>`;
-      }
-    } else {
-      if (boxEl) boxEl.classList.add('internship-mode');
-      if (titleEl) titleEl.textContent = 'Internship Assessment Fee Breakdown';
-      if (tagEl) {
-        tagEl.textContent = `₹${ip.total} Payable`;
-        tagEl.style.background = '#059669';
-      }
-      if (baseLabelEl) baseLabelEl.textContent = 'Exam & Qualifier Fee:';
-      if (baseAmountEl) baseAmountEl.textContent = `₹${ip.examFee}`;
-      if (platformAmountEl) platformAmountEl.textContent = `₹${ip.platformFee}`;
-      if (totalAmountEl) {
-        totalAmountEl.textContent = `₹${ip.total}`;
-        totalAmountEl.style.color = '#059669';
-      }
-      if (benefitsEl) {
-        benefitsEl.innerHTML = '✓ AI-Proctored Sunday Assessment, Stipend Eligibility (₹30,000/mo) &amp; Official Batch Channel Access';
-      }
-      if (submitBtn) {
-        submitBtn.innerHTML = `Pay ₹${ip.total} &amp; Proceed to Payment <span>&rarr;</span>`;
-      }
-    }
   }
 
   // =========================================================================
@@ -473,11 +412,6 @@ class NTIApp {
   setupFormValidation() {
     const form = document.getElementById('candidate-apply-form');
     if (!form) return;
-
-    // React to program selection changes
-    document.getElementById('form-program')?.addEventListener('change', (e) => {
-      this.updateProgramFeeHint(e.target.value);
-    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
